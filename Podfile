@@ -9,6 +9,10 @@ target 'Well Track' do
   pod 'Eureka', '~> 4.0.0'
   pod 'GoogleMaps', '~> 2.5'
   pod 'GooglePlaces'
+  pod 'Firebase'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Database'
   target 'Well TrackTests' do
     inherit! :search_paths
     # Pods for testing
