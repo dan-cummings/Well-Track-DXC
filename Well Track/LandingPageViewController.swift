@@ -7,13 +7,22 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LandingPageViewController: UIViewController {
 
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
+    var handle: NSObjectProtocol?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        handle = Auth.auth().addStateDidChangeListener({(auth, user) in })
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,6 +30,30 @@ class LandingPageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func signinPressed(_ sender: Any) {
+        if let email = emailField.text {
+            if let password = passwordField.text {
+                Auth.auth().signIn(withEmail: email, password: password, completion: {user, error in
+                    if let _ = user {
+                        self.performSegue(withIdentifier: "signinSegue", sender: self)
+                    } else {
+                        self.reportError(msg: (error?.localizedDescription)!)
+                    }
+                })
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
+    
+    func reportError(msg: String) {
+        let alert = UIAlertController(title: "Login Failed", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation

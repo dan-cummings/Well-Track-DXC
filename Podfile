@@ -6,8 +6,7 @@ target 'Well Track' do
   use_frameworks!
 
   # Pods for Well Track
-  pod 'Eureka', '~> 4.0.0'
-  pod 'ImageRow', '~> 3.0'
+  pod 'Eureka', '~> 4.0'
   pod 'GoogleMaps', '~> 2.5'
   pod 'GooglePlaces'
   pod 'Firebase'
