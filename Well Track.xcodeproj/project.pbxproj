@@ -15,6 +15,7 @@
 		650BEE9C201D49DF001AFB19 /* Well_TrackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEE9B201D49DF001AFB19 /* Well_TrackTests.swift */; };
 		650BEEA7201D49DF001AFB19 /* Well_TrackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEEA6201D49DF001AFB19 /* Well_TrackUITests.swift */; };
 		652E21EF202648C400E455B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 652E21EE202648C300E455B7 /* GoogleService-Info.plist */; };
+		653566752026532C00F17449 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653566742026532C00F17449 /* RegistrationViewController.swift */; };
 		655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */; };
 		655DBDB12023AD52000E9B03 /* HomePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */; };
 		655DBDB82023AEAB000E9B03 /* LogHistoryTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */; };
@@ -65,6 +66,7 @@
 		650BEEA6201D49DF001AFB19 /* Well_TrackUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Well_TrackUITests.swift; sourceTree = "<group>"; };
 		650BEEA8201D49DF001AFB19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		652E21EE202648C300E455B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		653566742026532C00F17449 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomePageViewController.xib; sourceTree = "<group>"; };
 		655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogHistoryTableViewController.xib; sourceTree = "<group>"; };
@@ -145,13 +147,9 @@
 		650BEE85201D49DF001AFB19 /* Well Track */ = {
 			isa = PBXGroup;
 			children = (
-				655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */,
 				655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */,
-				655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */,
 				655DBDB42023AEAB000E9B03 /* LogCreationViewController.xib */,
-				655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */,
 				655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */,
-				655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */,
 				655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */,
 				650BEE86201D49DF001AFB19 /* AppDelegate.swift */,
 				650BEE88201D49DF001AFB19 /* ViewController.swift */,
@@ -160,6 +158,11 @@
 				650BEE8F201D49DF001AFB19 /* LaunchScreen.storyboard */,
 				650BEE92201D49DF001AFB19 /* Info.plist */,
 				652E21EE202648C300E455B7 /* GoogleService-Info.plist */,
+				655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */,
+				655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */,
+				653566742026532C00F17449 /* RegistrationViewController.swift */,
+				655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */,
+				655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */,
 				650BEEB7201D4A8F001AFB19 /* Controllers */,
 				650BEEB4201D4A1C001AFB19 /* Models */,
 			);
@@ -382,6 +385,7 @@
 				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/ImageRow/ImageRow.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -390,6 +394,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageRow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -523,6 +528,7 @@
 				655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */,
 				650BEE89201D49DF001AFB19 /* ViewController.swift in Sources */,
 				655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */,
+				653566752026532C00F17449 /* RegistrationViewController.swift in Sources */,
 				650BEE87201D49DF001AFB19 /* AppDelegate.swift in Sources */,
 				655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */,
 			);
