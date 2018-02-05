@@ -26,7 +26,6 @@ class RegistrationViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        handle = Auth.auth().addStateDidChangeListener({(auth, user) in })
     }
     
     @IBAction func registerPressed(_ sender: Any) {
@@ -34,7 +33,7 @@ class RegistrationViewController: UIViewController{
         if errors.isEmpty {
             Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!, completion: { (user, error) in
                 if let _ = user {
-                    self.dismiss(animated: true, completion: nil)
+                    self.performSegue(withIdentifier: "unwindToTop", sender: self)
                 } else {
                     self.reportError(msg: (error?.localizedDescription)!)
                 }
@@ -50,7 +49,6 @@ class RegistrationViewController: UIViewController{
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        Auth.auth().removeStateDidChangeListener(handle!)
     }
     
     override func didReceiveMemoryWarning() {

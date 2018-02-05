@@ -35,7 +35,7 @@ class LandingPageViewController: UIViewController {
             if let password = passwordField.text {
                 Auth.auth().signIn(withEmail: email, password: password, completion: {user, error in
                     if let _ = user {
-                        self.performSegue(withIdentifier: "signinSegue", sender: self)
+                        self.dismiss(animated: true, completion: nil)
                     } else {
                         self.reportError(msg: (error?.localizedDescription)!)
                     }
