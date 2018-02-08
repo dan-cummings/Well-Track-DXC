@@ -524,7 +524,7 @@
         <!--Recent-->
         <scene sceneID="wZ1-D3-NY9">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnSwipe="YES" id="Mwz-hd-8Nu" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnSwipe="YES" id="Mwz-hd-8Nu" customClass="WellTrackNavController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Recent" image="recent" id="lcx-YO-PbA"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -544,7 +544,7 @@
         <!--Logs-->
         <scene sceneID="mu8-ge-KWb">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8pL-VZ-3vF" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8pL-VZ-3vF" customClass="WellTrackNavController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Logs" image="Log" id="M2M-lF-D8F"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tVr-np-OrV">

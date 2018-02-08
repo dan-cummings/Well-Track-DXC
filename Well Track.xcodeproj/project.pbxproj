@@ -17,6 +17,7 @@
 		650BEEA7201D49DF001AFB19 /* Well_TrackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEEA6201D49DF001AFB19 /* Well_TrackUITests.swift */; };
 		652E21EF202648C400E455B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 652E21EE202648C300E455B7 /* GoogleService-Info.plist */; };
 		653566752026532C00F17449 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653566742026532C00F17449 /* RegistrationViewController.swift */; };
+		653757C7202A52EE00DFF314 /* WellTrackNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653757C6202A52EE00DFF314 /* WellTrackNavController.swift */; };
 		655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */; };
 		655DBDB12023AD52000E9B03 /* HomePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */; };
 		655DBDB82023AEAB000E9B03 /* LogHistoryTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */; };
@@ -69,6 +70,7 @@
 		650BEEA8201D49DF001AFB19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		652E21EE202648C300E455B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		653566742026532C00F17449 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		653757C6202A52EE00DFF314 /* WellTrackNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackNavController.swift; sourceTree = "<group>"; };
 		655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomePageViewController.xib; sourceTree = "<group>"; };
 		655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogHistoryTableViewController.xib; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */,
 				655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */,
 				6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */,
+				653757C6202A52EE00DFF314 /* WellTrackNavController.swift */,
 				650BEEB7201D4A8F001AFB19 /* Controllers */,
 				650BEEB4201D4A1C001AFB19 /* Models */,
 			);
@@ -531,6 +534,7 @@
 				655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */,
 				650BEE89201D49DF001AFB19 /* ViewController.swift in Sources */,
 				6506C2C82027D0F900E4D9DC /* WellTrackUITabController.swift in Sources */,
+				653757C7202A52EE00DFF314 /* WellTrackNavController.swift in Sources */,
 				655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */,
 				653566752026532C00F17449 /* RegistrationViewController.swift in Sources */,
 				650BEE87201D49DF001AFB19 /* AppDelegate.swift in Sources */,
