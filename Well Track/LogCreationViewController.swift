@@ -9,10 +9,18 @@
 import UIKit
 
 class LogCreationViewController: UIViewController {
-
+    @IBOutlet weak var segBtns: UISegmentedControl!
+    @IBOutlet weak var pickerview: UIPickerView!
+    @IBOutlet weak var txtContainer: UIView!
+    @IBOutlet weak var photoCont: UIView!
+    @IBOutlet weak var videoCont: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        txtContainer.isHidden = false
+        photoCont.isHidden = true
+        videoCont.isHidden = true
+        pickerview.isHidden = true
         // Do any additional setup after loading the view.
     }
 
@@ -21,7 +29,24 @@ class LogCreationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    @IBAction func saveLogPressed(_ sender: UIBarButtonItem) {
+    }
+    @IBAction func segmentselected(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            txtContainer.isHidden = false
+            photoCont.isHidden = true
+            videoCont.isHidden = true
+            break
+        case 1:
+            break
+        case 2:
+            break
+        default:
+            break
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

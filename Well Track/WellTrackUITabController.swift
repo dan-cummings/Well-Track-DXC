@@ -11,13 +11,14 @@ import UIKit
 import FirebaseAuth
 
 class WellTrackUITabController: UITabBarController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 for child in self.childViewControllers {
                     if let c = child as? WellTrackNavController {
-                        c.uid = user.providerID
+                        c.uid = user.uid
                     }
                 }
             } else {

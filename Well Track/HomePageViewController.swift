@@ -26,7 +26,6 @@ class HomePageViewController: UIViewController {
     @IBAction func logoutPressed(_ sender: Any) {
         do {
             try Auth.auth().signOut()
-            print("Logged out")
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }

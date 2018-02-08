@@ -158,6 +158,9 @@
                                     <segment title="Photo"/>
                                     <segment title="Video"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segmentselected:" destination="BYZ-38-t0r" eventType="valueChanged" id="VOa-HU-WrV"/>
+                                </connections>
                             </segmentedControl>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Heart Rate" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Pr-ZG-3II">
                                 <rect key="frame" x="16" y="121" width="343" height="30"/>
@@ -175,7 +178,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BcV-qO-oul">
                                 <rect key="frame" x="8" y="388" width="359" height="222"/>
                                 <connections>
-                                    <segue destination="RZl-oG-AYd" kind="embed" id="MqK-4J-Pnh"/>
+                                    <segue destination="RZl-oG-AYd" kind="embed" id="ziR-oS-Udi"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xof-8Z-X8v">
@@ -213,8 +216,19 @@
                         <viewLayoutGuide key="safeArea" id="YZM-Dd-29M"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Log" id="RxX-Rx-6NI">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="e6P-Zb-khQ"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="e6P-Zb-khQ">
+                            <connections>
+                                <action selector="saveLogPressed:" destination="BYZ-38-t0r" id="Z4D-Eg-rAt"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="photoCont" destination="BcV-qO-oul" id="fkw-dB-uO6"/>
+                        <outlet property="pickerview" destination="Q2q-fB-KId" id="L9v-jY-B3n"/>
+                        <outlet property="segBtns" destination="jdH-ac-GXI" id="7yx-Jg-fSf"/>
+                        <outlet property="txtContainer" destination="hEe-mo-iJU" id="xUy-Jh-e6r"/>
+                        <outlet property="videoCont" destination="Xof-8Z-X8v" id="Juo-Cm-mTy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -451,7 +465,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="Plus"/>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="fqn-Rr-gwS"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="logCreationSegue" id="fqn-Rr-gwS"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -504,7 +518,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHL-IH-t1r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="430" y="1724"/>
+            <point key="canvasLocation" x="410" y="1724"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="5vj-OZ-2Wd">
