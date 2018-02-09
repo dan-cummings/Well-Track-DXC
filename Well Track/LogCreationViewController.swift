@@ -14,6 +14,7 @@ class LogCreationViewController: UIViewController {
     @IBOutlet weak var txtContainer: UIView!
     @IBOutlet weak var photoCont: UIView!
     @IBOutlet weak var videoCont: UIView!
+    @IBOutlet weak var imageStack: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +29,15 @@ class LogCreationViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @IBAction func ratingSelected(_ sender: UITapGestureRecognizer) {
+        if let selected = sender.view as? UIStackView {
+            selected.arrangedSubviews[0].tintColor = .blue
+        }
+    }
     
     @IBAction func saveLogPressed(_ sender: UIBarButtonItem) {
     }
+    
     @IBAction func segmentselected(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:

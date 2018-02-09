@@ -137,22 +137,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Temperature" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qjG-Vo-3n7">
-                                <rect key="frame" x="16" y="75" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Feeling" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xH5-Yg-Tat">
-                                <rect key="frame" x="16" y="159" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jdH-ac-GXI">
-                                <rect key="frame" x="8" y="351.5" width="359" height="29"/>
+                                <rect key="frame" x="8" y="352" width="359" height="29"/>
                                 <segments>
                                     <segment title="Text"/>
                                     <segment title="Photo"/>
@@ -162,13 +148,6 @@
                                     <action selector="segmentselected:" destination="BYZ-38-t0r" eventType="valueChanged" id="VOa-HU-WrV"/>
                                 </connections>
                             </segmentedControl>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Heart Rate" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Pr-ZG-3II">
-                                <rect key="frame" x="16" y="121" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hEe-mo-iJU">
                                 <rect key="frame" x="8" y="388" width="359" height="222"/>
                                 <connections>
@@ -190,6 +169,111 @@
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q2q-fB-KId">
                                 <rect key="frame" x="8" y="394" width="375" height="216"/>
                             </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJ2-FV-bcF">
+                                <rect key="frame" x="57" y="131" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d5J-Ug-MQZ">
+                                <rect key="frame" x="242" y="142" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="odP-7c-jHS">
+                                <rect key="frame" x="8" y="232.5" width="359" height="103.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="tOl-H8-8oL">
+                                        <rect key="frame" x="0.0" y="0.0" width="65.5" height="103.5"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Terrible" translatesAutoresizingMaskIntoConstraints="NO" id="v8V-J0-Q5k">
+                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="75"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terrible" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wf-4A-v9t">
+                                                <rect key="frame" x="0.0" y="83" width="65.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="66S-yn-gib" appends="YES" id="bMy-5F-sdU"/>
+                                        </connections>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zAj-lE-bd8">
+                                        <rect key="frame" x="73.5" y="0.0" width="65.5" height="103.5"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bad" translatesAutoresizingMaskIntoConstraints="NO" id="X9g-kz-OCR">
+                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="75"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWR-ro-Xlb">
+                                                <rect key="frame" x="0.0" y="83" width="65.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="qng-6i-QBU" appends="YES" id="m3M-pY-xa3"/>
+                                        </connections>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="tM1-xN-LHX">
+                                        <rect key="frame" x="147" y="0.0" width="65" height="103.5"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fair" translatesAutoresizingMaskIntoConstraints="NO" id="M4Q-0H-J8u">
+                                                <rect key="frame" x="0.0" y="0.0" width="65" height="75"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fine" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WmI-P2-1gN">
+                                                <rect key="frame" x="0.0" y="83" width="65" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="Ajc-Sh-9qV" appends="YES" id="IoF-do-mUm"/>
+                                        </connections>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="leh-vS-h0z">
+                                        <rect key="frame" x="220" y="0.0" width="65.5" height="103.5"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Good" translatesAutoresizingMaskIntoConstraints="NO" id="260-YJ-UKD">
+                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="75"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Good" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHq-DZ-2jK">
+                                                <rect key="frame" x="0.0" y="83" width="65.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="ZNi-IR-83H" appends="YES" id="3ho-C6-MPb"/>
+                                        </connections>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uev-lL-Qcd">
+                                        <rect key="frame" x="293.5" y="0.0" width="65.5" height="103.5"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Great" translatesAutoresizingMaskIntoConstraints="NO" id="6oa-Xy-Eg0">
+                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="75"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Great" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TlH-L4-93U">
+                                                <rect key="frame" x="0.0" y="83" width="65.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="LVl-xc-0g0" appends="YES" id="uls-NS-pYL"/>
+                                        </connections>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -198,7 +282,9 @@
                             <constraint firstItem="YZM-Dd-29M" firstAttribute="trailing" secondItem="jdH-ac-GXI" secondAttribute="trailing" constant="8" id="54Z-5l-jCX"/>
                             <constraint firstItem="hEe-mo-iJU" firstAttribute="leading" secondItem="YZM-Dd-29M" secondAttribute="leading" constant="8" id="6Bf-oe-oHQ"/>
                             <constraint firstItem="YZM-Dd-29M" firstAttribute="trailing" secondItem="hEe-mo-iJU" secondAttribute="trailing" constant="8" id="76x-Qk-rt5"/>
+                            <constraint firstItem="odP-7c-jHS" firstAttribute="leading" secondItem="YZM-Dd-29M" secondAttribute="leading" constant="8" id="9ep-e0-sBV"/>
                             <constraint firstItem="Q2q-fB-KId" firstAttribute="leading" secondItem="YZM-Dd-29M" secondAttribute="leading" constant="8" id="Acc-EB-8ma"/>
+                            <constraint firstItem="jdH-ac-GXI" firstAttribute="top" secondItem="odP-7c-jHS" secondAttribute="bottom" constant="16" id="OIb-sh-rLp"/>
                             <constraint firstItem="YZM-Dd-29M" firstAttribute="bottom" secondItem="hEe-mo-iJU" secondAttribute="bottom" constant="8" id="Quj-FC-y5L"/>
                             <constraint firstItem="YZM-Dd-29M" firstAttribute="trailing" secondItem="BcV-qO-oul" secondAttribute="trailing" constant="8" id="RsL-u8-Lon"/>
                             <constraint firstItem="YZM-Dd-29M" firstAttribute="bottom" secondItem="BcV-qO-oul" secondAttribute="bottom" constant="8" id="X1u-ve-4wq"/>
@@ -207,6 +293,7 @@
                             <constraint firstItem="BcV-qO-oul" firstAttribute="leading" secondItem="YZM-Dd-29M" secondAttribute="leading" constant="8" id="bMX-U8-HGW"/>
                             <constraint firstAttribute="trailing" secondItem="Q2q-fB-KId" secondAttribute="trailing" constant="-8" id="d01-cR-9VO"/>
                             <constraint firstItem="Xof-8Z-X8v" firstAttribute="height" secondItem="D5F-nX-2w1" secondAttribute="height" multiplier="1:3" id="dVt-Zu-MtT"/>
+                            <constraint firstItem="YZM-Dd-29M" firstAttribute="trailing" secondItem="odP-7c-jHS" secondAttribute="trailing" constant="8" id="gZ8-tt-MPV"/>
                             <constraint firstItem="YZM-Dd-29M" firstAttribute="trailing" secondItem="Xof-8Z-X8v" secondAttribute="trailing" constant="8" id="n2B-dJ-5pD"/>
                             <constraint firstItem="jdH-ac-GXI" firstAttribute="centerX" secondItem="YZM-Dd-29M" secondAttribute="centerX" id="psL-Wz-h5x"/>
                             <constraint firstItem="BcV-qO-oul" firstAttribute="height" secondItem="D5F-nX-2w1" secondAttribute="height" multiplier="1:3" id="smz-Co-WsH"/>
@@ -223,6 +310,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="imageStack" destination="odP-7c-jHS" id="zZn-Ry-8ua"/>
                         <outlet property="photoCont" destination="BcV-qO-oul" id="fkw-dB-uO6"/>
                         <outlet property="pickerview" destination="Q2q-fB-KId" id="L9v-jY-B3n"/>
                         <outlet property="segBtns" destination="jdH-ac-GXI" id="7yx-Jg-fSf"/>
@@ -231,8 +319,33 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="66S-yn-gib">
+                    <connections>
+                        <action selector="ratingSelected:" destination="BYZ-38-t0r" id="aXQ-9k-MCV"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="qng-6i-QBU">
+                    <connections>
+                        <action selector="ratingSelected:" destination="BYZ-38-t0r" id="PzW-OK-z3j"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="Ajc-Sh-9qV">
+                    <connections>
+                        <action selector="ratingSelected:" destination="BYZ-38-t0r" id="8XV-U7-deF"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="ZNi-IR-83H">
+                    <connections>
+                        <action selector="ratingSelected:" destination="BYZ-38-t0r" id="e9P-V9-EH2"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="LVl-xc-0g0">
+                    <connections>
+                        <action selector="ratingSelected:" destination="BYZ-38-t0r" id="J4I-1T-2Yx"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="311" y="1173"/>
+            <point key="canvasLocation" x="309.60000000000002" y="1172.5637181409297"/>
         </scene>
         <!--Well TrackUI Tab Controller-->
         <scene sceneID="AFJ-OO-BJy">
@@ -533,7 +646,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Y2-w4-aP4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1049" y="1724"/>
+            <point key="canvasLocation" x="1015" y="1724"/>
         </scene>
         <!--Recent-->
         <scene sceneID="wZ1-D3-NY9">
@@ -576,12 +689,16 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Fair" width="1200" height="1200"/>
-        <image name="Heart" width="1200" height="1200"/>
+        <image name="Bad" width="75" height="75"/>
+        <image name="Fair" width="75" height="75"/>
+        <image name="Good" width="75" height="75"/>
+        <image name="Great" width="75" height="75"/>
+        <image name="Heart" width="75" height="75"/>
         <image name="Log" width="25" height="25"/>
         <image name="Logo" width="400" height="400"/>
         <image name="Plus" width="25" height="25"/>
-        <image name="Thermo" width="1200" height="1200"/>
+        <image name="Terrible" width="75" height="75"/>
+        <image name="Thermo" width="75" height="75"/>
         <image name="recent" width="25" height="25"/>
     </resources>
 </document>
