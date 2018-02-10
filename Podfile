@@ -6,6 +6,7 @@ target 'Well Track' do
   use_frameworks!
 
   # Pods for Well Track
+  pod 'IQKeyboardManagerSwift'
   pod 'Eureka', '~> 4.0'
   pod 'GoogleMaps', '~> 2.5'
   pod 'GooglePlaces'
