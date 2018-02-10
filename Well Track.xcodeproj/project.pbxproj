@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6506C2C82027D0F900E4D9DC /* WellTrackUITabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */; };
 		650BEE87201D49DF001AFB19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEE86201D49DF001AFB19 /* AppDelegate.swift */; };
 		650BEE89201D49DF001AFB19 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEE88201D49DF001AFB19 /* ViewController.swift */; };
 		650BEE8C201D49DF001AFB19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 650BEE8A201D49DF001AFB19 /* Main.storyboard */; };
@@ -14,6 +15,19 @@
 		650BEE91201D49DF001AFB19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 650BEE8F201D49DF001AFB19 /* LaunchScreen.storyboard */; };
 		650BEE9C201D49DF001AFB19 /* Well_TrackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEE9B201D49DF001AFB19 /* Well_TrackTests.swift */; };
 		650BEEA7201D49DF001AFB19 /* Well_TrackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEEA6201D49DF001AFB19 /* Well_TrackUITests.swift */; };
+		652E21EF202648C400E455B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 652E21EE202648C300E455B7 /* GoogleService-Info.plist */; };
+		653566752026532C00F17449 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653566742026532C00F17449 /* RegistrationViewController.swift */; };
+		655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */; };
+		655DBDB12023AD52000E9B03 /* HomePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */; };
+		655DBDB82023AEAB000E9B03 /* LogHistoryTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */; };
+		655DBDB92023AEAB000E9B03 /* LogCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */; };
+		655DBDBA2023AEAB000E9B03 /* LogCreationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB42023AEAB000E9B03 /* LogCreationViewController.xib */; };
+		655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */; };
+		655DBDBC2023AEAB000E9B03 /* LandingPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */; };
+		655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */; };
+		BA87FCE1B82723D7792D5C6D /* Pods_Well_TrackTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F41522E447455E5A10E484 /* Pods_Well_TrackTests.framework */; };
+		E920D632BBC54814AAF0D76A /* Pods_Well_Track.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E73E925338FC6B4D0C46D5D /* Pods_Well_Track.framework */; };
+		FD6A87AF51D49B8F3044F206 /* Pods_Well_TrackUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76633BB32FB1D99CCA9EB4 /* Pods_Well_TrackUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +48,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0DA79CBF41BA8D07A68A1F3A /* Pods-Well TrackTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well TrackTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Well TrackTests/Pods-Well TrackTests.release.xcconfig"; sourceTree = "<group>"; };
+		2E73E925338FC6B4D0C46D5D /* Pods_Well_Track.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Well_Track.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A634DCD2AD2501497843503 /* Pods-Well TrackTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well TrackTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Well TrackTests/Pods-Well TrackTests.debug.xcconfig"; sourceTree = "<group>"; };
+		468CF3C0CCA27A46CCB00C16 /* Pods-Well TrackUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well TrackUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Well TrackUITests/Pods-Well TrackUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4A76633BB32FB1D99CCA9EB4 /* Pods_Well_TrackUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Well_TrackUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackUITabController.swift; sourceTree = "<group>"; };
 		650BEE83201D49DF001AFB19 /* Well Track.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Well Track.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		650BEE86201D49DF001AFB19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		650BEE88201D49DF001AFB19 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +67,20 @@
 		650BEEA2201D49DF001AFB19 /* Well TrackUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Well TrackUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		650BEEA6201D49DF001AFB19 /* Well_TrackUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Well_TrackUITests.swift; sourceTree = "<group>"; };
 		650BEEA8201D49DF001AFB19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		652E21EE202648C300E455B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		653566742026532C00F17449 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
+		655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomePageViewController.xib; sourceTree = "<group>"; };
+		655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogHistoryTableViewController.xib; sourceTree = "<group>"; };
+		655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogCreationViewController.swift; sourceTree = "<group>"; };
+		655DBDB42023AEAB000E9B03 /* LogCreationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogCreationViewController.xib; sourceTree = "<group>"; };
+		655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHistoryTableViewController.swift; sourceTree = "<group>"; };
+		655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandingPageViewController.xib; sourceTree = "<group>"; };
+		655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
+		65F41522E447455E5A10E484 /* Pods_Well_TrackTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Well_TrackTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBED522CB310D4AA616681D7 /* Pods-Well Track.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well Track.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Well Track/Pods-Well Track.debug.xcconfig"; sourceTree = "<group>"; };
+		EBA26452B3FE8269804ADC79 /* Pods-Well TrackUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well TrackUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Well TrackUITests/Pods-Well TrackUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		ECAFF3B483D483AC94D6CEFC /* Pods-Well Track.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well Track.release.xcconfig"; path = "Pods/Target Support Files/Pods-Well Track/Pods-Well Track.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E920D632BBC54814AAF0D76A /* Pods_Well_Track.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA87FCE1B82723D7792D5C6D /* Pods_Well_TrackTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +104,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD6A87AF51D49B8F3044F206 /* Pods_Well_TrackUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		384E7A46DDB34669F0003426 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CBED522CB310D4AA616681D7 /* Pods-Well Track.debug.xcconfig */,
+				ECAFF3B483D483AC94D6CEFC /* Pods-Well Track.release.xcconfig */,
+				3A634DCD2AD2501497843503 /* Pods-Well TrackTests.debug.xcconfig */,
+				0DA79CBF41BA8D07A68A1F3A /* Pods-Well TrackTests.release.xcconfig */,
+				EBA26452B3FE8269804ADC79 /* Pods-Well TrackUITests.debug.xcconfig */,
+				468CF3C0CCA27A46CCB00C16 /* Pods-Well TrackUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		650BEE7A201D49DF001AFB19 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +131,8 @@
 				650BEE9A201D49DF001AFB19 /* Well TrackTests */,
 				650BEEA5201D49DF001AFB19 /* Well TrackUITests */,
 				650BEE84201D49DF001AFB19 /* Products */,
+				384E7A46DDB34669F0003426 /* Pods */,
+				D50640AABFE2E5774DF6978E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,12 +149,25 @@
 		650BEE85201D49DF001AFB19 /* Well Track */ = {
 			isa = PBXGroup;
 			children = (
+				655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */,
+				655DBDB42023AEAB000E9B03 /* LogCreationViewController.xib */,
+				655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */,
+				655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */,
 				650BEE86201D49DF001AFB19 /* AppDelegate.swift */,
 				650BEE88201D49DF001AFB19 /* ViewController.swift */,
 				650BEE8A201D49DF001AFB19 /* Main.storyboard */,
 				650BEE8D201D49DF001AFB19 /* Assets.xcassets */,
 				650BEE8F201D49DF001AFB19 /* LaunchScreen.storyboard */,
 				650BEE92201D49DF001AFB19 /* Info.plist */,
+				652E21EE202648C300E455B7 /* GoogleService-Info.plist */,
+				655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */,
+				655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */,
+				653566742026532C00F17449 /* RegistrationViewController.swift */,
+				655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */,
+				655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */,
+				6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */,
+				650BEEB7201D4A8F001AFB19 /* Controllers */,
+				650BEEB4201D4A1C001AFB19 /* Models */,
 			);
 			path = "Well Track";
 			sourceTree = "<group>";
@@ -125,6 +190,30 @@
 			path = "Well TrackUITests";
 			sourceTree = "<group>";
 		};
+		650BEEB4201D4A1C001AFB19 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		650BEEB7201D4A8F001AFB19 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		D50640AABFE2E5774DF6978E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2E73E925338FC6B4D0C46D5D /* Pods_Well_Track.framework */,
+				65F41522E447455E5A10E484 /* Pods_Well_TrackTests.framework */,
+				4A76633BB32FB1D99CCA9EB4 /* Pods_Well_TrackUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +221,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 650BEEAB201D49DF001AFB19 /* Build configuration list for PBXNativeTarget "Well Track" */;
 			buildPhases = (
+				D04FB7477B8CCC1CEAEC6867 /* [CP] Check Pods Manifest.lock */,
 				650BEE7F201D49DF001AFB19 /* Sources */,
 				650BEE80201D49DF001AFB19 /* Frameworks */,
 				650BEE81201D49DF001AFB19 /* Resources */,
+				0AF6E0E73D59F1D8E57209FD /* [CP] Embed Pods Frameworks */,
+				0968C0077C6BDCF30F95AB4E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -149,9 +241,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 650BEEAE201D49DF001AFB19 /* Build configuration list for PBXNativeTarget "Well TrackTests" */;
 			buildPhases = (
+				A05E309D567D5B0B0A52D222 /* [CP] Check Pods Manifest.lock */,
 				650BEE93201D49DF001AFB19 /* Sources */,
 				650BEE94201D49DF001AFB19 /* Frameworks */,
 				650BEE95201D49DF001AFB19 /* Resources */,
+				2C65D1AEA10EF8C665C5A164 /* [CP] Embed Pods Frameworks */,
+				4E09C05AC2C9A92C15DF7590 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -167,9 +262,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 650BEEB1201D49DF001AFB19 /* Build configuration list for PBXNativeTarget "Well TrackUITests" */;
 			buildPhases = (
+				F302C65E5E6B65A37009E587 /* [CP] Check Pods Manifest.lock */,
 				650BEE9E201D49DF001AFB19 /* Sources */,
 				650BEE9F201D49DF001AFB19 /* Frameworks */,
 				650BEEA0201D49DF001AFB19 /* Resources */,
+				D63C1612C75C2C4DC3D3F65B /* [CP] Embed Pods Frameworks */,
+				7D650159C5A2FAAF90EE5DFD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -232,6 +330,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				655DBDB82023AEAB000E9B03 /* LogHistoryTableViewController.xib in Resources */,
+				652E21EF202648C400E455B7 /* GoogleService-Info.plist in Resources */,
+				655DBDB12023AD52000E9B03 /* HomePageViewController.xib in Resources */,
+				655DBDBC2023AEAB000E9B03 /* LandingPageViewController.xib in Resources */,
+				655DBDBA2023AEAB000E9B03 /* LogCreationViewController.xib in Resources */,
 				650BEE91201D49DF001AFB19 /* LaunchScreen.storyboard in Resources */,
 				650BEE8E201D49DF001AFB19 /* Assets.xcassets in Resources */,
 				650BEE8C201D49DF001AFB19 /* Main.storyboard in Resources */,
@@ -254,13 +357,184 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0968C0077C6BDCF30F95AB4E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Well Track/Pods-Well Track-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Well Track/Pods-Well Track-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0AF6E0E73D59F1D8E57209FD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Well Track/Pods-Well Track-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GenericPasswordRow/GenericPasswordRow.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GenericPasswordRow.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Well Track/Pods-Well Track-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2C65D1AEA10EF8C665C5A164 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Well TrackTests/Pods-Well TrackTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4E09C05AC2C9A92C15DF7590 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Well TrackTests/Pods-Well TrackTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D650159C5A2FAAF90EE5DFD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Well TrackUITests/Pods-Well TrackUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A05E309D567D5B0B0A52D222 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Well TrackTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D04FB7477B8CCC1CEAEC6867 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Well Track-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D63C1612C75C2C4DC3D3F65B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Well TrackUITests/Pods-Well TrackUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F302C65E5E6B65A37009E587 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Well TrackUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		650BEE7F201D49DF001AFB19 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				655DBDB92023AEAB000E9B03 /* LogCreationViewController.swift in Sources */,
+				655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */,
 				650BEE89201D49DF001AFB19 /* ViewController.swift in Sources */,
+				6506C2C82027D0F900E4D9DC /* WellTrackUITabController.swift in Sources */,
+				655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */,
+				653566752026532C00F17449 /* RegistrationViewController.swift in Sources */,
 				650BEE87201D49DF001AFB19 /* AppDelegate.swift in Sources */,
+				655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +698,7 @@
 		};
 		650BEEAC201D49DF001AFB19 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CBED522CB310D4AA616681D7 /* Pods-Well Track.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -438,6 +713,7 @@
 		};
 		650BEEAD201D49DF001AFB19 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ECAFF3B483D483AC94D6CEFC /* Pods-Well Track.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -452,6 +728,7 @@
 		};
 		650BEEAF201D49DF001AFB19 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A634DCD2AD2501497843503 /* Pods-Well TrackTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -468,6 +745,7 @@
 		};
 		650BEEB0201D49DF001AFB19 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0DA79CBF41BA8D07A68A1F3A /* Pods-Well TrackTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -484,6 +762,7 @@
 		};
 		650BEEB2201D49DF001AFB19 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBA26452B3FE8269804ADC79 /* Pods-Well TrackUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -499,6 +778,7 @@
 		};
 		650BEEB3201D49DF001AFB19 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 468CF3C0CCA27A46CCB00C16 /* Pods-Well TrackUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
