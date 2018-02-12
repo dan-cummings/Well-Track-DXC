@@ -38,6 +38,7 @@ class PhotoSegmentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let _ = image {
+            removeButton.isHidden = false
             photo.isHidden = false
             photoBtn.isHidden = true
             label.isHidden = true
@@ -47,7 +48,7 @@ class PhotoSegmentViewController: UIViewController {
         }
     }
     
-    func setImage(image: UIImage) {
+    func setImage(image: UIImage?) {
         self.image = image
         self.photo.image = image
     }

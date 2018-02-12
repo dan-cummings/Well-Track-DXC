@@ -160,7 +160,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BcV-qO-oul">
                                 <rect key="frame" x="8" y="437" width="359" height="222"/>
                                 <connections>
-                                    <segue destination="RZl-oG-AYd" kind="embed" id="ziR-oS-Udi"/>
+                                    <segue destination="RZl-oG-AYd" kind="embed" identifier="embeddedPhotoSegue" id="ziR-oS-Udi"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xof-8Z-X8v">
@@ -426,16 +426,19 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7LD-4P-RUo">
-                                <rect key="frame" x="172.5" y="621" width="30" height="30"/>
+                                <rect key="frame" x="162.5" y="601" width="50" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="GoG-WR-0rR"/>
+                                    <constraint firstAttribute="height" constant="50" id="SI5-8w-qzp"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="15"/>
+                                        <integer key="value" value="25"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="takePhoto:" destination="gPK-rp-FmJ" eventType="touchUpInside" id="OsI-yx-cma"/>
-                                    <segue destination="f28-6f-maN" kind="show" identifier="photoTakenSegue" id="1kO-gr-DUO"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -461,29 +464,29 @@
         <!--Preview View Controller-->
         <scene sceneID="vcl-M6-n2K">
             <objects>
-                <viewController modalTransitionStyle="flipHorizontal" id="f28-6f-maN" customClass="PreviewViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="photopreview" modalTransitionStyle="flipHorizontal" id="f28-6f-maN" customClass="PreviewViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="53h-qt-6IS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y67-Vt-8zw">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y67-Vt-8zw">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </imageView>
                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="859-tl-zjb">
-                                <rect key="frame" x="325" y="621" width="34" height="30"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="161.5" y="610" width="52" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
-                                    <segue destination="T1b-AG-tuN" kind="unwind" unwindAction="addPhotoToLogWithSegue:" id="Bbt-UB-Bol"/>
+                                    <segue destination="T1b-AG-tuN" kind="unwind" unwindAction="addPhotoToLogWithSegue:" id="ijy-J7-JS8"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="aKd-QZ-9sm" firstAttribute="trailing" secondItem="y67-Vt-8zw" secondAttribute="trailing" id="IAQ-PJ-lLw"/>
+                            <constraint firstItem="859-tl-zjb" firstAttribute="centerX" secondItem="y67-Vt-8zw" secondAttribute="centerX" id="JGt-F9-pSU"/>
                             <constraint firstItem="y67-Vt-8zw" firstAttribute="leading" secondItem="aKd-QZ-9sm" secondAttribute="leading" id="XGA-Hd-cws"/>
                             <constraint firstItem="y67-Vt-8zw" firstAttribute="top" secondItem="aKd-QZ-9sm" secondAttribute="top" id="aie-Hn-Ue5"/>
-                            <constraint firstItem="aKd-QZ-9sm" firstAttribute="trailing" secondItem="859-tl-zjb" secondAttribute="trailing" constant="16" id="cbw-sf-l2K"/>
                             <constraint firstItem="aKd-QZ-9sm" firstAttribute="bottom" secondItem="y67-Vt-8zw" secondAttribute="bottom" id="h43-aC-Y5f"/>
                             <constraint firstItem="aKd-QZ-9sm" firstAttribute="bottom" secondItem="859-tl-zjb" secondAttribute="bottom" constant="16" id="vZo-iz-IXS"/>
                         </constraints>
@@ -791,7 +794,7 @@
                                     <action selector="photoBtnPressed:" destination="RZl-oG-AYd" eventType="touchUpInside" id="Hsh-Pa-sGC"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9jM-yU-8x5">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9jM-yU-8x5">
                                 <rect key="frame" x="0.0" y="0.0" width="359" height="222"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Aj-4e-dFy">

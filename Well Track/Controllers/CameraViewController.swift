@@ -122,11 +122,10 @@ class CameraViewController: UIViewController {
         captureSession?.startRunning()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "photoTakenSegue" {
-            let dest = segue.destination as? PreviewViewController
-            dest?.image = self.photo
-        }
+    func previewPhoto() {
+        let previewController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as? PreviewViewController
+        previewController!.image = self.photo
+        self.navigationController?.pushViewController(previewController!, animated: true)
     }
 }
 
@@ -135,5 +134,6 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         guard error == nil, let dataBuffer = photo.fileDataRepresentation() else {return}
         
         self.photo = UIImage.init(data: dataBuffer)
+        previewPhoto()
     }
 }

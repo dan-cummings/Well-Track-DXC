@@ -19,7 +19,7 @@ class LogCreationViewController: UIViewController {
     @IBOutlet weak var videoCont: UIView!
     @IBOutlet weak var heartrateLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
-    var dummy: UITextField = UITextField(frame: CGRect.zero)
+    var photoSegmentController: PhotoSegmentViewController?
     
     var heartPicker = true
     var selectedAfterDecimal: Int = 0
@@ -28,6 +28,7 @@ class LogCreationViewController: UIViewController {
     var selectedBPM: Int = 0
     var selectedRatingImage: UIImageView?
     var selectedRatingLabel: UILabel?
+    
     
     var scale: [String] = ["F", "C"]
     var beforeDecimal: [Int] = []
@@ -175,11 +176,12 @@ class LogCreationViewController: UIViewController {
     }
     
     @IBAction func addPhotoToLog(segue: UIStoryboardSegue) {
-        
+        if let source = segue.source as? PreviewViewController, let cont = photoSegmentController {
+            cont.setImage(image: source.image)
+        }
     }
     
     func startCamera() {
-        
         let controller = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "cameraview")
         self.navigationController?.pushViewController(controller, animated: true)
     }
@@ -190,16 +192,13 @@ class LogCreationViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "embeddedPhotoSegue" {
+            photoSegmentController = segue.destination as? PhotoSegmentViewController
+        }
     }
-    */
-
 }
 
 extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegate {
