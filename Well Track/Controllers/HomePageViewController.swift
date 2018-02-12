@@ -11,11 +11,12 @@ import FirebaseAuth
 
 class HomePageViewController: UIViewController {
 
+    @IBOutlet weak var healthRatingImage: UIImageView!
     var userId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        healthRatingImage.tintColor = .black
     }
 
     override func didReceiveMemoryWarning() {
