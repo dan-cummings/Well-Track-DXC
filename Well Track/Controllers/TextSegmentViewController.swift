@@ -1,21 +1,22 @@
 //
-//  HomePageViewController.swift
+//  TextSegmentViewController.swift
 //  Well Track
 //
-//  Created by Morgan Oneka on 1/31/18.
+//  Created by Daniel Cummings on 2/18/18.
 //  Copyright © 2018 Team DXC. All rights reserved.
 //
 
 import UIKit
-import FirebaseAuth
 
-class HomePageViewController: UIViewController {
+class TextSegmentViewController: UIViewController {
 
-    var userId: String?
+    @IBOutlet weak var textField: UITextView!
+    var hasBeenEdited = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        textField.delegate = self
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,15 +24,11 @@ class HomePageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func logoutPressed(_ sender: Any) {
-        do {
-            try Auth.auth().signOut()
-            print("Logged out")
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
+    func getText() -> String? {
+        return textField.text
     }
     
+
     /*
     // MARK: - Navigation
 
@@ -42,4 +39,16 @@ class HomePageViewController: UIViewController {
     }
     */
 
+}
+
+extension TextSegmentViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        hasBeenEdited = true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if !hasBeenEdited {
+            textView.text = ""
+        }
+    }
 }

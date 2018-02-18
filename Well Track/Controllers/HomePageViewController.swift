@@ -1,5 +1,5 @@
 //
-//  LogCreationViewController.swift
+//  HomePageViewController.swift
 //  Well Track
 //
 //  Created by Morgan Oneka on 1/31/18.
@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import FirebaseAuth
 
-class LogCreationViewController: UIViewController {
+class HomePageViewController: UIViewController {
 
+    @IBOutlet weak var healthRatingImage: UIImageView!
+    var userId: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        healthRatingImage.tintColor = .black
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,7 +24,14 @@ class LogCreationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    @IBAction func logoutPressed(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

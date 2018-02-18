@@ -17,6 +17,10 @@
 		650BEEA7201D49DF001AFB19 /* Well_TrackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEEA6201D49DF001AFB19 /* Well_TrackUITests.swift */; };
 		652E21EF202648C400E455B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 652E21EE202648C300E455B7 /* GoogleService-Info.plist */; };
 		653566752026532C00F17449 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653566742026532C00F17449 /* RegistrationViewController.swift */; };
+		653757C7202A52EE00DFF314 /* WellTrackNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653757C6202A52EE00DFF314 /* WellTrackNavController.swift */; };
+		6558FF68202F9EFE005093A4 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6558FF67202F9EFE005093A4 /* CameraViewController.swift */; };
+		6558FF6A202FA0C6005093A4 /* PhotoSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6558FF69202FA0C6005093A4 /* PhotoSegmentViewController.swift */; };
+		6558FF6C2030A1BE005093A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6558FF6B2030A1BE005093A4 /* PreviewViewController.swift */; };
 		655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */; };
 		655DBDB12023AD52000E9B03 /* HomePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */; };
 		655DBDB82023AEAB000E9B03 /* LogHistoryTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */; };
@@ -25,6 +29,9 @@
 		655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */; };
 		655DBDBC2023AEAB000E9B03 /* LandingPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */; };
 		655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */; };
+		65A90CC920387FD400C61A96 /* VideoSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A90CC820387FD400C61A96 /* VideoSegmentViewController.swift */; };
+		65A90CCB2039D25100C61A96 /* TextSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A90CCA2039D25100C61A96 /* TextSegmentViewController.swift */; };
+		65A90CCD2039EC4A00C61A96 /* LogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A90CCC2039EC4A00C61A96 /* LogModel.swift */; };
 		BA87FCE1B82723D7792D5C6D /* Pods_Well_TrackTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F41522E447455E5A10E484 /* Pods_Well_TrackTests.framework */; };
 		E920D632BBC54814AAF0D76A /* Pods_Well_Track.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E73E925338FC6B4D0C46D5D /* Pods_Well_Track.framework */; };
 		FD6A87AF51D49B8F3044F206 /* Pods_Well_TrackUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76633BB32FB1D99CCA9EB4 /* Pods_Well_TrackUITests.framework */; };
@@ -69,6 +76,10 @@
 		650BEEA8201D49DF001AFB19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		652E21EE202648C300E455B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		653566742026532C00F17449 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		653757C6202A52EE00DFF314 /* WellTrackNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackNavController.swift; sourceTree = "<group>"; };
+		6558FF67202F9EFE005093A4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		6558FF69202FA0C6005093A4 /* PhotoSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSegmentViewController.swift; sourceTree = "<group>"; };
+		6558FF6B2030A1BE005093A4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomePageViewController.xib; sourceTree = "<group>"; };
 		655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogHistoryTableViewController.xib; sourceTree = "<group>"; };
@@ -77,6 +88,9 @@
 		655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHistoryTableViewController.swift; sourceTree = "<group>"; };
 		655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandingPageViewController.xib; sourceTree = "<group>"; };
 		655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
+		65A90CC820387FD400C61A96 /* VideoSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSegmentViewController.swift; sourceTree = "<group>"; };
+		65A90CCA2039D25100C61A96 /* TextSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSegmentViewController.swift; sourceTree = "<group>"; };
+		65A90CCC2039EC4A00C61A96 /* LogModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogModel.swift; sourceTree = "<group>"; };
 		65F41522E447455E5A10E484 /* Pods_Well_TrackTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Well_TrackTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBED522CB310D4AA616681D7 /* Pods-Well Track.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well Track.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Well Track/Pods-Well Track.debug.xcconfig"; sourceTree = "<group>"; };
 		EBA26452B3FE8269804ADC79 /* Pods-Well TrackUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well TrackUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Well TrackUITests/Pods-Well TrackUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -160,12 +174,6 @@
 				650BEE8F201D49DF001AFB19 /* LaunchScreen.storyboard */,
 				650BEE92201D49DF001AFB19 /* Info.plist */,
 				652E21EE202648C300E455B7 /* GoogleService-Info.plist */,
-				655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */,
-				655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */,
-				653566742026532C00F17449 /* RegistrationViewController.swift */,
-				655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */,
-				655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */,
-				6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */,
 				650BEEB7201D4A8F001AFB19 /* Controllers */,
 				650BEEB4201D4A1C001AFB19 /* Models */,
 			);
@@ -193,6 +201,7 @@
 		650BEEB4201D4A1C001AFB19 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				65A90CCC2039EC4A00C61A96 /* LogModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -200,6 +209,18 @@
 		650BEEB7201D4A8F001AFB19 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */,
+				655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */,
+				653566742026532C00F17449 /* RegistrationViewController.swift */,
+				655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */,
+				655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */,
+				6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */,
+				653757C6202A52EE00DFF314 /* WellTrackNavController.swift */,
+				6558FF67202F9EFE005093A4 /* CameraViewController.swift */,
+				6558FF69202FA0C6005093A4 /* PhotoSegmentViewController.swift */,
+				6558FF6B2030A1BE005093A4 /* PreviewViewController.swift */,
+				65A90CC820387FD400C61A96 /* VideoSegmentViewController.swift */,
+				65A90CCA2039D25100C61A96 /* TextSegmentViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -387,8 +408,8 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Well Track/Pods-Well Track-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GenericPasswordRow/GenericPasswordRow.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -396,8 +417,8 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GenericPasswordRow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -528,13 +549,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				655DBDB92023AEAB000E9B03 /* LogCreationViewController.swift in Sources */,
+				6558FF68202F9EFE005093A4 /* CameraViewController.swift in Sources */,
 				655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */,
+				65A90CCB2039D25100C61A96 /* TextSegmentViewController.swift in Sources */,
 				650BEE89201D49DF001AFB19 /* ViewController.swift in Sources */,
 				6506C2C82027D0F900E4D9DC /* WellTrackUITabController.swift in Sources */,
+				653757C7202A52EE00DFF314 /* WellTrackNavController.swift in Sources */,
 				655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */,
+				6558FF6A202FA0C6005093A4 /* PhotoSegmentViewController.swift in Sources */,
+				65A90CC920387FD400C61A96 /* VideoSegmentViewController.swift in Sources */,
 				653566752026532C00F17449 /* RegistrationViewController.swift in Sources */,
 				650BEE87201D49DF001AFB19 /* AppDelegate.swift in Sources */,
 				655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */,
+				65A90CCD2039EC4A00C61A96 /* LogModel.swift in Sources */,
+				6558FF6C2030A1BE005093A4 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,6 +730,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2NE92YFLLT;
 				INFOPLIST_FILE = "Well Track/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "GVSU-Capstone.Well-Track";
@@ -717,6 +746,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2NE92YFLLT;
 				INFOPLIST_FILE = "Well Track/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "GVSU-Capstone.Well-Track";
