@@ -14,6 +14,9 @@ class WellTrackUITabController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 for child in self.childViewControllers {
@@ -25,9 +28,6 @@ class WellTrackUITabController: UITabBarController {
                 self.performSegue(withIdentifier: "loginSegue", sender: self)
             }
         }
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

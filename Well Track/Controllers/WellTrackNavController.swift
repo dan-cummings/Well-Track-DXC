@@ -17,15 +17,6 @@ class WellTrackNavController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let _ = uid else {
-            print("No UID for user")
-            return
-        }
-        ref = Database.database().reference(withPath: "users/\(uid!)")
-        guard let _ = ref else {
-            print("No reference made.")
-            return
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,5 +33,14 @@ class WellTrackNavController: UINavigationController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        guard let _ = uid else {
+            print("No UID for user")
+            return
+        }
+        ref = Database.database().reference(withPath: "users/\(uid!)")
+        guard let _ = ref else {
+            print("No reference made.")
+            return
+        }
     }
 }

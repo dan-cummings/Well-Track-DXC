@@ -55,8 +55,9 @@ class PhotoSegmentViewController: UIViewController {
 
     @IBAction func photoBtnPressed(_ sender: Any) {
         let parent = self.parent as? LogCreationViewController
-        parent!.startCamera()
+        parent!.startCamera(self)
     }
+    
     /*
     // MARK: - Navigation
 

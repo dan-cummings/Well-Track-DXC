@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol LogCreationViewDelegate {
+    func saveLog(log: HealthLog, picture: UIImage?, video: URL?)
+}
+
 class LogCreationViewController: UIViewController {
     
     @IBOutlet weak var pickerStack: UIStackView!
@@ -20,6 +24,8 @@ class LogCreationViewController: UIViewController {
     @IBOutlet weak var heartrateLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     var photoSegmentController: PhotoSegmentViewController?
+    var videoSegmentController: VideoSegmentViewController?
+    var textSegmentController: TextSegmentViewController?
     
     var heartPicker = true
     var selectedAfterDecimal: Int = 0
@@ -32,9 +38,11 @@ class LogCreationViewController: UIViewController {
     
     var scale: [String] = ["F", "C"]
     var beforeDecimal: [Int] = []
-    var afterDecimal: [Int] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    let afterDecimal: [Int] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     
     var bpm: [Int] = []
+    
+    var delegate: LogCreationViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,7 +141,15 @@ class LogCreationViewController: UIViewController {
     @IBAction func saveLogPressed(_ sender: UIBarButtonItem) {
         let validation = validateLog()
         if validation.isEmpty {
-            
+            let hasText = (textSegmentController?.hasBeenEdited)! ? 1 : 0
+            let hasVideo = videoSegmentController?.video != nil ? 1 : 0
+            let hasPicture = photoSegmentController?.image != nil ? 1 : 0
+            let log = HealthLog.init(key: nil, date: Date(), temperature: temperatureLabel.text!,
+                                     heartrate: heartrateLabel.text!, moodrating: (selectedRatingLabel?.text)!,
+                                     hasText: hasText, text: textSegmentController?.getText(),
+                                     hasPicture: hasPicture, pictureURL: "", hasVideo: hasVideo, videoURL: "")
+            delegate?.saveLog(log: log, picture: photoSegmentController?.image, video: videoSegmentController?.video)
+            self.navigationController?.popViewController(animated: true)
         } else {
             reportError(msg: validation[0])
         }
@@ -175,15 +191,24 @@ class LogCreationViewController: UIViewController {
         return errors
     }
     
-    @IBAction func addPhotoToLog(segue: UIStoryboardSegue) {
-        if let source = segue.source as? PreviewViewController, let cont = photoSegmentController {
-            cont.setImage(image: source.image)
+    @IBAction func addMediaToLog(segue: UIStoryboardSegue) {
+        if let source = segue.source as? PreviewViewController {
+            if source.videoPreview {
+                videoSegmentController?.video = source.videoURL
+            } else {
+                photoSegmentController?.setImage(image: source.image)
+            }
         }
     }
     
-    func startCamera() {
-        let controller = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "cameraview")
-        self.navigationController?.pushViewController(controller, animated: true)
+    func startCamera(_ sender: UIViewController) {
+        let controller = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "cameraview") as? CameraViewController
+        if let _ = sender as? PhotoSegmentViewController {
+            controller?.videoCap = false
+        } else if let _ = sender as? VideoSegmentViewController {
+            controller?.videoCap = true
+        }
+        self.navigationController?.pushViewController(controller!, animated: true)
     }
     
     func reportError(msg: String) {
@@ -197,6 +222,10 @@ class LogCreationViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "embeddedPhotoSegue" {
             photoSegmentController = segue.destination as? PhotoSegmentViewController
+        } else if segue.identifier == "embeddedVideoSegue" {
+            videoSegmentController = segue.destination as? VideoSegmentViewController
+        } else if segue.identifier == "embeddedTextSegue" {
+            textSegmentController = segue.destination as? TextSegmentViewController
         }
     }
 }
