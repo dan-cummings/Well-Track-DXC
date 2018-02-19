@@ -93,6 +93,34 @@ class LogCreationViewController: UIViewController {
             if log.hasVideo == 1 {
                 videoSegmentController?.video = presetVideo
             }
+            var loc = 0
+            switch log.moodrating {
+            case "Fine":
+                loc = 2
+                break
+            case "Good":
+                loc = 3
+                break
+            case "Bad":
+                loc = 1
+                break
+            case "Great":
+                loc = 4
+                break
+            case "Terrible":
+                loc = 0
+                break
+            default:
+                break
+            }
+            let temp = imageStack.arrangedSubviews[loc] as? UIStackView
+            selectedRatingLabel = temp?.arrangedSubviews[1] as? UILabel
+            selectedRatingImage = temp?.arrangedSubviews[0] as? UIImageView
+            selectedRatingImage?.tintColor = self.view.tintColor
+            selectedRatingLabel?.textColor = self.view.tintColor
+            
+            self.temperatureLabel.text = log.temperature
+            self.heartrateLabel.text = log.heartrate
         }
     }
     

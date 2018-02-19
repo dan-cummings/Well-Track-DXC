@@ -92,6 +92,19 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kwQ-LT-Rsu">
+                                <rect key="frame" x="163" y="316" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="69T-Qg-vXq"/>
+                                    <constraint firstAttribute="width" constant="50" id="9j8-5H-aRs"/>
+                                </constraints>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Logs Have Been Made" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m7N-4x-J9C">
+                                <rect key="frame" x="89.5" y="331" width="197" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -100,11 +113,15 @@
                             <constraint firstItem="etb-m1-1o7" firstAttribute="centerX" secondItem="cCf-T0-yI4" secondAttribute="centerX" id="Cg4-kT-IkS"/>
                             <constraint firstItem="mXH-Q7-iJc" firstAttribute="top" secondItem="etb-m1-1o7" secondAttribute="bottom" constant="8" id="Cxm-v5-GEk"/>
                             <constraint firstItem="Ln4-eJ-r36" firstAttribute="width" secondItem="PtB-cS-91r" secondAttribute="width" id="H1b-Bn-AM7"/>
+                            <constraint firstItem="m7N-4x-J9C" firstAttribute="centerX" secondItem="cCf-T0-yI4" secondAttribute="centerX" id="HfD-yO-DHw"/>
                             <constraint firstItem="w7X-Xa-KSI" firstAttribute="height" secondItem="uhC-lu-NfG" secondAttribute="height" multiplier="1:3.5" id="Nn9-T8-NHd"/>
                             <constraint firstItem="PtB-cS-91r" firstAttribute="top" secondItem="mXH-Q7-iJc" secondAttribute="bottom" constant="8" id="P8v-Ef-8Uf"/>
                             <constraint firstItem="w7X-Xa-KSI" firstAttribute="top" secondItem="PtB-cS-91r" secondAttribute="bottom" constant="8" id="Prg-BT-ioD"/>
+                            <constraint firstItem="m7N-4x-J9C" firstAttribute="centerY" secondItem="cCf-T0-yI4" secondAttribute="centerY" id="SCh-v4-fC7"/>
+                            <constraint firstItem="kwQ-LT-Rsu" firstAttribute="centerY" secondItem="cCf-T0-yI4" secondAttribute="centerY" id="SVY-mC-Xns"/>
                             <constraint firstItem="mXH-Q7-iJc" firstAttribute="centerX" secondItem="cCf-T0-yI4" secondAttribute="centerX" id="Uhe-Hg-mwO"/>
                             <constraint firstItem="etb-m1-1o7" firstAttribute="top" secondItem="cCf-T0-yI4" secondAttribute="top" constant="8" id="gsb-EP-X6b"/>
+                            <constraint firstItem="kwQ-LT-Rsu" firstAttribute="centerX" secondItem="cCf-T0-yI4" secondAttribute="centerX" id="jUZ-0m-kY3"/>
                             <constraint firstItem="PtB-cS-91r" firstAttribute="leading" secondItem="cCf-T0-yI4" secondAttribute="leading" constant="8" id="psh-Nd-Hhz"/>
                             <constraint firstItem="w7X-Xa-KSI" firstAttribute="centerX" secondItem="cCf-T0-yI4" secondAttribute="centerX" id="tAv-KA-Vwz"/>
                         </constraints>
@@ -118,7 +135,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="dateLabel" destination="mXH-Q7-iJc" id="Rcf-rm-QcC"/>
                         <outlet property="healthRatingImage" destination="Ln4-eJ-r36" id="mYJ-XN-gr4"/>
+                        <outlet property="heartrateLabel" destination="Cme-qs-bR0" id="7Y6-oJ-sbs"/>
+                        <outlet property="indicator" destination="kwQ-LT-Rsu" id="yMM-xh-dJp"/>
+                        <outlet property="moodLabel" destination="rCr-Aq-6Jt" id="pg9-PG-bLD"/>
+                        <outlet property="noLogsLabel" destination="m7N-4x-J9C" id="gkq-LK-5Ap"/>
+                        <outlet property="temperatureLabel" destination="2NE-zD-LSe" id="5bz-OY-ENf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="06a-rS-4gk" userLabel="First Responder" sceneMemberID="firstResponder"/>
