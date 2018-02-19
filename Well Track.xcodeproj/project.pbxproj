@@ -27,6 +27,7 @@
 		655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */; };
 		BA87FCE1B82723D7792D5C6D /* Pods_Well_TrackTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F41522E447455E5A10E484 /* Pods_Well_TrackTests.framework */; };
 		E920D632BBC54814AAF0D76A /* Pods_Well_Track.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E73E925338FC6B4D0C46D5D /* Pods_Well_Track.framework */; };
+		FA9D25A02038D988000123A7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9D259F2038D988000123A7 /* SettingsViewController.swift */; };
 		FD6A87AF51D49B8F3044F206 /* Pods_Well_TrackUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76633BB32FB1D99CCA9EB4 /* Pods_Well_TrackUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		CBED522CB310D4AA616681D7 /* Pods-Well Track.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well Track.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Well Track/Pods-Well Track.debug.xcconfig"; sourceTree = "<group>"; };
 		EBA26452B3FE8269804ADC79 /* Pods-Well TrackUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well TrackUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Well TrackUITests/Pods-Well TrackUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		ECAFF3B483D483AC94D6CEFC /* Pods-Well Track.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well Track.release.xcconfig"; path = "Pods/Target Support Files/Pods-Well Track/Pods-Well Track.release.xcconfig"; sourceTree = "<group>"; };
+		FA9D259F2038D988000123A7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 				653566742026532C00F17449 /* RegistrationViewController.swift */,
 				655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */,
 				655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */,
+				FA9D259F2038D988000123A7 /* SettingsViewController.swift */,
 				6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */,
 				650BEEB7201D4A8F001AFB19 /* Controllers */,
 				650BEEB4201D4A1C001AFB19 /* Models */,
@@ -535,6 +538,7 @@
 				653566752026532C00F17449 /* RegistrationViewController.swift in Sources */,
 				650BEE87201D49DF001AFB19 /* AppDelegate.swift in Sources */,
 				655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */,
+				FA9D25A02038D988000123A7 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
