@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class PhotoSegmentViewController: UIViewController {
 
@@ -16,6 +17,8 @@ class PhotoSegmentViewController: UIViewController {
     @IBOutlet weak var photo: UIImageView!
     
     var image: UIImage?
+    var infoView = false
+    var log: HealthLog?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +40,35 @@ class PhotoSegmentViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let _ = image {
-            removeButton.isHidden = false
-            photo.isHidden = false
-            photoBtn.isHidden = true
-            label.isHidden = true
+        if infoView {
+            if let info = log, info.hasPicture == 1 {
+                let storageRef = Storage.storage().reference(forURL: info.pictureURL!)
+                storageRef.getData(maxSize: 16 * 1024 * 1024, completion: { data, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        self.image = UIImage(data: data!)
+                        self.photoBtn.isHidden = true
+                        self.photo.image = self.image
+                        self.photo.isHidden = false
+                        self.label.isHidden = true
+                        self.removeButton.isHidden = true
+                    }
+                })
+            } else {
+                photoBtn.isHidden = true
+                removeButton.isHidden = true
+            }
         } else {
-            removeButton.isHidden = true
-            photo.isHidden = true
+            if let _ = image {
+                removeButton.isHidden = false
+                photo.isHidden = false
+                photoBtn.isHidden = true
+                label.isHidden = true
+            } else {
+                removeButton.isHidden = true
+                photo.isHidden = true
+            }
         }
     }
     

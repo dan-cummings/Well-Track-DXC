@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import FirebaseStorage
 
 class VideoSegmentViewController: UIViewController {
 
@@ -19,6 +20,8 @@ class VideoSegmentViewController: UIViewController {
     var player = AVQueuePlayer()
     var playerLayer: AVPlayerLayer!
     var playerLooper: AVPlayerLooper!
+    var infoView = false
+    var log: HealthLog?
     
     
     @IBOutlet weak var previewView: UIView!
@@ -38,26 +41,59 @@ class VideoSegmentViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let _ = video {
-            removeBtn.isHidden = false
-            previewView.isHidden = false
-            addBtn.isHidden = true
-            label.isHidden = true
-            playerLayer = AVPlayerLayer(player: player)
-            playerLayer.frame = previewView.bounds
-            playerLayer.videoGravity = .resizeAspect
-            previewView.layer.insertSublayer(playerLayer, at: 0)
-            let playItem = AVPlayerItem(url: video!)
-            player.isMuted = true
-            player.replaceCurrentItem(with: playItem)
-            playerLooper = AVPlayerLooper(player: player, templateItem: playItem)
-            player.play()
+        if infoView {
+            if let info = log, info.hasVideo == 1 {
+                let storageRef = Storage.storage().reference(forURL: info.videoURL!)
+                let tempUrl = tempURL()
+                storageRef.write(toFile: tempUrl!) { url, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        self.removeBtn.isHidden = true
+                        self.previewView.isHidden = false
+                        self.addBtn.isHidden = true
+                        self.label.isHidden = true
+                        self.video = url
+                        self.previewView.isHidden = false
+                        self.addBtn.isHidden = true
+                        self.label.isHidden = true
+                        self.playerLayer = AVPlayerLayer(player: self.player)
+                        self.playerLayer.frame = self.previewView.bounds
+                        self.playerLayer.videoGravity = .resizeAspect
+                        self.previewView.layer.insertSublayer(self.playerLayer, at: 0)
+                        let playItem = AVPlayerItem(url: self.video!)
+                        self.player.isMuted = true
+                        self.player.replaceCurrentItem(with: playItem)
+                        self.playerLooper = AVPlayerLooper(player: self.player, templateItem: playItem)
+                        self.player.play()
+                    }
+                }
+            } else {
+                addBtn.isHidden = true
+                removeBtn.isHidden = true
+            }
         } else {
-            removeBtn.isHidden = true
-            previewView.isHidden = true
-            addBtn.isHidden = false
-            label.isHidden = false
-            label.isHidden = false
+            if let _ = video {
+                removeBtn.isHidden = false
+                previewView.isHidden = false
+                addBtn.isHidden = true
+                label.isHidden = true
+                playerLayer = AVPlayerLayer(player: player)
+                playerLayer.frame = previewView.bounds
+                playerLayer.videoGravity = .resizeAspect
+                previewView.layer.insertSublayer(playerLayer, at: 0)
+                let playItem = AVPlayerItem(url: video!)
+                player.isMuted = true
+                player.replaceCurrentItem(with: playItem)
+                playerLooper = AVPlayerLooper(player: player, templateItem: playItem)
+                player.play()
+            } else {
+                removeBtn.isHidden = true
+                previewView.isHidden = true
+                addBtn.isHidden = false
+                label.isHidden = false
+                label.isHidden = false
+            }
         }
     }
     
@@ -79,6 +115,44 @@ class VideoSegmentViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func setupForInfoView(_ info: HealthLog) {
+        if info.hasVideo == 1 {
+            let storageRef = Storage.storage().reference(forURL: info.videoURL!)
+            let tempUrl = tempURL()
+            storageRef.write(toFile: tempUrl!) { url, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    self.video = url
+                    self.previewView.isHidden = false
+                    self.addBtn.isHidden = true
+                    self.label.isHidden = true
+                    self.playerLayer = AVPlayerLayer(player: self.player)
+                    self.playerLayer.frame = self.previewView.bounds
+                    self.playerLayer.videoGravity = .resizeAspect
+                    self.previewView.layer.insertSublayer(self.playerLayer, at: 0)
+                    let playItem = AVPlayerItem(url: self.video!)
+                    self.player.isMuted = true
+                    self.player.replaceCurrentItem(with: playItem)
+                    self.playerLooper = AVPlayerLooper(player: self.player, templateItem: playItem)
+                    self.player.play()
+                }
+            }
+        } else {
+        }
+    }
+    
+    func tempURL() -> URL? {
+        let directory = NSTemporaryDirectory() as NSString
+        
+        if directory != "" {
+            let path = directory.appendingPathComponent(NSUUID().uuidString + ".mp4")
+            return URL(fileURLWithPath: path)
+        }
+        
+        return nil
     }
     
     /*

@@ -13,11 +13,21 @@ import FirebaseDatabase
 
 class LogHistoryTableViewController: UITableViewController {
     
-    fileprivate var databaseRef: DatabaseReference?
     var uid: String!
+    fileprivate var databaseRef: DatabaseReference?
     fileprivate var storageRef: StorageReference?
     
+    var tableViewData: [(sectionHeader: String, logs: HealthLog)]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
+    var healthLogs : [HealthLog] = []
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if let parent = self.parent as? WellTrackNavController {
@@ -30,9 +40,10 @@ class LogHistoryTableViewController: UITableViewController {
         guard let id = uid else {
             return
         }
-        print(uid)
-        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         databaseRef = Database.database().reference().child(id)
+        self.registerForFireBaseUpdates()
         storageRef = Storage.storage().reference()
     }
 
@@ -44,24 +55,54 @@ class LogHistoryTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return healthLogs.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WellTrackTableViewCell
 
-        // Configure the cell...
+        let log = self.healthLogs[indexPath.row]
+        cell.log = log
+        cell.temperatureLabel.text = log.temperature
+        cell.heartRateLabel.text = log.heartrate
+        cell.moodLabel.text = log.moodrating
+        
+        switch log.moodrating {
+        case "Fine":
+            cell.moodImage.image = UIImage(named: "Fair")
+            break
+        case "Good":
+            cell.moodImage.image = UIImage(named: "Good")
+            break
+        case "Great":
+            cell.moodImage.image = UIImage(named: "Great")
+            break
+        case "Bad":
+            cell.moodImage.image = UIImage(named: "Bad")
+            break
+        case "Terrible":
+            cell.moodImage.image = UIImage(named: "Terrible")
+            break
+        default:
+            break
+        }
+        
+        cell.moodImage.tintColor = .black
 
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let infoView = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LogInformation") as! LogInformationViewController
+        infoView.log = self.healthLogs[indexPath.row]
+        infoView.delegate = self
+        self.navigationController?.pushViewController(infoView, animated: true)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -97,6 +138,34 @@ class LogHistoryTableViewController: UITableViewController {
         return true
     }
     */
+    
+    fileprivate func registerForFireBaseUpdates() {
+        self.databaseRef!.child("Logs").observe(.value, with: { snapshot in
+            if let values = snapshot.value as? [String : AnyObject] {
+                var tmpItems = [HealthLog]()
+                for (_,val) in values.enumerated() {
+                    let entry = val.1 as! Dictionary<String,AnyObject>
+                    let key = val.0
+                    let temperature = entry["temperature"] as! String
+                    let date = entry["date"] as! String
+                    let heartrate = entry["heartrate"] as! String
+                    let moodrating = entry["moodRating"] as! String
+                    let hasText = entry["hasText"] as! Int
+                    let text = entry["text"] as! String
+                    let hasPicture = entry["hasPicture"] as! Int
+                    let pictureURL = entry["pictureURL"] as! String
+                    let hasVideo = entry["hasVideo"] as! Int
+                    let videoURL = entry["videoURL"] as! String
+                    tmpItems.append(HealthLog(key: key, date: date.iso8601,
+                                              temperature: temperature, heartrate: heartrate,
+                                              moodrating: moodrating, hasText: hasText, text: text,
+                                              hasPicture: hasPicture, pictureURL: pictureURL,
+                                              hasVideo: hasVideo, videoURL: videoURL))
+                }
+                self.healthLogs = tmpItems
+                self.tableView.reloadData()
+            }})
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newLogSegue" {

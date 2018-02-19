@@ -35,14 +35,16 @@ class LogCreationViewController: UIViewController {
     var selectedRatingImage: UIImageView?
     var selectedRatingLabel: UILabel?
     
-    
     var scale: [String] = ["F", "C"]
     var beforeDecimal: [Int] = []
     let afterDecimal: [Int] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    
     var bpm: [Int] = []
     
     var delegate: LogCreationViewDelegate?
+    var hasPresetLog = false
+    var presetLog: HealthLog?
+    var presetImage: UIImage?
+    var presetVideo: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,11 +71,57 @@ class LogCreationViewController: UIViewController {
             let rating = stack as? UIStackView
             rating?.arrangedSubviews[0].tintColor = .black
         }
+        
+        if hasPresetLog {
+            self.populateFields()
+        }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func populateFields() {
+        if let log = presetLog {
+            if log.hasText == 1 {
+                textSegmentController?.setText(log.text)
+            }
+            if log.hasPicture == 1 {
+                photoSegmentController?.setImage(image: presetImage)
+            }
+            if log.hasVideo == 1 {
+                videoSegmentController?.video = presetVideo
+            }
+            var loc = 0
+            switch log.moodrating {
+            case "Fine":
+                loc = 2
+                break
+            case "Good":
+                loc = 3
+                break
+            case "Bad":
+                loc = 1
+                break
+            case "Great":
+                loc = 4
+                break
+            case "Terrible":
+                loc = 0
+                break
+            default:
+                break
+            }
+            let temp = imageStack.arrangedSubviews[loc] as? UIStackView
+            selectedRatingLabel = temp?.arrangedSubviews[1] as? UILabel
+            selectedRatingImage = temp?.arrangedSubviews[0] as? UIImageView
+            selectedRatingImage?.tintColor = self.view.tintColor
+            selectedRatingLabel?.textColor = self.view.tintColor
+            
+            self.temperatureLabel.text = log.temperature
+            self.heartrateLabel.text = log.heartrate
+        }
     }
     
     func generateRange(scale: String) {
@@ -140,15 +188,21 @@ class LogCreationViewController: UIViewController {
     
     @IBAction func saveLogPressed(_ sender: UIBarButtonItem) {
         let validation = validateLog()
-        if validation.isEmpty {
+        if validation.isEmpty || hasPresetLog {
             let hasText = (textSegmentController?.hasBeenEdited)! ? 1 : 0
             let hasVideo = videoSegmentController?.video != nil ? 1 : 0
             let hasPicture = photoSegmentController?.image != nil ? 1 : 0
-            let log = HealthLog.init(key: nil, date: Date(), temperature: temperatureLabel.text!,
-                                     heartrate: heartrateLabel.text!, moodrating: (selectedRatingLabel?.text)!,
-                                     hasText: hasText, text: textSegmentController?.getText(),
-                                     hasPicture: hasPicture, pictureURL: "", hasVideo: hasVideo, videoURL: "")
-            delegate?.saveLog(log: log, picture: photoSegmentController?.image, video: videoSegmentController?.video)
+            if hasPresetLog {
+                self.presetLog?.hasVideo = hasVideo
+                self.presetLog?.hasPicture = hasPicture
+                delegate?.saveLog(log: presetLog!, picture: photoSegmentController?.image, video: videoSegmentController?.video)
+            } else {
+                let log = HealthLog.init(key: nil, date: Date(), temperature: temperatureLabel.text!,
+                                         heartrate: heartrateLabel.text!, moodrating: (selectedRatingLabel?.text)!,
+                                         hasText: hasText, text: textSegmentController?.getText(),
+                                         hasPicture: hasPicture, pictureURL: "", hasVideo: hasVideo, videoURL: "")
+                delegate?.saveLog(log: log, picture: photoSegmentController?.image, video: videoSegmentController?.video)
+            }
             self.navigationController?.popViewController(animated: true)
         } else {
             reportError(msg: validation[0])
@@ -224,6 +278,9 @@ class LogCreationViewController: UIViewController {
             photoSegmentController = segue.destination as? PhotoSegmentViewController
         } else if segue.identifier == "embeddedVideoSegue" {
             videoSegmentController = segue.destination as? VideoSegmentViewController
+            if hasPresetLog {
+                videoSegmentController?.video = presetVideo
+            }
         } else if segue.identifier == "embeddedTextSegue" {
             textSegmentController = segue.destination as? TextSegmentViewController
         }
