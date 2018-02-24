@@ -23,7 +23,6 @@ class VideoSegmentViewController: UIViewController {
     var infoView = false
     var log: HealthLog?
     
-    
     @IBOutlet weak var previewView: UIView!
     
     var video: URL?
@@ -96,7 +95,6 @@ class VideoSegmentViewController: UIViewController {
             }
         }
     }
-    
 
     @IBAction func addVideoPressed(_ sender: Any) {
         let parent = self.parent as? LogCreationViewController

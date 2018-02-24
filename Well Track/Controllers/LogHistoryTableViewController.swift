@@ -197,7 +197,7 @@ class LogHistoryTableViewController: UITableViewController {
             let metadata = StorageMetadata()
             metadata.contentType = mime
             if let storageRef = self.storageRef {
-                storageRef.child(mediaPath).putData(media, metadata: metadata) {(metadata, error) in
+                storageRef.child(mediaPath).putData(media, metadata: metadata) { (metadata, error) in
                     if let error = error {
                         print("Error uploading: \(error.localizedDescription)")
                         return
@@ -245,6 +245,7 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
             print("Database/storage error")
             return
         }
+        
         let vals = self.toDictionary(log: log)
         
         let logDataRef = self.saveLogToFirebase(key: log.key, ref: database, vals: vals)
