@@ -11,18 +11,23 @@ import UIKit
 import FirebaseAuth
 
 class WellTrackUITabController: UITabBarController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         Auth.auth().addStateDidChangeListener { (auth, user) in
-            if let _ = user {
-                
+            if let user = user {
+                for child in self.childViewControllers {
+                    if let c = child as? WellTrackNavController {
+                        c.uid = user.uid
+                    }
+                }
             } else {
                 self.performSegue(withIdentifier: "loginSegue", sender: self)
             }
         }
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
