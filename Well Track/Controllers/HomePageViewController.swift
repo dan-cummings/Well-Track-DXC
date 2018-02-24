@@ -36,14 +36,12 @@ class HomePageViewController: UIViewController {
         indicator.startAnimating()
         
         healthRatingImage.tintColor = .black
-        if let uid = userId {
-            databaseRef = Database.database().reference(withPath: "\(uid)/Logs")
-        } else {
-            userId = Auth.auth().currentUser?.uid
-            databaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                self.userId = user.uid
+                self.startFirebase()
+            }
         }
-        mostRecent = HealthLog()
-        registerForFireBaseUpdates()
     }
     
     fileprivate func registerForFireBaseUpdates() {
@@ -113,6 +111,17 @@ class HomePageViewController: UIViewController {
         heartrateLabel.isHidden = false
         moodLabel.isHidden = false
         healthRatingImage.isHidden = false
+    }
+    
+    func startFirebase() {
+        if let uid = userId {
+            databaseRef = Database.database().reference(withPath: "\(uid)/Logs")
+        } else {
+            userId = Auth.auth().currentUser?.uid
+            databaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
+        }
+        mostRecent = HealthLog()
+        registerForFireBaseUpdates()
     }
     
     override func didReceiveMemoryWarning() {
