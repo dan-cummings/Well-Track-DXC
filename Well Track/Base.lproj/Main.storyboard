@@ -133,7 +133,7 @@
                                 <action selector="logoutPressed:" destination="X60-YE-teX" id="2Zr-3Z-GfY"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="cML-6X-40l">
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="cML-6X-40l">
                             <connections>
                                 <segue destination="bqY-kj-b6Z" kind="show" id="ZAG-6b-gu5"/>
                             </connections>
@@ -270,6 +270,9 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="US0-RO-TgJ">
                                 <rect key="frame" x="16" y="80" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="alertChange:" destination="bqY-kj-b6Z" eventType="valueChanged" id="nkd-IA-ZIR"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alerts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6M-of-Xbj">
                                 <rect key="frame" x="86" y="85" width="45" height="21"/>
@@ -281,6 +284,9 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W5Y-aK-dZd">
                                 <rect key="frame" x="23" y="421" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="gpsChanged:" destination="bqY-kj-b6Z" eventType="valueChanged" id="XKJ-HQ-xoT"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GPS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rex-OT-JCy">
                                 <rect key="frame" x="94" y="426" width="34" height="21"/>
@@ -301,6 +307,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                 <state key="normal" title="Clear All Data"/>
+                                <connections>
+                                    <action selector="clearAllData:" destination="bqY-kj-b6Z" eventType="touchUpInside" id="2iA-P1-fzd"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qVD-MU-NWy">
                                 <rect key="frame" x="170" y="375" width="34" height="30"/>
@@ -315,7 +324,9 @@
                         <viewLayoutGuide key="safeArea" id="axw-VS-F8K"/>
                     </view>
                     <connections>
+                        <outlet property="AlertSwitch" destination="US0-RO-TgJ" id="XkA-Oa-FdY"/>
                         <outlet property="ClearButton" destination="0yB-E3-KB7" id="k44-TL-dgY"/>
+                        <outlet property="GPSSwitch" destination="W5Y-aK-dZd" id="2Pn-vG-Ox1"/>
                         <outlet property="HoursField" destination="Ayc-iQ-4jW" id="mnc-Qv-3GR"/>
                         <outlet property="MaxHeartField" destination="rAN-Ix-mcr" id="cFu-SL-b6L"/>
                         <outlet property="MaxTempField" destination="Mgg-fD-TbW" id="aHP-cG-zKZ"/>
