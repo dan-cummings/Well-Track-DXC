@@ -1,0 +1,119 @@
+buildscript {
+    repositories {
+        maven {
+            url 'https://tool.digitaldxc.com/artifactory/plugins-release-local'
+            credentials {
+                username = artifactoryUser
+                password = artifactoryPass
+            }
+        }
+		maven {
+      		url 'https://plugins.gradle.org/m2/'
+    	}
+    	maven {
+			url 'http://repository.openbakery.org/'
+		}
+    }
+    dependencies {
+        classpath 'org.openbakery:xcode-plugin:0.15.1'
+        classpath 'com.digitalservices.credstash:ds-credstash:1.0.0'
+    }
+}
+
+apply plugin: 'org.openbakery.xcode-plugin'
+apply plugin: com.digitalservices.DsCredentialsPlugin
+
+def target_name = 'Well Track'
+def ipa_name = 'well-track'
+
+// ToDo: Download and double-check provisioning profile name
+
+def provision_name = 'USPS_DigServ_WellTrack.mobileprovision'
+def cert_name = 'Dev2018.p12'
+def cert_password = getPassword('ios-digitalservices-dev')
+
+// ToDo: Set up in HockeyApp, get token and id, put token in credstash
+
+def hockeyapp_token = getPassword('welltrack-devtoken')
+def hockeyapp_appid = ""
+
+def minorVersion = System.getenv('BUILD_NUMBER') as Integer ?: 999
+def appVersion = '1.0.' + minorVersion as String
+
+def currentPath = file(".")
+def defaultEnvironment = 'Debug'
+def environment = defaultEnvironment
+def configuration = 'Debug'
+  
+if (System.properties['DEPLOY_ENVIRONMENT'] != null) {
+	environment = System.properties['DEPLOY_ENVIRONMENT'].toString()
+	if(environment == 'Test') {
+		configuration = 'Release'
+	} else {
+		configuration = environment
+	}
+}
+
+xcodebuild {
+  scheme = target_name
+  target = target_name
+  configuration = configuration
+  
+  simulator = false
+  ipaFileName = ipa_name + "-" + environment + "-" + appVersion
+  
+  signing {
+		mobileProvisionURI = 'file://' + currentPath + '/'+ provision_name
+		certificateURI = 'file://' + currentPath + '/' + cert_name
+		certificatePassword = cert_password
+	}
+}
+
+infoplist {
+	version = minorVersion
+	shortVersionString = appVersion
+}
+
+tasks.hockeyapp.mustRunAfter tasks.package
+
+gradle.taskGraph.whenReady { taskGraph ->
+	if (taskGraph.hasTask(tasks.hockeyapp)) {
+		hockeyapp {
+			apiToken = hockeyapp_token
+			appID = hockeyapp_appid
+			notes =  environment + ' build generated automatically'
+			notify = 1
+		}
+	}
+}
+
+
+task buildApp (type: GradleBuild) {
+
+    doFirst {
+		println '==========================================================='
+		println 'buildType: ' + environment
+		println '==========================================================='
+
+		switch (environment) {
+			case 'Debug':
+				tasks = ['clean',
+						 'xcodebuild']
+				println 'Running dev tasks: ' + tasks
+				break
+			case 'Release':
+				tasks = ['clean',
+						 'xcodebuild',
+						 'archive',
+						 'package',
+						 'hockeyapp']
+				println 'Running release tasks: ' + tasks
+				break
+			default:
+				tasks = ['clean',
+						 'xcodebuild']
+				println 'Running local tasks: ' + tasks
+				break
+		}
+    }
+}
