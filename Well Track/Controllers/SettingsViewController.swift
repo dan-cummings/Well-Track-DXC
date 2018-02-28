@@ -34,9 +34,6 @@ class SettingsViewController: UIViewController {
             if let user = user {
                 self.userId = user.uid
                 self.startFireBase()
-         /*
-                self.ref = Database.database().reference()
-                self.registerForFirebaseUpdates()*/
                 
             }
         }
@@ -51,15 +48,6 @@ class SettingsViewController: UIViewController {
 
     //MARK: Actions
     @IBAction func saveSettings(_ sender: UIButton) {
-        
-        // update settings
-        /*print("Saving...")
-        print("Alert user if heart rate is outside of range: \(MinHeartField.text ?? "?") to \(MaxHeartField.text ?? "?")")
-        print("Alert user if temperature is outside of range: \(MinTempField.text ?? "?") to \(MaxTempField.text ?? "?")")
-        print("Alert user they have spent more than: \(HoursField.text ?? "0") hours and \(MinutesField.text ?? "0") at a location")
-        if HoursField.text == "" {
-            print("Hours not specified")
-        }*/
         
         //send to Firebase
         self.saveAll()
@@ -91,49 +79,32 @@ class SettingsViewController: UIViewController {
     
     func startFireBase() {
         if let uid = userId {
-            databaseRef = Database.database().reference(withPath: "\(uid)/Settings")
+            databaseRef = Database.database().reference(withPath: "\(uid)")
         } else {
             userId = Auth.auth().currentUser?.uid
-            databaseRef = Database.database().reference(withPath: "\(userId!)/Settings")
+            databaseRef = Database.database().reference(withPath: "\(userId!)")
         }
         mostRecent = Settings()
         registerForFireBaseUpdates()
     }
     
     func getSettingsDictionary () -> NSMutableDictionary {
-        print("Entered get settings dictionary")
-        /*var heartMin: String?
-        var heartMax: String?
-        var tempMin: String?
-        var tempMax: String?
-        var hour: String?
-        var min: String?
-        if MinHeartField.text == "" {
-            heartMin = mostRecent?.minHeart
-        }
-        else {
-            heartMin = MinHeartField.text
-        }*/
         var gpsInt: Int
         var alertInt: Int
         if GPSSwitch.isOn {
             gpsInt = 1
-            print("GPS on")
         }
         else {
             gpsInt = 0
-            print("GPS off")
         }
         if AlertSwitch.isOn {
             alertInt = 1
-            print("alerts on")
         }
         else {
             alertInt = 0
-            print("alerts off")
         }
         return [
-            // figure out how date works
+            // figure out how date works?
             //let currentDate = Date()
             //"date" : NSString(Date()),
             "minHeart" : MinHeartField.text! as NSString,
@@ -159,7 +130,6 @@ class SettingsViewController: UIViewController {
         ]
     }
     func registerForFireBaseUpdates() {
-        print("Registering for updates")
         self.databaseRef!.child("Settings").observe(.value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = Settings()
@@ -186,7 +156,6 @@ class SettingsViewController: UIViewController {
                     }
                 }
                 if let _ = self.mostRecent {
-                    print("Going to update, gps is \(tmpItem.gps) and alert is \(tmpItem.alert).")
                     self.updateFields()
                 }
             }})
@@ -202,21 +171,18 @@ class SettingsViewController: UIViewController {
         
         if mostRecent?.alert == 1 {
             AlertSwitch.setOn(true, animated: true)
-            print("Most recent alert was on, so turning switch on.")
         }
         else {
             AlertSwitch.setOn(false, animated: true)
-            print("Most recent alert was off, so turning switch off.")
         }
         self.changeAlertStatus()
         if mostRecent?.gps == 1 {
             GPSSwitch.setOn(true, animated: true)
-            print("Most recent gps was on, so turning switch on.")
         }
         else {
             GPSSwitch.setOn(false, animated: true)
-            print("Most recent gps was off, so turning switch off.")
         }
+        self.changeGPSStatus()
     }
     
     
@@ -227,12 +193,22 @@ class SettingsViewController: UIViewController {
     
     @IBAction func gpsChanged(_ sender: UISwitch) {
         self.saveAll()
+        changeGPSStatus()
     }
     
     
     @IBAction func clearAllData(_ sender: UIButton) {
         // TO DO
         // probably want to figure out how to present the user with an "are you sure?" window
+        // do I need guard statements around here/will there ever be an issue with this?
+        let settingsDatabaseRef = Database.database().reference(withPath: "\(userId!)/Settings")
+        //let logDatabaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
+        settingsDatabaseRef.removeValue()
+        //logDatabaseRef.removeValue()
+        
+        // fields not updating? Not sure if should actually do something else
+        mostRecent = Settings()
+        updateFields()
     }
     
     func changeAlertStatus() {
@@ -241,8 +217,6 @@ class SettingsViewController: UIViewController {
         MaxTempField.isEnabled = enabled
         MinHeartField.isEnabled = enabled
         MaxHeartField.isEnabled = enabled
-        HoursField.isEnabled = enabled
-        MinutesField.isEnabled = enabled
         
         var color: UIColor
         if AlertSwitch.isOn {
@@ -256,6 +230,21 @@ class SettingsViewController: UIViewController {
         MaxTempField.textColor = color
         MinHeartField.textColor = color
         MaxHeartField.textColor = color
+    }
+    
+    func changeGPSStatus() {
+        let enabled = GPSSwitch.isOn
+        HoursField.isEnabled = enabled
+        MinutesField.isEnabled = enabled
+        
+        var color: UIColor
+        if GPSSwitch.isOn {
+            color = UIColor.black
+        }
+        else {
+            color = UIColor.gray
+        }
+        
         HoursField.textColor = color
         MinutesField.textColor = color
     }
