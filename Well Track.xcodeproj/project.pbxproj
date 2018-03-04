@@ -38,6 +38,7 @@
 		E920D632BBC54814AAF0D76A /* Pods_Well_Track.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E73E925338FC6B4D0C46D5D /* Pods_Well_Track.framework */; };
 		FA301786204229F700ED8151 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA301785204229F700ED8151 /* Settings.swift */; };
 		FA9D25A02038D988000123A7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9D259F2038D988000123A7 /* SettingsViewController.swift */; };
+		FAA5A4D72049DE5800A92C7A /* ClearDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA5A4D62049DE5800A92C7A /* ClearDataViewController.swift */; };
 		FD6A87AF51D49B8F3044F206 /* Pods_Well_TrackUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76633BB32FB1D99CCA9EB4 /* Pods_Well_TrackUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +104,7 @@
 		ECAFF3B483D483AC94D6CEFC /* Pods-Well Track.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well Track.release.xcconfig"; path = "Pods/Target Support Files/Pods-Well Track/Pods-Well Track.release.xcconfig"; sourceTree = "<group>"; };
 		FA301785204229F700ED8151 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		FA9D259F2038D988000123A7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		FAA5A4D62049DE5800A92C7A /* ClearDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDataViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +235,7 @@
 				65A90CCE203A2CA000C61A96 /* WellTrackTableViewCell.swift */,
 				65A90CD0203A6D0D00C61A96 /* LogInformationViewController.swift */,
 				FA9D259F2038D988000123A7 /* SettingsViewController.swift */,
+				FAA5A4D62049DE5800A92C7A /* ClearDataViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAA5A4D72049DE5800A92C7A /* ClearDataViewController.swift in Sources */,
 				655DBDB92023AEAB000E9B03 /* LogCreationViewController.swift in Sources */,
 				6558FF68202F9EFE005093A4 /* CameraViewController.swift in Sources */,
 				655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */,

@@ -211,6 +211,7 @@ class SettingsViewController: UIViewController {
         updateFields()
     }
     
+    
     func changeAlertStatus() {
         let enabled = AlertSwitch.isOn
         MinTempField.isEnabled = enabled
