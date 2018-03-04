@@ -14,6 +14,7 @@ public enum CameraPosition {
     case back
 }
 
+/// Custom camera view controller for adding media to the well track health logs. Media includes both video and photos. Media capture type is determined by the view controller which instantiates this controller. Default capture is photo. Permissions to both camera devices and audio capture devices is required before the camera can be used.
 class CameraViewController: UIViewController {
 
     var captureSession: AVCaptureSession?
@@ -40,7 +41,7 @@ class CameraViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //Beginning of the setup cycle.
         checkPermissions()
     }
     
@@ -132,6 +133,7 @@ class CameraViewController: UIViewController {
         }
     }
     
+    /// Function to check whether the application has permissions to access the necessary devices and features.
     func checkPermissions() {
         let cameraMediaType = AVMediaType.video
         let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: cameraMediaType)
@@ -158,6 +160,8 @@ class CameraViewController: UIViewController {
         }
     }
     
+    
+    /// Function creates a new capture session and prepares it according to the type of media being captured.
     func prepareSession() {
         captureSession = AVCaptureSession()
         if self.videoCap {
@@ -168,6 +172,7 @@ class CameraViewController: UIViewController {
         prepareDevices()
     }
     
+    /// Function to get all of the necessary device references and the fields coresponding to that device.
     func prepareDevices() {
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.unspecified)
         let devices = discoverySession.devices
@@ -187,6 +192,7 @@ class CameraViewController: UIViewController {
         prepareInputOutput()
     }
     
+    /// Prepares the capture session output according to the media type being captured along with providing the input references to the capture session.
     func prepareInputOutput() {
         do {
             if !videoCap {
@@ -215,6 +221,8 @@ class CameraViewController: UIViewController {
         startCapture()
     }
     
+    
+    /// Function which finalizes and begins capture session by displaying a preview on a new preview layer.
     func startCapture() {
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
         videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -225,6 +233,9 @@ class CameraViewController: UIViewController {
         captureSession?.startRunning()
     }
     
+    /// Called when the camera flip button has been pressed to change which device is being provided as the input/output of the capture session.
+    ///
+    /// - Parameter sender: Flip camera button.
     @IBAction func cameraFlip(_ sender: Any) {
         if captureSession!.isRunning {
             captureSession?.beginConfiguration()
@@ -256,6 +267,9 @@ class CameraViewController: UIViewController {
         
     }
     
+    /// Attempts to instantiate a new media preview view controller with presets according to the type of media being displayed.
+    ///
+    /// - Parameter media: An optional representing the media being displayed.
     func previewMedia(media: Any?) {
         let previewController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as? PreviewViewController
         if let photo = media as? UIImage {
@@ -267,6 +281,10 @@ class CameraViewController: UIViewController {
         self.navigationController?.pushViewController(previewController!, animated: true)
     }
     
+    
+    /// Function to determine the current orientation of the device to properly display the image on the preview layer.
+    ///
+    /// - Returns: Returns an orientation object for the current capture device.
     func currentVideoOrientation() -> AVCaptureVideoOrientation {
         var orientation: AVCaptureVideoOrientation
         
@@ -284,6 +302,9 @@ class CameraViewController: UIViewController {
         return orientation
     }
     
+    /// Attempts to create a new URL object which is wrapped in an optional. May be nil if new URL cannot be created.
+    ///
+    /// - Returns: URL optional, nil if directory cannot be accessed.
     func tempURL() -> URL? {
         let directory = NSTemporaryDirectory() as NSString
         
@@ -295,6 +316,7 @@ class CameraViewController: UIViewController {
         return nil
     }
     
+    /// Helper function to display a message to the user if permissions have not been properly set for the application.
     func displaySettingsAlert() {
         let avc = UIAlertController(title: "Camera Permission Required",
                                     message: "Well Track needs permissions to the camera and microphone to add those features to Log creation. You can change permissions by going to the settings app and going to Privacy -> Camera", preferredStyle: .alert)
@@ -311,12 +333,16 @@ class CameraViewController: UIViewController {
     }
 }
 
+
+// MARK: - Capture Delegate to handle and receive updates on the status of a photo capture for the capture session.
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard error == nil, let dataBuffer = photo.fileDataRepresentation() else {return}
         previewMedia(media: UIImage.init(data: dataBuffer))
     }
 }
+
+// MARK: - Capture Delegate to handle and receive updates on the status of a video capture for the current capture session.
 extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
         

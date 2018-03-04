@@ -9,6 +9,8 @@
 import UIKit
 import FirebaseStorage
 
+
+/// View controller which handles the storage and presentation of the photo feature of the well track app. Controllers allows users to add photos and remove existing ones from the current health log.
 class PhotoSegmentViewController: UIViewController {
 
     @IBOutlet weak var removeButton: UIButton!
@@ -29,6 +31,10 @@ class PhotoSegmentViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /// If remove button is pressed the current photo is discarded and the add photo options are displayed to the user in the segment.
+    ///
+    /// - Parameter sender: The remove photo button.
     @IBAction func removePressed(_ sender: UIButton) {
         image = nil
         photo.image = nil
@@ -40,6 +46,8 @@ class PhotoSegmentViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //If there is a current log this will retrieve the photo from firebase storage
+        //so long as it is less than 16MB in size. (Most photos stored are between 1-3MB)
         if infoView {
             if let info = log, info.hasPicture == 1 {
                 let storageRef = Storage.storage().reference(forURL: info.pictureURL!)
@@ -72,6 +80,10 @@ class PhotoSegmentViewController: UIViewController {
         }
     }
     
+    
+    /// Adds the provided image to the UIImageView.
+    ///
+    /// - Parameter image: Image to display in the UIImageView.
     func setImage(image: UIImage?) {
         self.image = image
         self.photo.image = image

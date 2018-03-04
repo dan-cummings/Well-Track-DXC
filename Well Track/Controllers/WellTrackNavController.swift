@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import FirebaseDatabase
 
+/// Navigation controller to act as the root of each tab item in the well track app.
 class WellTrackNavController: UINavigationController {
     
     var uid: String?

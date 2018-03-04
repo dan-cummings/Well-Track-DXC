@@ -22,12 +22,8 @@
 		6558FF6A202FA0C6005093A4 /* PhotoSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6558FF69202FA0C6005093A4 /* PhotoSegmentViewController.swift */; };
 		6558FF6C2030A1BE005093A4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6558FF6B2030A1BE005093A4 /* PreviewViewController.swift */; };
 		655DBDB02023AD52000E9B03 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */; };
-		655DBDB12023AD52000E9B03 /* HomePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */; };
-		655DBDB82023AEAB000E9B03 /* LogHistoryTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */; };
 		655DBDB92023AEAB000E9B03 /* LogCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */; };
-		655DBDBA2023AEAB000E9B03 /* LogCreationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB42023AEAB000E9B03 /* LogCreationViewController.xib */; };
 		655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */; };
-		655DBDBC2023AEAB000E9B03 /* LandingPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */; };
 		655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */; };
 		65A90CC920387FD400C61A96 /* VideoSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A90CC820387FD400C61A96 /* VideoSegmentViewController.swift */; };
 		65A90CCB2039D25100C61A96 /* TextSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A90CCA2039D25100C61A96 /* TextSegmentViewController.swift */; };
@@ -83,12 +79,8 @@
 		6558FF69202FA0C6005093A4 /* PhotoSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSegmentViewController.swift; sourceTree = "<group>"; };
 		6558FF6B2030A1BE005093A4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		655DBDAE2023AD52000E9B03 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
-		655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomePageViewController.xib; sourceTree = "<group>"; };
-		655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogHistoryTableViewController.xib; sourceTree = "<group>"; };
 		655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogCreationViewController.swift; sourceTree = "<group>"; };
-		655DBDB42023AEAB000E9B03 /* LogCreationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogCreationViewController.xib; sourceTree = "<group>"; };
 		655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHistoryTableViewController.swift; sourceTree = "<group>"; };
-		655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandingPageViewController.xib; sourceTree = "<group>"; };
 		655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
 		65A90CC820387FD400C61A96 /* VideoSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSegmentViewController.swift; sourceTree = "<group>"; };
 		65A90CCA2039D25100C61A96 /* TextSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSegmentViewController.swift; sourceTree = "<group>"; };
@@ -167,10 +159,6 @@
 		650BEE85201D49DF001AFB19 /* Well Track */ = {
 			isa = PBXGroup;
 			children = (
-				655DBDB62023AEAB000E9B03 /* LandingPageViewController.xib */,
-				655DBDB42023AEAB000E9B03 /* LogCreationViewController.xib */,
-				655DBDB22023AEAB000E9B03 /* LogHistoryTableViewController.xib */,
-				655DBDAF2023AD52000E9B03 /* HomePageViewController.xib */,
 				650BEE86201D49DF001AFB19 /* AppDelegate.swift */,
 				650BEE88201D49DF001AFB19 /* ViewController.swift */,
 				650BEE8A201D49DF001AFB19 /* Main.storyboard */,
@@ -357,11 +345,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				655DBDB82023AEAB000E9B03 /* LogHistoryTableViewController.xib in Resources */,
 				652E21EF202648C400E455B7 /* GoogleService-Info.plist in Resources */,
-				655DBDB12023AD52000E9B03 /* HomePageViewController.xib in Resources */,
-				655DBDBC2023AEAB000E9B03 /* LandingPageViewController.xib in Resources */,
-				655DBDBA2023AEAB000E9B03 /* LogCreationViewController.xib in Resources */,
 				650BEE91201D49DF001AFB19 /* LaunchScreen.storyboard in Resources */,
 				650BEE8E201D49DF001AFB19 /* Assets.xcassets in Resources */,
 				650BEE8C201D49DF001AFB19 /* Main.storyboard in Resources */,

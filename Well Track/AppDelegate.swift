@@ -9,16 +9,17 @@
 import UIKit
 import Firebase
 import IQKeyboardManagerSwift
+import GooglePlaces
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         IQKeyboardManager.sharedManager().enable = true
+        GMSPlacesClient.provideAPIKey("AIzaSyDQ-gdurf1DqwXsik-l8aKJoBXTk3kgFlI")
         return true
     }
 

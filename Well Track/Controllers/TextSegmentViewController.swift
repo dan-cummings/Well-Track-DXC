@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// View controller for the text segment of the log creation view controller.
 class TextSegmentViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextView!

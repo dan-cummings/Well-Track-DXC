@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// View controller to display health log information with more detail. Contains views for video and photos along with extra text information.
 class LogInformationViewController: UIViewController {
     @IBOutlet weak var heartRateLabel: UILabel!
     @IBOutlet weak var moodLabel: UILabel!
@@ -64,6 +65,10 @@ class LogInformationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /// Instantiates log creation view and passes a health log to it which indicates edits will be made on the provided log.
+    ///
+    /// - Parameter sender: The button sending the action.
     @IBAction func editLogPressed(_ sender: Any) {
         let editView = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LogCreation") as! LogCreationViewController
         editView.delegate = self
@@ -119,6 +124,7 @@ class LogInformationViewController: UIViewController {
 
 extension LogInformationViewController: LogCreationViewDelegate {
     func saveLog(log: HealthLog, picture: UIImage?, video: URL?) {
+        //Passes delegate call.
         delegate?.saveLog(log: log, picture: picture, video: video)
         self.navigationController?.popViewController(animated: true)
     }
