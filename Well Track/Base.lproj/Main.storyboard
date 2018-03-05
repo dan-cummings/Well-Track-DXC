@@ -522,7 +522,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3iU-JJ-Q5y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="328.80000000000001" y="2295.2023988005999"/>
+            <point key="canvasLocation" x="318" y="2295"/>
         </scene>
         <!--Preview View Controller-->
         <scene sceneID="vcl-M6-n2K">
@@ -562,7 +562,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u62-PO-H1p" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="T1b-AG-tuN" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="998" y="2296"/>
+            <point key="canvasLocation" x="958" y="2294"/>
         </scene>
         <!--Well TrackUI Tab Controller-->
         <scene sceneID="AFJ-OO-BJy">
@@ -575,13 +575,14 @@
                     </tabBar>
                     <connections>
                         <segue destination="vJO-xb-frm" kind="presentation" identifier="loginSegue" id="0vd-OK-9zW"/>
-                        <segue destination="Mwz-hd-8Nu" kind="relationship" relationship="viewControllers" id="epA-jg-jJ2"/>
                         <segue destination="8pL-VZ-3vF" kind="relationship" relationship="viewControllers" id="LxI-hV-cbP"/>
+                        <segue destination="Mwz-hd-8Nu" kind="relationship" relationship="viewControllers" id="epA-jg-jJ2"/>
+                        <segue destination="0aN-aJ-vDs" kind="relationship" relationship="viewControllers" id="uau-Wm-itD"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cCZ-gS-mYW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-583" y="-394"/>
+            <point key="canvasLocation" x="-676" y="-394"/>
         </scene>
         <!--Landing Page View Controller-->
         <scene sceneID="iWo-SQ-jcB">
@@ -669,7 +670,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dFU-IW-iTR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="232.80000000000001" y="-394.45277361319341"/>
+            <point key="canvasLocation" x="318" y="-394"/>
         </scene>
         <!--Registration View Controller-->
         <scene sceneID="d9h-Gb-95r">
@@ -767,7 +768,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3DR-z6-mmI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="I7m-sL-TzK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="946" y="-394"/>
+            <point key="canvasLocation" x="1151" y="-394"/>
         </scene>
         <!--Log Information-->
         <scene sceneID="Cjj-FA-28H">
@@ -1193,7 +1194,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Y2-w4-aP4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="986" y="1778"/>
+            <point key="canvasLocation" x="945" y="1778"/>
         </scene>
         <!--Recent-->
         <scene sceneID="wZ1-D3-NY9">
@@ -1215,6 +1216,91 @@
             </objects>
             <point key="canvasLocation" x="311.19999999999999" y="393.55322338830587"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="bbN-F4-lM6">
+            <objects>
+                <viewController id="gNX-UH-Efk" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lhk-zB-nYS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9gG-lV-wf9">
+                                <rect key="frame" x="0.0" y="64" width="375" height="332"/>
+                                <connections>
+                                    <segue destination="Woe-VN-PVE" kind="embed" id="AJc-kd-sHf"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mgi-Nl-9c1">
+                                <rect key="frame" x="0.0" y="396" width="375" height="222"/>
+                                <connections>
+                                    <segue destination="HZZ-sb-D7U" kind="embed" id="YxN-V7-eOQ"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="juw-2S-4v1" firstAttribute="bottom" secondItem="Mgi-Nl-9c1" secondAttribute="bottom" id="3G1-4L-ZoI"/>
+                            <constraint firstItem="Mgi-Nl-9c1" firstAttribute="height" secondItem="lhk-zB-nYS" secondAttribute="height" multiplier="1:3" id="7Ql-6r-1ph"/>
+                            <constraint firstItem="juw-2S-4v1" firstAttribute="trailing" secondItem="9gG-lV-wf9" secondAttribute="trailing" id="Erf-VB-5n2"/>
+                            <constraint firstItem="9gG-lV-wf9" firstAttribute="top" secondItem="juw-2S-4v1" secondAttribute="top" id="Kt5-YG-jOH"/>
+                            <constraint firstItem="Mgi-Nl-9c1" firstAttribute="top" secondItem="9gG-lV-wf9" secondAttribute="bottom" id="kgo-3d-Ga4"/>
+                            <constraint firstItem="Mgi-Nl-9c1" firstAttribute="leading" secondItem="juw-2S-4v1" secondAttribute="leading" id="ljF-1K-oiH"/>
+                            <constraint firstItem="9gG-lV-wf9" firstAttribute="leading" secondItem="juw-2S-4v1" secondAttribute="leading" id="mDN-No-uNi"/>
+                            <constraint firstItem="juw-2S-4v1" firstAttribute="trailing" secondItem="Mgi-Nl-9c1" secondAttribute="trailing" id="qLt-kQ-M0f"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="juw-2S-4v1"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qMv-jr-qSn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bwi-kn-sjx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2223.1999999999998" y="400.74962518740631"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="Fnn-bw-0LP">
+            <objects>
+                <tableViewController id="HZZ-sb-D7U" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="V22-Bc-760">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="222"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="bo3-lq-IA4">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bo3-lq-IA4" id="Jk6-Cg-S9w">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="HZZ-sb-D7U" id="Jcm-YN-he9"/>
+                            <outlet property="delegate" destination="HZZ-sb-D7U" id="Ie0-Sg-OdV"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Mw-dh-Oup" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2871" y="607"/>
+        </scene>
+        <!--Location-->
+        <scene sceneID="2B6-po-307">
+            <objects>
+                <navigationController id="0aN-aJ-vDs" customClass="WellTrackNavController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Location" image="Location" id="Unv-nH-0Vg"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="grj-2m-6Li">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="gNX-UH-Efk" kind="relationship" relationship="rootViewController" id="wu1-31-rnA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y2s-4t-1xy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1471" y="394"/>
+        </scene>
         <!--Logs-->
         <scene sceneID="mu8-ge-KWb">
             <objects>
@@ -1235,6 +1321,20 @@
             </objects>
             <point key="canvasLocation" x="-676" y="394"/>
         </scene>
+        <!--Google Map View Controller-->
+        <scene sceneID="hVd-vO-y1H">
+            <objects>
+                <viewController id="Woe-VN-PVE" customClass="GoogleMapViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DRC-cL-vRt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="332"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N3N-S5-jO9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2870" y="311"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Bad" width="75" height="75"/>
@@ -1244,6 +1344,7 @@
         <image name="Good" width="75" height="75"/>
         <image name="Great" width="75" height="75"/>
         <image name="Heart" width="75" height="75"/>
+        <image name="Location" width="25" height="25"/>
         <image name="Log" width="25" height="25"/>
         <image name="Logo" width="400" height="400"/>
         <image name="Plus" width="25" height="25"/>

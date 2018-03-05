@@ -30,6 +30,10 @@ class LogHistoryTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let parent = self.parent as? WellTrackNavController {
             if parent.uid != nil {
                 uid = parent.uid
