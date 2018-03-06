@@ -55,7 +55,6 @@ class SettingsViewController: UIViewController {
     }
     
     func saveAll() {
-        print("Entered save all")
         guard let database = databaseRef else {
             print("Database/storage error")
             return

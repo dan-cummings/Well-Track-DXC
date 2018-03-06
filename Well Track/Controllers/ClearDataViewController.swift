@@ -49,12 +49,8 @@ class ClearDataViewController: UIViewController {
     @IBAction func clearSomeData(_ sender: UIButton) {
         let startDate = fromDate.date
         let endDate = toDate.date
-        // test to see if we can clear logs from one time to another
-        // from StackOverflow https://stackoverflow.com/questions/24089999/how-do-you-create-a-swift-date-object
-        //let formatter = DateFormatter()
-        //formatter.dateFormat = "MM/dd/yyyy-HH:mm"
-        //let dateCheck = formatter.date(from: "02/28/2018-16:00")
-        self.databaseRef!.child("Logs").observe(.value, with: { snapshot in
+
+        self.databaseRef!.child("Logs").observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = HealthLog()
                 for (_,val) in values.enumerated() {
@@ -71,6 +67,7 @@ class ClearDataViewController: UIViewController {
                 }
             }
         })
+        
     }
     
     /*
