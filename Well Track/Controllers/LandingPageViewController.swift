@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 
+/// Controller for the sign in screen.
 class LandingPageViewController: UIViewController {
 
     @IBOutlet weak var passwordField: UITextField!
@@ -30,6 +31,10 @@ class LandingPageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /// Attempts to log the user in with the input information.
+    ///
+    /// - Parameter sender: The button connected to this action.
     @IBAction func signinPressed(_ sender: Any) {
         if let email = emailField.text {
             if let password = passwordField.text {
@@ -49,6 +54,10 @@ class LandingPageViewController: UIViewController {
         Auth.auth().removeStateDidChangeListener(handle!)
     }
     
+    
+    /// Function to display errors in login attempts.
+    ///
+    /// - Parameter msg: Message describing the error that occured.
     func reportError(msg: String) {
         let alert = UIAlertController(title: "Login Failed", message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import FirebaseStorage
 
+/// View Controller for the video segment of the log creation to handle displaying or adding a video to this log item.
 class VideoSegmentViewController: UIViewController {
 
     
@@ -29,7 +30,6 @@ class VideoSegmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
@@ -115,6 +115,10 @@ class VideoSegmentViewController: UIViewController {
         }
     }
     
+    
+    /// Helper function which is called when a log is being viewed in more detail.
+    ///
+    /// - Parameter info: The log that is being displayed.
     func setupForInfoView(_ info: HealthLog) {
         if info.hasVideo == 1 {
             let storageRef = Storage.storage().reference(forURL: info.videoURL!)
@@ -142,6 +146,10 @@ class VideoSegmentViewController: UIViewController {
         }
     }
     
+    
+    /// Function to get a new temporary URL object.
+    ///
+    /// - Returns: Temporary URL optional.
     func tempURL() -> URL? {
         let directory = NSTemporaryDirectory() as NSString
         

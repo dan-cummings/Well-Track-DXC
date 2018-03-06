@@ -13,6 +13,7 @@ protocol RegistrationDelegate {
     func populateFields();
 }
 
+/// View controller for the registration view.
 class RegistrationViewController: UIViewController{
     
     @IBOutlet weak var confirmPassField: UITextField!
@@ -28,6 +29,9 @@ class RegistrationViewController: UIViewController{
         super.viewWillAppear(animated)
     }
     
+    /// Action function to attempt to register the new user using the fields.
+    ///
+    /// - Parameter sender: Reference to the register button.
     @IBAction func registerPressed(_ sender: Any) {
         let errors: [String] = self.validateFields()
         if errors.isEmpty {
@@ -60,12 +64,18 @@ class RegistrationViewController: UIViewController{
         self.dismiss(animated: true, completion: nil)
     }
     
+    /// Function to display error message that is passed to the function.
+    ///
+    /// - Parameter msg: Error message to be displayed.
     func reportError(msg: String) {
         let alert = UIAlertController(title: "Registration Failed", message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
+    /// Function to validate the registration fields to ensure proper creation of firebase user.
+    ///
+    /// - Returns: A list of errors for the field.
     func validateFields() -> [String] {
          var values: [String] = []
         guard let email = emailField.text else {
@@ -89,6 +99,10 @@ class RegistrationViewController: UIViewController{
         return values
     }
     
+    /// Validates the email field to return true if it matches the email regex.
+    ///
+    /// - Parameter candidate: The email which needs validation.
+    /// - Returns: True if email is valid, otherwise false.
     func validateEmail(candidate: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: candidate)

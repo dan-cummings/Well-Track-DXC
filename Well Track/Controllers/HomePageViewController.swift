@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
+/// The home page to display the most recent log that was added and act as the hub for the user settings.
 class HomePageViewController: UIViewController {
 
     @IBOutlet weak var noLogsLabel: UILabel!
@@ -44,6 +45,7 @@ class HomePageViewController: UIViewController {
         }
     }
     
+    /// Function to set up the view controller to receive updates from firebase.
     fileprivate func registerForFireBaseUpdates() {
         self.databaseRef!.observe(.value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
@@ -80,6 +82,8 @@ class HomePageViewController: UIViewController {
             }})
     }
 
+    
+    /// Updates the view to display the log information.
     func updateFields() {
         switch mostRecent!.moodrating {
         case "Fine":
@@ -113,6 +117,7 @@ class HomePageViewController: UIViewController {
         healthRatingImage.isHidden = false
     }
     
+    /// Helper function to prepare the reference to the firebase database.
     func startFirebase() {
         if let uid = userId {
             databaseRef = Database.database().reference(withPath: "\(uid)/Logs")
@@ -129,6 +134,9 @@ class HomePageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /// Handles when the user logs out of the app.
+    ///
+    /// - Parameter sender: The button connected to this action.
     @IBAction func logoutPressed(_ sender: Any) {
         do {
             try Auth.auth().signOut()

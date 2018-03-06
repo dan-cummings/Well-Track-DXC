@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+/// View Controller to handle displaying media from the camera view controller.
 class PreviewViewController: UIViewController {
 
     @IBOutlet weak var photo: UIImageView!
@@ -24,6 +25,7 @@ class PreviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Sets up the video preview layer if a video is passed.
         if videoPreview {
             photo.isHidden = true
             playerLayer = AVPlayerLayer(player: player)
@@ -34,7 +36,7 @@ class PreviewViewController: UIViewController {
             let playItem = AVPlayerItem(url: videoURL!)
             player.replaceCurrentItem(with: playItem)
             playerLooper = AVPlayerLooper(player: player, templateItem: playItem)
-            
+            // Automatic loop on video.
             player.play()
         }
         
