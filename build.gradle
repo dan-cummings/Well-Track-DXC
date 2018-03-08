@@ -35,7 +35,7 @@ def cert_password = getPassword('ios-digitalservices-dev')
 // ToDo: Set up in HockeyApp, get token and id, put token in credstash
 
 def hockeyapp_token = getPassword('welltrack-devtoken')
-def hockeyapp_appid = ""
+def hockeyapp_appid = "350e5d0946414eaaa6d978025b38c173"
 
 def minorVersion = System.getenv('BUILD_NUMBER') as Integer ?: 999
 def appVersion = '1.0.' + minorVersion as String
