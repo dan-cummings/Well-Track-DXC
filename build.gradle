@@ -45,9 +45,11 @@ def defaultEnvironment = 'Debug'
 def environment = defaultEnvironment
 def configuration = 'Debug'
 
-ext.systemProperties = System.properties
-println "System property DEPLOY_ENVIRONMENT is ${systemProperties.DEPLOY_ENVIRONMENT}"
-  
+def systemProperties = System.getProperties()
+systemProperties.each {
+    println "${it}"
+}
+
 if (System.properties['DEPLOY_ENVIRONMENT'] != null) {
 	println 'In environment check'
 	environment = System.properties['DEPLOY_ENVIRONMENT'].toString()
