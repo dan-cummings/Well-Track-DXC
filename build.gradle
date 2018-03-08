@@ -44,6 +44,8 @@ def currentPath = file(".")
 def defaultEnvironment = 'Debug'
 def environment = defaultEnvironment
 def configuration = 'Debug'
+
+println System.properties
   
 if (System.properties['DEPLOY_ENVIRONMENT'] != null) {
 	println 'In environment check'
@@ -53,6 +55,8 @@ if (System.properties['DEPLOY_ENVIRONMENT'] != null) {
 	} else {
 		configuration = environment
 	}
+} else {
+	println 'environment is null'
 }
 
 xcodebuild {
