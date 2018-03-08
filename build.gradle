@@ -45,21 +45,14 @@ def defaultEnvironment = 'Debug'
 def environment = defaultEnvironment
 def configuration = 'Debug'
 
-def systemProperties = System.getProperties()
-systemProperties.each {
-    println "${it}"
-}
 
 if (System.properties['DEPLOY_ENVIRONMENT'] != null) {
-	println 'In environment check'
 	environment = System.properties['DEPLOY_ENVIRONMENT'].toString()
 	if(environment == 'Test') {
 		configuration = 'Release'
 	} else {
 		configuration = environment
 	}
-} else {
-	println 'environment is null'
 }
 
 xcodebuild {
