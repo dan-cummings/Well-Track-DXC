@@ -324,7 +324,7 @@
 				TargetAttributes = {
 					650BEE82201D49DF001AFB19 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					650BEE96201D49DF001AFB19 = {
 						CreatedOnToolsVersion = 9.2;
@@ -745,12 +745,14 @@
 			baseConfigurationReference = CBED522CB310D4AA616681D7 /* Pods-Well Track.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2NE92YFLLT;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
 				INFOPLIST_FILE = "Well Track/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "GVSU-Capstone.Well-Track";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8e3706c8-470f-4b97-ac0c-1c8d7f0df04d";
+				PROVISIONING_PROFILE_SPECIFIER = "USPS GVSU Well Track";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -761,12 +763,14 @@
 			baseConfigurationReference = ECAFF3B483D483AC94D6CEFC /* Pods-Well Track.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2NE92YFLLT;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
 				INFOPLIST_FILE = "Well Track/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "GVSU-Capstone.Well-Track";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8e3706c8-470f-4b97-ac0c-1c8d7f0df04d";
+				PROVISIONING_PROFILE_SPECIFIER = "USPS GVSU Well Track";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
