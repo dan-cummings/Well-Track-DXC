@@ -46,7 +46,7 @@ def environment = defaultEnvironment
 def configuration = 'Debug'
 
 ext.systemProperties = System.properties
-println “System property DEPLOY_ENVIRONMENT is ${systemProperties.DEPLOY_ENVIRONMENT}”
+println "System property DEPLOY_ENVIRONMENT is ${systemProperties.DEPLOY_ENVIRONMENT}"
   
 if (System.properties['DEPLOY_ENVIRONMENT'] != null) {
 	println 'In environment check'
