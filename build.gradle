@@ -45,11 +45,10 @@ def defaultEnvironment = 'Debug'
 def environment = defaultEnvironment
 def configuration = 'Debug'
 
-println System.properties
   
-if (System.properties['BUILD_TYPE'] != null) {
+if (System.properties['DEPLOY_ENVIRONMENT'] != null) {
 	println 'In environment check'
-	environment = System.properties['BUILD_TYPE'].toString()
+	environment = System.properties['DEPLOY_ENVIRONMENT'].toString()
 	if(environment == 'Test') {
 		configuration = 'Release'
 	} else {
