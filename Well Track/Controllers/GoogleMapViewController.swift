@@ -15,6 +15,7 @@ class GoogleMapViewController: UIViewController {
     var locationManager: CLLocationManager!
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
+    var markerList: [GMSMarker] = []
     var zoomLevel: Float = 15.0
     
     override func viewDidLoad() {
@@ -31,7 +32,30 @@ class GoogleMapViewController: UIViewController {
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view = mapView
         mapView.isHidden = true
+    }
+    
+    /// Helper function to take a list of location objects and populate the google map with markers. This function clears all markup on the map.
+    ///
+    /// - Parameter marks: Collection of Location objects to add to the google map.
+    func updateMarkers(_ marks: [LocationObject]) {
         
+        if marks.isEmpty {
+            return
+        }
+        
+        mapView.clear()
+        let path = GMSMutablePath()
+        for location in marks {
+            let mark = GMSMarker(position: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
+            mark.title = location.name
+            mark.snippet = location.snippet
+            mark.map = mapView
+            path.add(CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
+        }
+        let polyline = GMSPolyline(path: path)
+        let gradient = GMSStrokeStyle.gradient(from: .red, to: .blue)
+        polyline.spans = [GMSStyleSpan(style: gradient)]
+        polyline.map = mapView
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,11 +104,9 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             fallthrough
         case .authorizedWhenInUse:
             print("Location service OK.")
-        default:
-            break
-            //Do nothing
         }
     }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         manager.stopUpdatingLocation()
         print("error: \(error.localizedDescription)")

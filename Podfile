@@ -7,8 +7,7 @@ target 'Well Track' do
 
   # Pods for Well Track
   pod 'IQKeyboardManagerSwift'
-  pod 'Eureka', '~> 4.0'
-  pod 'GoogleMaps', '~> 2.5'
+  pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Firebase'
   pod 'Firebase/Auth'

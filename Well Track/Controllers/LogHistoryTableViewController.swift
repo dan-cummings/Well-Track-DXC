@@ -17,7 +17,7 @@ class LogHistoryTableViewController: UITableViewController {
     fileprivate var databaseRef: DatabaseReference?
     fileprivate var storageRef: StorageReference?
     
-    var tableViewData: [(sectionHeader: String, logs: HealthLog)]? {
+    var tableViewData: [(sectionHeader: String, logs: [HealthLog])]? {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -59,18 +59,22 @@ class LogHistoryTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return self.tableViewData?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return healthLogs.count
+        return self.tableViewData?[section].logs.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WellTrackTableViewCell
-
-        let log = self.healthLogs[indexPath.row]
+        
+        guard let log = self.tableViewData?[indexPath.section].logs[indexPath.row] else {
+            return cell
+        }
+        
+        //let log = self.healthLogs[indexPath.row]
         cell.log = log
         cell.temperatureLabel.text = log.temperature
         cell.heartRateLabel.text = log.heartrate
@@ -103,9 +107,16 @@ class LogHistoryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let infoView = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LogInformation") as! LogInformationViewController
-        infoView.log = self.healthLogs[indexPath.row]
+        guard let log = self.tableViewData?[indexPath.section].logs[indexPath.row] else {
+            return
+        }
+        infoView.log = log
         infoView.delegate = self
         self.navigationController?.pushViewController(infoView, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.tableViewData?[section].sectionHeader
     }
 
     /*
@@ -143,6 +154,7 @@ class LogHistoryTableViewController: UITableViewController {
     }
     */
     
+    
     fileprivate func registerForFireBaseUpdates() {
         self.databaseRef!.child("Logs").observe(.value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
@@ -166,9 +178,30 @@ class LogHistoryTableViewController: UITableViewController {
                                               hasPicture: hasPicture, pictureURL: pictureURL,
                                               hasVideo: hasVideo, videoURL: videoURL))
                 }
-                self.healthLogs = tmpItems
-                self.tableView.reloadData()
+                self.sortLogsIntoSections(tmpItems)
             }})
+    }
+
+    /// Helper function to sort the logs from firebase into sections based on their shortened dates.
+    ///
+    /// - Parameter logs: Collection of log objects to be sorted.
+    func sortLogsIntoSections(_ logs: [HealthLog]) {
+        var tempSorted = [String: [HealthLog]]()
+        for log in logs {
+            if let _ = tempSorted.index(forKey:(log.date?.short)!) {
+                tempSorted[(log.date?.short)!]?.append(log);
+            } else {
+                tempSorted[(log.date?.short)!] = [HealthLog]()
+                var sectLog = [HealthLog]()
+                sectLog.append(log)
+                tempSorted[(log.date?.short)!] = sectLog
+            }
+        }
+        var temp = [(sectionHeader: String, logs: [HealthLog])]()
+        for (date, sectLogs) in tempSorted {
+            temp.append((sectionHeader: date, logs: sectLogs))
+        }
+        tableViewData = temp
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

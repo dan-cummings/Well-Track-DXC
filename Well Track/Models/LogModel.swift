@@ -21,6 +21,7 @@ struct HealthLog {
     var pictureURL: String?
     var hasVideo: Int
     var videoURL: String?
+    
     init(key: String?, date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, pictureURL: String?, hasVideo: Int, videoURL: String?) {
         self.key = key
         self.date = date
