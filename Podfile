@@ -6,6 +6,7 @@ target 'Well Track' do
   use_frameworks!
 
   # Pods for Well Track
+  pod 'MGSwipeTableCell'
   pod 'IQKeyboardManagerSwift'
   pod 'GoogleMaps'
   pod 'GooglePlaces'

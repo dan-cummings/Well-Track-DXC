@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
-class WellTrackTableViewCell: UITableViewCell {
+class WellTrackTableViewCell: MGSwipeTableCell {
 
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var heartRateLabel: UILabel!

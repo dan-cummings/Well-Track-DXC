@@ -14,11 +14,17 @@ struct LocationObject {
     var lon: Double
     var snippet: String
     var name: String
+    var type: String
+    var from: Date
+    var to: Date
     
-    init(lat: Double, lon: Double, snippet: String, name: String) {
+    init(lat: Double, lon: Double, snippet: String, name: String, type: String, from: Date, to: Date) {
         self.lat = lat
         self.lon = lon
         self.snippet = snippet
         self.name = name
+        self.type = type
+        self.from = from
+        self.to = to
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseStorage
 import FirebaseAuth
 import FirebaseDatabase
+import MGSwipeTableCell
 
 class LogHistoryTableViewController: UITableViewController {
     
@@ -24,8 +25,6 @@ class LogHistoryTableViewController: UITableViewController {
             }
         }
     }
-    
-    var healthLogs : [HealthLog] = []
     
 
     override func viewDidLoad() {
@@ -59,11 +58,22 @@ class LogHistoryTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return self.tableViewData?.count ?? 0
+        if let count = self.tableViewData?.count {
+            tableView.backgroundView = nil
+            tableView.separatorStyle = .singleLine
+            return count
+        } else {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            label.text = "No data found"
+            label.textColor = .black
+            label.textAlignment = .center
+            tableView.backgroundView = label
+            tableView.separatorStyle = .none
+            return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return self.tableViewData?[section].logs.count ?? 0
     }
 
@@ -74,7 +84,6 @@ class LogHistoryTableViewController: UITableViewController {
             return cell
         }
         
-        //let log = self.healthLogs[indexPath.row]
         cell.log = log
         cell.temperatureLabel.text = log.temperature
         cell.heartRateLabel.text = log.heartrate
@@ -102,6 +111,10 @@ class LogHistoryTableViewController: UITableViewController {
         
         cell.moodImage.tintColor = .black
 
+        
+        //MG cell setup
+        cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: .red)]
+        cell.delegate = self
         return cell
     }
     
@@ -118,42 +131,6 @@ class LogHistoryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.tableViewData?[section].sectionHeader
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-    
     
     fileprivate func registerForFireBaseUpdates() {
         self.databaseRef!.child("Logs").observe(.value, with: { snapshot in
@@ -262,6 +239,28 @@ class LogHistoryTableViewController: UITableViewController {
         ]
     }
     
+    func removeFromFirebase(key: String?, ref: DatabaseReference, vals: HealthLog) {
+        if vals.hasVideo == 1 {
+            Storage.storage().reference(forURL: vals.videoURL!).delete(completion: { (error) in
+                if let _ = error {
+                    print("Media deletion error occurred")
+                } else {
+                    print("Media deleted")
+                }
+                })
+        }
+        if vals.hasPicture == 1 {
+            Storage.storage().reference(forURL: vals.pictureURL!).delete(completion: { (error) in
+                if let _ = error {
+                    print("Media deletion error occurred")
+                } else {
+                    print("Media deleted")
+                }
+                })
+        }
+        ref.child("Logs").child(key!).removeValue()
+    }
+    
     func saveLogToFirebase(key: String?, ref: DatabaseReference?, vals: NSMutableDictionary) -> DatabaseReference? {
         var child: DatabaseReference?
         if let k = key {
@@ -272,6 +271,17 @@ class LogHistoryTableViewController: UITableViewController {
             child?.setValue(vals)
         }
         return child
+    }
+}
+
+extension LogHistoryTableViewController: MGSwipeTableCellDelegate {
+    func swipeTableCell(_ cell: MGSwipeTableCell, tappedButtonAt index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
+        // Right now the only button is delete so we can simply call the delete on the cells log.
+        guard let selected = cell as? WellTrackTableViewCell else {
+            return false
+        }
+        self.removeFromFirebase(key: selected.log?.key, ref: self.databaseRef!, vals: selected.log!)
+        return true
     }
 }
 
@@ -322,6 +332,11 @@ extension Date {
             formatter.timeZone = TimeZone.current
             return formatter
         } ()
+        static let time: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            return formatter
+        } ()
     }
     
     var short: String {
@@ -330,6 +345,10 @@ extension Date {
     
     var iso8601: String {
         return Formatter.iso8601.string(from: self)
+    }
+    
+    var time: String {
+        return Formatter.time.string(from: self)
     }
 }
 

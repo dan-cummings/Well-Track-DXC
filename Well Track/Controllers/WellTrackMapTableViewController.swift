@@ -7,9 +7,18 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
 class WellTrackMapTableViewController: UITableViewController {
 
+    var tableViewData: [(sectionHeader: String, locations: [LocationObject])]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,7 +26,7 @@ class WellTrackMapTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,23 +38,40 @@ class WellTrackMapTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        if let count = self.tableViewData?.count {
+            tableView.backgroundView = nil
+            tableView.separatorStyle = .singleLine
+            return count
+        } else {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            label.text = "No data found"
+            label.textColor = .black
+            label.textAlignment = .center
+            tableView.backgroundView = label
+            tableView.separatorStyle = .none
+            return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return tableViewData?[section].locations.count ?? 0
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath) as! MapTableViewCell
+        guard let location = tableViewData?[indexPath.section].locations[indexPath.row] else {
+            return cell
+        }
+        cell.data = location
+        cell.locTitle.text = location.name
+        cell.locType.text = location.type
+        cell.from.text = "\(location.from.time) -"
+        cell.till.text = location.to.time
+        
+        cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: .red)]
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
