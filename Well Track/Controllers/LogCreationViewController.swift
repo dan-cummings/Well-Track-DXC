@@ -8,6 +8,8 @@
 //
 
 import UIKit
+import CoreLocation
+
 
 /// Delegate for Well Track log creation.
 protocol LogCreationViewDelegate {
@@ -17,7 +19,7 @@ protocol LogCreationViewDelegate {
     ///   - log: Health log to be saved.
     ///   - picture: Image optional to be used if log contains an image, possible nil.
     ///   - video: URL optional connected to video content if the log contains it, possible nil.
-    func saveLog(log: HealthLog, picture: UIImage?, video: URL?)
+    func saveLog(log: HealthLog, picture: UIImage?, video: URL?, latitude: Float?, longitude: Float?)
 }
 
 
@@ -57,6 +59,8 @@ class LogCreationViewController: UIViewController {
     var presetLog: HealthLog?
     var presetImage: UIImage?
     var presetVideo: URL?
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -232,16 +236,24 @@ class LogCreationViewController: UIViewController {
             let hasText = (textSegmentController?.hasBeenEdited)! ? 1 : 0
             let hasVideo = videoSegmentController?.video != nil ? 1 : 0
             let hasPicture = photoSegmentController?.image != nil ? 1 : 0
+            
+            var location:CLLocation?
+            var hasLocation = 0
+            if (appDelegate != nil){
+                hasLocation = 1
+                location = appDelegate.currentLocation;
+            }
+            
             if hasPresetLog {
                 self.presetLog?.hasVideo = hasVideo
                 self.presetLog?.hasPicture = hasPicture
-                delegate?.saveLog(log: presetLog!, picture: photoSegmentController?.image, video: videoSegmentController?.video)
+                delegate?.saveLog(log: presetLog!, picture: photoSegmentController?.image, video: videoSegmentController?.video, latitude: Float((location?.coordinate.latitude.magnitude)!), longitude: Float((location?.coordinate.longitude.magnitude)!))
             } else {
                 let log = HealthLog.init(key: nil, date: Date(), temperature: temperatureLabel.text!,
                                          heartrate: heartrateLabel.text!, moodrating: (selectedRatingLabel?.text)!,
                                          hasText: hasText, text: textSegmentController?.getText(),
-                                         hasPicture: hasPicture, pictureURL: "", hasVideo: hasVideo, videoURL: "")
-                delegate?.saveLog(log: log, picture: photoSegmentController?.image, video: videoSegmentController?.video)
+                                         hasPicture: hasPicture, pictureURL: "", hasVideo: hasVideo, videoURL: "", hasLocation: hasLocation, latitude: 0.0, longitude: 0.0)
+                delegate?.saveLog(log: log, picture: photoSegmentController?.image, video: videoSegmentController?.video, latitude: Float((location?.coordinate.latitude.magnitude)!), longitude: Float((location?.coordinate.longitude.magnitude)!))
             }
             self.navigationController?.popViewController(animated: true)
         } else {

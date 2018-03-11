@@ -158,11 +158,15 @@ class LogHistoryTableViewController: UITableViewController {
                     let pictureURL = entry["pictureURL"] as! String
                     let hasVideo = entry["hasVideo"] as! Int
                     let videoURL = entry["videoURL"] as! String
+                    let hasLocation = entry["hasLocation"] as! Int
+                    let latitude = entry["latitude"] as! Float
+                    let longitude = entry["longitude"] as! Float
                     tmpItems.append(HealthLog(key: key, date: date.iso8601,
                                               temperature: temperature, heartrate: heartrate,
                                               moodrating: moodrating, hasText: hasText, text: text,
                                               hasPicture: hasPicture, pictureURL: pictureURL,
-                                              hasVideo: hasVideo, videoURL: videoURL))
+                                              hasVideo: hasVideo, videoURL: videoURL, hasLocation: hasLocation,
+                                              latitude: latitude, longitude: longitude))
                 }
                 self.healthLogs = tmpItems
                 self.tableView.reloadData()
@@ -237,7 +241,10 @@ class LogHistoryTableViewController: UITableViewController {
             "hasPicture": log.hasPicture as NSNumber,
             "pictureURL": log.pictureURL! as NSString,
             "hasVideo": log.hasVideo as NSNumber,
-            "videoURL": log.videoURL! as NSString
+            "videoURL": log.videoURL! as NSString,
+            "hasLocation": log.hasLocation as NSNumber,
+            "latitude": log.latitude! as NSNumber,
+            "longitude": log.longitude! as NSNumber
         ]
     }
     
@@ -263,7 +270,7 @@ class LogHistoryTableViewController: UITableViewController {
 
 extension LogHistoryTableViewController: LogCreationViewDelegate {
     
-    func saveLog(log: HealthLog, picture: UIImage?, video: URL?) {
+    func saveLog(log: HealthLog, picture: UIImage?, video: URL?, latitude: Float?, longitude: Float?) {
         guard let database = databaseRef else {
             print("Database/storage error")
             return

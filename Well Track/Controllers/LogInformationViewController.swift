@@ -123,9 +123,9 @@ class LogInformationViewController: UIViewController {
 }
 
 extension LogInformationViewController: LogCreationViewDelegate {
-    func saveLog(log: HealthLog, picture: UIImage?, video: URL?) {
+    func saveLog(log: HealthLog, picture: UIImage?, video: URL?, latitude: Float?, longitude: Float?) {
         //Passes delegate call.
-        delegate?.saveLog(log: log, picture: picture, video: video)
+        delegate?.saveLog(log: log, picture: picture, video: video, latitude: latitude, longitude: longitude)
         self.navigationController?.popViewController(animated: true)
     }
     

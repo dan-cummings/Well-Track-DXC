@@ -20,8 +20,11 @@ struct HealthLog {
     var pictureURL: String?
     var hasVideo: Int
     var videoURL: String?
+    var hasLocation: Int
+    var latitude: Float?
+    var longitude: Float?
     
-    init(key: String?, date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, pictureURL: String?, hasVideo: Int, videoURL: String?) {
+    init(key: String?, date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, pictureURL: String?, hasVideo: Int, videoURL: String?, hasLocation: Int, latitude: Float?, longitude: Float?) {
         self.key = key
         self.date = date
         self.temperature = temperature
@@ -33,8 +36,11 @@ struct HealthLog {
         self.pictureURL = pictureURL
         self.hasVideo = hasVideo
         self.videoURL = videoURL
+        self.hasLocation = hasLocation
+        self.latitude = latitude
+        self.longitude = longitude
     }
-    init( date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, pictureURL: String?, hasVideo: Int, videoURL: String?) {
+    init( date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, pictureURL: String?, hasVideo: Int, videoURL: String?, hasLocation: Int, latitude: Float?, longitude: Float?) {
         self.date = date
         self.temperature = temperature
         self.heartrate = heartrate
@@ -45,6 +51,9 @@ struct HealthLog {
         self.pictureURL = pictureURL
         self.hasVideo = hasVideo
         self.videoURL = videoURL
+        self.hasLocation = hasLocation
+        self.latitude = latitude
+        self.longitude = longitude
     }
     init() {
         self.key = nil
@@ -58,5 +67,8 @@ struct HealthLog {
         self.pictureURL = nil
         self.hasVideo = 0
         self.videoURL = nil
+        self.hasLocation = 0
+        self.latitude = nil
+        self.longitude = nil
     }
 }
