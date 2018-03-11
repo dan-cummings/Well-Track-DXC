@@ -18,7 +18,6 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var MaxTempField: UITextField!
     @IBOutlet weak var HoursField: UITextField!
     @IBOutlet weak var MinutesField: UITextField!
-    @IBOutlet weak var ClearButton: UIButton!
     @IBOutlet weak var AlertSwitch: UISwitch!
     @IBOutlet weak var GPSSwitch: UISwitch!
     
@@ -193,21 +192,6 @@ class SettingsViewController: UIViewController {
     @IBAction func gpsChanged(_ sender: UISwitch) {
         self.saveAll()
         changeGPSStatus()
-    }
-    
-    
-    @IBAction func clearAllData(_ sender: UIButton) {
-        // TO DO
-        // probably want to figure out how to present the user with an "are you sure?" window
-        // do I need guard statements around here/will there ever be an issue with this?
-        let settingsDatabaseRef = Database.database().reference(withPath: "\(userId!)/Settings")
-        //let logDatabaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
-        settingsDatabaseRef.removeValue()
-        //logDatabaseRef.removeValue()
-        
-        // fields not updating? Not sure if should actually do something else
-        mostRecent = Settings()
-        updateFields()
     }
     
     

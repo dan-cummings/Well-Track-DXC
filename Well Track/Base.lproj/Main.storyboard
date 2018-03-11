@@ -295,36 +295,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Clear Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AwG-k4-EWl">
-                                <rect key="frame" x="143" y="495" width="89" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" red="0.016995774580000001" green="0.48766422269999998" blue="0.99898439650000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qVD-MU-NWy">
-                                <rect key="frame" x="170" y="457" width="34" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="saveSettings:" destination="bqY-kj-b6Z" eventType="touchUpInside" id="7bY-8w-Vht"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wX3-1F-Ocv">
-                                <rect key="frame" x="122" y="540" width="136" height="30"/>
+                                <rect key="frame" x="143" y="585" width="89" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Clear Data in Range"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Clear Data?"/>
                                 <connections>
                                     <segue destination="hFg-Cn-DMW" kind="show" id="PoN-dt-a2M"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0yB-E3-KB7">
-                                <rect key="frame" x="137" y="578" width="107" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qVD-MU-NWy">
+                                <rect key="frame" x="166" y="500" width="42" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                <state key="normal" title="Clear All Data"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Save"/>
                                 <connections>
-                                    <action selector="clearAllData:" destination="bqY-kj-b6Z" eventType="touchUpInside" id="2iA-P1-fzd"/>
+                                    <action selector="saveSettings:" destination="bqY-kj-b6Z" eventType="touchUpInside" id="7bY-8w-Vht"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -333,7 +319,6 @@
                     </view>
                     <connections>
                         <outlet property="AlertSwitch" destination="US0-RO-TgJ" id="XkA-Oa-FdY"/>
-                        <outlet property="ClearButton" destination="0yB-E3-KB7" id="k44-TL-dgY"/>
                         <outlet property="GPSSwitch" destination="W5Y-aK-dZd" id="2Pn-vG-Ox1"/>
                         <outlet property="HoursField" destination="Ayc-iQ-4jW" id="mnc-Qv-3GR"/>
                         <outlet property="MaxHeartField" destination="rAN-Ix-mcr" id="cFu-SL-b6L"/>
@@ -384,11 +369,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waM-Fr-9de">
-                                <rect key="frame" x="96" y="552" width="183" height="30"/>
+                                <rect key="frame" x="96" y="509" width="183" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Clear Data in Above Range"/>
                                 <connections>
                                     <action selector="clearSomeData:" destination="hFg-Cn-DMW" eventType="touchUpInside" id="Noo-95-xTp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zp6-SQ-eh3">
+                                <rect key="frame" x="141" y="588" width="93" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Clear All Data"/>
+                                <connections>
+                                    <action selector="clearAllData:" destination="hFg-Cn-DMW" eventType="touchUpInside" id="Ajh-Yp-iZd"/>
                                 </connections>
                             </button>
                         </subviews>

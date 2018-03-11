@@ -70,6 +70,11 @@ class ClearDataViewController: UIViewController {
         
     }
     
+    @IBAction func clearAllData(_ sender: UIButton) {
+        //let settingsDatabaseRef = Database.database().reference(withPath: "\(userId!)/Settings")
+        let logDatabaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
+        logDatabaseRef.removeValue()
+    }
     /*
     // MARK: - Navigation
 
