@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 import IQKeyboardManagerSwift
+import GoogleMaps
+import GooglePlaces
 import CoreLocation
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -23,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         setupLocationManager()
         print("Set up Location Manager")
         IQKeyboardManager.sharedManager().enable = true
+        GMSServices.provideAPIKey("AIzaSyBoqRmhL_IqQ097skdZk3gxBtmc219Wz5Y")
+        GMSPlacesClient.provideAPIKey("AIzaSyBoqRmhL_IqQ097skdZk3gxBtmc219Wz5Y")
         return true
     }
     

@@ -2,10 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Well Track would like to track your location for use in health logs</string>
+
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Well Track would like to track your location for use in health logs</string>
+	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Well Track would like to use the microphone to record video audio for health logs</string>
 	<key>NSCameraUsageDescription</key>

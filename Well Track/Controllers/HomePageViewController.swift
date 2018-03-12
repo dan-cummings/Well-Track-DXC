@@ -61,12 +61,7 @@ class HomePageViewController: UIViewController {
                     tmpItem.hasText = entry["hasText"] as! Int
                     tmpItem.text = entry["text"] as? String
                     tmpItem.hasPicture = entry["hasPicture"] as! Int
-                    tmpItem.pictureURL = entry["pictureURL"] as? String
                     tmpItem.hasVideo = entry["hasVideo"] as! Int
-                    tmpItem.videoURL = entry["videoURL"] as? String
-                    tmpItem.hasLocation = entry["hasLocation"] as! Int
-                    tmpItem.latitude = entry["latitude"] as? Float
-                    tmpItem.longitude = entry["longitude"] as? Float
                     if self.mostRecent!.date != nil {
                         if (self.mostRecent?.date)! < tmpItem.date! {
                             self.mostRecent = tmpItem
