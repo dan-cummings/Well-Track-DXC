@@ -24,6 +24,8 @@ class PhotoSegmentViewController: UIViewController {
     var log: HealthLog!
     var uid: String!
     
+    var editMode = false
+    
     var newItems: [MediaItems]?
     
     var infoView = false
@@ -46,15 +48,6 @@ class PhotoSegmentViewController: UIViewController {
         self.collection.delegate = self
         self.collection.dataSource = self
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @IBAction func removePressed(_ sender: UIButton) {
-        // Activate remove mode to clear selected logs.
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -68,6 +61,31 @@ class PhotoSegmentViewController: UIViewController {
         if let _ = ref {
             ref.removeAllObservers()
         }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func removePressed(_ sender: UIButton) {
+        self.editMode = !self.editMode
+        if self.editMode {
+            self.removeButton.setTitle("Cancel", for: UIControlState.normal)
+        } else {
+            self.removeButton.setTitle("Remove", for: UIControlState.normal)
+        }
+    }
+    
+    func removeSelectedPicture(item: MediaItems) {
+        Storage.storage().reference(forURL: item.imageURL!).delete { (error) in
+            guard let _ = error else {
+                print("Error removing photo from storage")
+                return
+            }
+            print("Photo removed from storage")
+        }
+        ref.child(item.key!).removeValue()
     }
 
     @IBAction func photoBtnPressed(_ sender: Any) {
@@ -183,10 +201,14 @@ extension PhotoSegmentViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? WellTrackMediaCollectionViewCell {
-            let previewController = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as! PreviewViewController
-            previewController.hideButton = true
-            previewController.image = cell.image.image
-            self.navigationController?.pushViewController(previewController, animated: true)
+            if editMode {
+                self.removeSelectedPicture(item: cell.data)
+            } else {
+                let previewController = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as! PreviewViewController
+                previewController.hideButton = true
+                previewController.image = cell.image.image
+                self.navigationController?.pushViewController(previewController, animated: true)
+            }
         }
     }
     

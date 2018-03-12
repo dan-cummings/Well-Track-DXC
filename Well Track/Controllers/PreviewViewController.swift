@@ -14,7 +14,7 @@ import FirebaseStorage
 class PreviewViewController: UIViewController {
 
     @IBOutlet weak var photo: UIImageView!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var saveBtn: UIBarButtonItem!
     
     var player: AVPlayer!
     var playerController: AVPlayerViewController!
@@ -28,7 +28,11 @@ class PreviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        saveButton.isHidden = hideButton
+        // If the button is hidden do not add it to the navbar.
+        if !hideButton {
+            self.navigationItem.rightBarButtonItem = saveBtn
+        }
+        // Are we previewing a video?
         if videoPreview {
             playerController = AVPlayerViewController()
             if let videoString = videoToLoad {

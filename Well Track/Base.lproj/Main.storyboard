@@ -535,29 +535,32 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y67-Vt-8zw">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </imageView>
-                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="859-tl-zjb">
-                                <rect key="frame" x="161.5" y="610" width="52" height="41"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <segue destination="T1b-AG-tuN" kind="unwind" unwindAction="addMediaToLogWithSegue:" id="B7o-Fe-9lb"/>
-                                </connections>
-                            </button>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rcj-Dz-ADZ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Preview" id="gLw-Kq-sGB">
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="QJ3-5Q-HNb">
+                                            <connections>
+                                                <segue destination="T1b-AG-tuN" kind="unwind" unwindAction="addMediaToLogWithSegue:" id="J0N-TK-d8N"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="aKd-QZ-9sm" firstAttribute="trailing" secondItem="y67-Vt-8zw" secondAttribute="trailing" id="IAQ-PJ-lLw"/>
-                            <constraint firstItem="859-tl-zjb" firstAttribute="centerX" secondItem="y67-Vt-8zw" secondAttribute="centerX" id="JGt-F9-pSU"/>
                             <constraint firstItem="y67-Vt-8zw" firstAttribute="leading" secondItem="aKd-QZ-9sm" secondAttribute="leading" id="XGA-Hd-cws"/>
                             <constraint firstItem="y67-Vt-8zw" firstAttribute="top" secondItem="aKd-QZ-9sm" secondAttribute="top" id="aie-Hn-Ue5"/>
                             <constraint firstItem="aKd-QZ-9sm" firstAttribute="bottom" secondItem="y67-Vt-8zw" secondAttribute="bottom" id="h43-aC-Y5f"/>
-                            <constraint firstItem="aKd-QZ-9sm" firstAttribute="bottom" secondItem="859-tl-zjb" secondAttribute="bottom" constant="16" id="vZo-iz-IXS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aKd-QZ-9sm"/>
                     </view>
                     <connections>
                         <outlet property="photo" destination="y67-Vt-8zw" id="WYa-Z4-a1G"/>
-                        <outlet property="saveButton" destination="859-tl-zjb" id="Akh-p0-nPb"/>
+                        <outlet property="saveBtn" destination="QJ3-5Q-HNb" id="zZs-SE-ZkE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u62-PO-H1p" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -26,6 +26,7 @@ class VideoSegmentViewController: UIViewController {
     fileprivate var uid: String!
 
     var infoView = false
+    var editMode = false
     var log: HealthLog!
     
     var data: [MediaItems]? {
@@ -45,6 +46,7 @@ class VideoSegmentViewController: UIViewController {
         }
         self.collection.delegate = self
         self.collection.dataSource = self
+        collection.allowsSelection = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -174,7 +176,30 @@ class VideoSegmentViewController: UIViewController {
     }
     
     @IBAction func removeVideo(_ sender: Any) {
-        // Change edit mode on and selected items are removed from firebase.
+        self.editMode = !self.editMode
+        if self.editMode {
+            self.removeBtn.setTitle("Cancel", for: UIControlState.normal)
+        } else {
+            self.removeBtn.setTitle("Remove", for: UIControlState.normal)
+        }
+    }
+    
+    func removeSelectedVideo(item: MediaItems) {
+        Storage.storage().reference(forURL: item.imageURL!).delete { (error) in
+            guard let _ = error else {
+                print("Error removing thumbnail from storage")
+                return
+            }
+            print("Thumbnail removed from storage")
+        }
+        Storage.storage().reference(forURL: item.videoURL!).delete { (error) in
+            guard let _ = error else {
+                print("Error removing video from storage")
+                return
+            }
+            print("Video removed from storage")
+        }
+        ref.child(item.key!).removeValue()
     }
     
     func tempURL() -> URL? {
@@ -201,27 +226,17 @@ class VideoSegmentViewController: UIViewController {
 extension VideoSegmentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if infoView {
-            return
-        }
         if let cell = collectionView.cellForItem(at: indexPath) as? WellTrackMediaCollectionViewCell {
-            let previewController = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as! PreviewViewController
-            previewController.videoPreview = true
-            previewController.hideButton = true
-            if let tempURL = tempURL() {
-                let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-                activityView.center = self.view.center
-                activityView.startAnimating()
-                
-                self.view.addSubview(activityView)
-                Storage.storage().reference(forURL: cell.data.videoURL!).write(toFile: tempURL, completion: { (url, error) in
-                    guard let _ = error else {
-                        return
-                    }
-                    activityView.stopAnimating()
-                    previewController.videoURL = url
-                    self.navigationController?.pushViewController(previewController, animated: true)
-                })
+            if self.editMode {
+                // Remove selected cell
+                self.removeSelectedVideo(item: cell.data)
+            } else {
+                // Call preview with the video url
+                let previewController = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as! PreviewViewController
+                previewController.videoPreview = true
+                previewController.hideButton = true
+                previewController.videoToLoad = cell.data.videoURL
+                self.navigationController?.pushViewController(previewController, animated: true)
             }
         }
     }
