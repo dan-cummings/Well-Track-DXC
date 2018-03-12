@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import FirebaseAuth
 
+/// The root controller for the TabViewController.
 class WellTrackUITabController: UITabBarController {
     
     override func viewDidLoad() {

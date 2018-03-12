@@ -11,6 +11,8 @@ import FirebaseStorage
 import FirebaseAuth
 import FirebaseDatabase
 
+
+/// Table view to display the users health log history. When selected the cell will give detailed information about the selected user log. The user can change the logs by editing them and new logs will be automatically added to the list. This controller facilitates the creation of new logs by conforming to the LogCreationViewDelegate protocol.
 class LogHistoryTableViewController: UITableViewController {
     
     var uid: String!
@@ -156,11 +158,15 @@ class LogHistoryTableViewController: UITableViewController {
                     let pictureURL = entry["pictureURL"] as! String
                     let hasVideo = entry["hasVideo"] as! Int
                     let videoURL = entry["videoURL"] as! String
+                    let hasLocation = entry["hasLocation"] as! Int
+                    let latitude = entry["latitude"] as! Float
+                    let longitude = entry["longitude"] as! Float
                     tmpItems.append(HealthLog(key: key, date: date.iso8601,
                                               temperature: temperature, heartrate: heartrate,
                                               moodrating: moodrating, hasText: hasText, text: text,
                                               hasPicture: hasPicture, pictureURL: pictureURL,
-                                              hasVideo: hasVideo, videoURL: videoURL))
+                                              hasVideo: hasVideo, videoURL: videoURL, hasLocation: hasLocation,
+                                              latitude: latitude, longitude: longitude))
                 }
                 self.healthLogs = tmpItems
                 self.tableView.reloadData()
@@ -175,6 +181,9 @@ class LogHistoryTableViewController: UITableViewController {
         }
     }
     
+    /// Method to provide a new ondevice URL to store a jpg.
+    ///
+    /// - Returns: Returns a URL optional containing a new URL path. If no path available, it returns nil.
     func tempURL() -> URL? {
         let directory = NSTemporaryDirectory() as NSString
         
@@ -186,6 +195,13 @@ class LogHistoryTableViewController: UITableViewController {
         return nil
     }
     
+    /// Method used to push the passed media to firebase storage and add the reference URL to the firebase database entry.
+    ///
+    /// - Parameters:
+    ///   - log: The log that the media is being stored into.
+    ///   - type: Which type of file is being stored to storage.
+    ///   - media: A URL optional pointing to the media file to be stored.
+    ///   - saveRefClosure: An escaping closure to handle the returned values from firebase storage.
     func saveMediaFileToFirebase(log: HealthLog, type: Int, media: URL?, saveRefClosure: @escaping (String) -> ()) {
         let mediaType : String = type == 1 ? "picture" : "video"
         let ext : String = type == 1 ? "jpg" : "mp4"
@@ -197,7 +213,7 @@ class LogHistoryTableViewController: UITableViewController {
             let metadata = StorageMetadata()
             metadata.contentType = mime
             if let storageRef = self.storageRef {
-                storageRef.child(mediaPath).putData(media, metadata: metadata) {(metadata, error) in
+                storageRef.child(mediaPath).putData(media, metadata: metadata) { (metadata, error) in
                     if let error = error {
                         print("Error uploading: \(error.localizedDescription)")
                         return
@@ -210,6 +226,10 @@ class LogHistoryTableViewController: UITableViewController {
         }
     }
     
+    /// Helper method to convert health log struct to a MutableDictionary to make it compatible with firebase.
+    ///
+    /// - Parameter log: The health log struct to be converted.
+    /// - Returns: An NSMutableDictionary containing the values of the health log.
     func toDictionary(log: HealthLog) -> NSMutableDictionary {
         return [
             "date": NSString(string: (log.date?.iso8601)!),
@@ -221,10 +241,20 @@ class LogHistoryTableViewController: UITableViewController {
             "hasPicture": log.hasPicture as NSNumber,
             "pictureURL": log.pictureURL! as NSString,
             "hasVideo": log.hasVideo as NSNumber,
-            "videoURL": log.videoURL! as NSString
+            "videoURL": log.videoURL! as NSString,
+            "hasLocation": log.hasLocation as NSNumber,
+            "latitude": log.latitude! as NSNumber,
+            "longitude": log.longitude! as NSNumber
         ]
     }
     
+    /// Function either updates or creates a firebase entry for the passed dictionary.
+    ///
+    /// - Parameters:
+    ///   - key: The key for the firebase entry, if nil a new entry is created.
+    ///   - ref: The database reference where the entry will be stored.
+    ///   - vals: The dictionary containing the health log values.
+    /// - Returns: Reference to the entry that was created or updated.
     func saveLogToFirebase(key: String?, ref: DatabaseReference?, vals: NSMutableDictionary) -> DatabaseReference? {
         var child: DatabaseReference?
         if let k = key {
@@ -240,11 +270,12 @@ class LogHistoryTableViewController: UITableViewController {
 
 extension LogHistoryTableViewController: LogCreationViewDelegate {
     
-    func saveLog(log: HealthLog, picture: UIImage?, video: URL?) {
+    func saveLog(log: HealthLog, picture: UIImage?, video: URL?, latitude: Float?, longitude: Float?) {
         guard let database = databaseRef else {
             print("Database/storage error")
             return
         }
+        
         let vals = self.toDictionary(log: log)
         
         let logDataRef = self.saveLogToFirebase(key: log.key, ref: database, vals: vals)

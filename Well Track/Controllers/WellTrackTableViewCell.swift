@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Cell definition for the Well Track log history table view.
 class WellTrackTableViewCell: UITableViewCell {
 
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -15,6 +16,8 @@ class WellTrackTableViewCell: UITableViewCell {
     @IBOutlet weak var moodLabel: UILabel!
     @IBOutlet weak var moodImage: UIImageView!
     
+    
+    /// Log being used to populate views in the cell.
     var log: HealthLog?
     
     override func awakeFromNib() {
@@ -24,7 +27,5 @@ class WellTrackTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
-
 }
