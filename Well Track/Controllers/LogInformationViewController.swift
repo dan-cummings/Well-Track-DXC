@@ -76,6 +76,7 @@ class LogInformationViewController: UIViewController {
         let editView = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LogCreation") as! LogCreationViewController
         editView.delegate = self
         editView.hasPresetLog = true
+        editView.saved = true
         editView.log = log
         self.navigationController?.pushViewController(editView, animated: true)
     }

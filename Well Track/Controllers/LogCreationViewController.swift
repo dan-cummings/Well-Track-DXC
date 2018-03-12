@@ -36,6 +36,7 @@ class LogCreationViewController: UIViewController {
     var selectedBPM: Int = 0
     var selectedRatingImage: UIImageView?
     var selectedRatingLabel: UILabel?
+    var saved = false
     
     var scale: [String] = ["F", "C"]
     var beforeDecimal: [Int] = []
@@ -87,10 +88,22 @@ class LogCreationViewController: UIViewController {
         photoSegmentController?.startFirebase(uid: uid, log: log)
     }
     
-    override func didMove(toParentViewController parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
         if parent == nil {
-            //Remove media additions to log.
+            if !saved {
+                Database.database().reference(withPath: "\(uid)/Logs/\(log.key!)").removeValue()
+                if let data = videoSegmentController!.data {
+                    for item in data {
+                        videoSegmentController?.removeSelectedVideo(item: item)
+                    }
+                }
+                if let data = photoSegmentController!.data {
+                    for item in data {
+                        photoSegmentController?.removeSelectedPicture(item: item)
+                    }
+                }
+            }
         }
     }
     
@@ -205,6 +218,7 @@ class LogCreationViewController: UIViewController {
                 self.log?.text = textSegmentController?.getText()
                 self.log?.hasText = 1
             }
+            self.saved = true
             log.hasVideo = videoSegmentController?.data != nil ? 1 : 0
             log.hasPicture = photoSegmentController?.data != nil ? 1 : 0
             delegate?.saveLog(log: log)
