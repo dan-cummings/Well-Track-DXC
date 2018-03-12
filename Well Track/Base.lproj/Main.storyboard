@@ -780,7 +780,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="Ud5-Ko-kai">
-                                <rect key="frame" x="16" y="116.5" width="343" height="133.5"/>
+                                <rect key="frame" x="16" y="132" width="343" height="133.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lpO-E2-EmS">
                                         <rect key="frame" x="0.0" y="0.0" width="155.5" height="133.5"/>
@@ -815,13 +815,13 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yjw-UH-hTc">
-                                <rect key="frame" x="166.5" y="80" width="42" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="152.5" y="80" width="71" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eFM-rT-3cM">
-                                <rect key="frame" x="137.5" y="266" width="100" height="128.5"/>
+                                <rect key="frame" x="137.5" y="281.5" width="100" height="128.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fXf-H8-a6r">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -1116,8 +1116,8 @@
                                     <action selector="removePressed:" destination="RZl-oG-AYd" eventType="touchUpInside" id="jyu-es-c8Q"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JsL-L4-CCg">
-                                <rect key="frame" x="16" y="8" width="109" height="8"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JsL-L4-CCg">
+                                <rect key="frame" x="16" y="8" width="100" height="8"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Add Photo" image="Camera">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1209,8 +1209,8 @@
                                     <action selector="removeVideo:" destination="113-G2-7A0" eventType="touchUpInside" id="2aF-fc-wPf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9y7-nN-YAX">
-                                <rect key="frame" x="16" y="8" width="108" height="8"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9y7-nN-YAX">
+                                <rect key="frame" x="16" y="8" width="100" height="8"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Add Video" image="Camera">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1452,7 +1452,7 @@
     </scenes>
     <resources>
         <image name="Bad" width="75" height="75"/>
-        <image name="Camera" width="37" height="37"/>
+        <image name="Camera" width="75" height="75"/>
         <image name="CameraFlip" width="75" height="75"/>
         <image name="Fair" width="75" height="75"/>
         <image name="Good" width="75" height="75"/>

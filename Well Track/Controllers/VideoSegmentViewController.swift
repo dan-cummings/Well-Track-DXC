@@ -38,7 +38,7 @@ class VideoSegmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.addBtn.imageView?.contentMode = .scaleAspectFit
         if infoView {
             addBtn.isHidden = true
             removeBtn.isHidden = true
@@ -88,6 +88,16 @@ class VideoSegmentViewController: UIViewController {
                 }
                 self.data = tmpItems
             }})
+        
+        ref.observe(.childRemoved, with: { (snapshot) in
+            var tempItems = [MediaItems]()
+            for item in self.data! {
+                if snapshot.key != item.key {
+                    tempItems.append(item)
+                }
+            }
+            self.data = tempItems
+        })
     }
     
     func saveMediaFileToFirebase(type: Int, media: URL?, saveRefClosure: @escaping (String) -> ()) {
@@ -198,7 +208,21 @@ extension VideoSegmentViewController: UICollectionViewDelegate, UICollectionView
             let previewController = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as! PreviewViewController
             previewController.videoPreview = true
             previewController.hideButton = true
-            self.navigationController?.pushViewController(previewController, animated: true)
+            if let tempURL = tempURL() {
+                let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+                activityView.center = self.view.center
+                activityView.startAnimating()
+                
+                self.view.addSubview(activityView)
+                Storage.storage().reference(forURL: cell.data.videoURL!).write(toFile: tempURL, completion: { (url, error) in
+                    guard let _ = error else {
+                        return
+                    }
+                    activityView.stopAnimating()
+                    previewController.videoURL = url
+                    self.navigationController?.pushViewController(previewController, animated: true)
+                })
+            }
         }
     }
     

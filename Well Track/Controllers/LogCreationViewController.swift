@@ -72,7 +72,9 @@ class LogCreationViewController: UIViewController {
             let rating = stack as? UIStackView
             rating?.arrangedSubviews[0].tintColor = .black
         }
+        
         uid = Auth.auth().currentUser?.uid
+        
         if hasPresetLog {
             self.populateFields()
         } else {
@@ -278,20 +280,8 @@ class LogCreationViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "embeddedPhotoSegue" {
-            if photoSegmentController != nil {
-                photoSegmentController?.infoView = false
-                photoSegmentController?.removeButton.isHidden = false
-                photoSegmentController?.photoBtn.isHidden = false
-                return
-            }
             photoSegmentController = segue.destination as? PhotoSegmentViewController
         } else if segue.identifier == "embeddedVideoSegue" {
-            if videoSegmentController != nil {
-                videoSegmentController?.infoView = false
-                videoSegmentController?.addBtn.isHidden = false
-                videoSegmentController?.removeBtn.isHidden = false
-                return
-            }
             videoSegmentController = segue.destination as? VideoSegmentViewController
         } else if segue.identifier == "embeddedTextSegue" {
             textSegmentController = segue.destination as? TextSegmentViewController

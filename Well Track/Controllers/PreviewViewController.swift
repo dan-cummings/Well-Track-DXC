@@ -8,41 +8,43 @@
 
 import UIKit
 import AVFoundation
+import AVKit
+import FirebaseStorage
 
 class PreviewViewController: UIViewController {
 
     @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var saveButton: UIButton!
     
-    var player = AVQueuePlayer()
-    var playerLayer: AVPlayerLayer!
-    var playerLooper: AVPlayerLooper!
+    var player: AVPlayer!
+    var playerController: AVPlayerViewController!
     
     var videoPreview: Bool = false
     var hideButton: Bool!
+    var videoToLoad: String?
     var image: UIImage?
     
-    var videoURL: URL?
+    var videoURL: URL!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.isHidden = hideButton
         if videoPreview {
-            photo.isHidden = true
-            playerLayer = AVPlayerLayer(player: player)
-            playerLayer.frame = self.view.bounds
-            playerLayer.videoGravity = .resizeAspect
-            self.view.layer.insertSublayer(playerLayer, at: 0)
-            self.view.layoutIfNeeded()
-            let playItem = AVPlayerItem(url: videoURL!)
-            player.replaceCurrentItem(with: playItem)
-            playerLooper = AVPlayerLooper(player: player, templateItem: playItem)
+            playerController = AVPlayerViewController()
+            if let videoString = videoToLoad {
+                if let video = URL(string: videoString) {
+                    player = AVPlayer(url: video)
+                }
+            } else {
+                player = AVPlayer(url: videoURL)
+            }
+            playerController.player = player
+            self.addChildViewController(playerController)
+            self.view.addSubview(playerController.view)
+            playerController.view.frame = self.view.frame
+            
             player.play()
         }
-    }
-    
-    override func viewWillLayoutSubviews() {
-        playerLayer?.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height)
     }
     
     override func viewWillAppear(_ animated: Bool) {

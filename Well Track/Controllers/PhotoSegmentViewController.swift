@@ -37,6 +37,7 @@ class PhotoSegmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.photoBtn.imageView?.contentMode = .scaleAspectFit
         if infoView {
             self.photoBtn.isHidden = true
             self.removeButton.isHidden = true
@@ -97,6 +98,16 @@ class PhotoSegmentViewController: UIViewController {
                     }
                     self.data = tmpItems
             }})
+        
+        ref.observe(.childRemoved, with: { (snapshot) in
+            var tempItems = [MediaItems]()
+            for item in self.data! {
+                if snapshot.key != item.key {
+                    tempItems.append(item)
+                }
+            }
+            self.data = tempItems
+        })
     }
     
     func saveMediaFileToFirebase(type: Int, media: URL?, saveRefClosure: @escaping (String) -> ()) {
@@ -176,9 +187,6 @@ extension PhotoSegmentViewController: UICollectionViewDelegate, UICollectionView
             previewController.hideButton = true
             previewController.image = cell.image.image
             self.navigationController?.pushViewController(previewController, animated: true)
-        }
-        if infoView {
-            return
         }
     }
     

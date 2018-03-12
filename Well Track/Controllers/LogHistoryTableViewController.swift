@@ -222,7 +222,7 @@ class LogHistoryTableViewController: UITableViewController {
     
     func removeFromFirebase(key: String?, ref: DatabaseReference, vals: HealthLog) {
         if vals.hasVideo == 1 {
-            ref.child("Logs/\(key!)/Videos").observeSingleEvent(of: .value, with: { (snapshot) in
+            ref.child("\(key!)/Videos").observeSingleEvent(of: .value, with: { (snapshot) in
                     if let values = snapshot.value as? [String : AnyObject] {
                         for (_,val) in values.enumerated() {
                             let entry = val.1 as! Dictionary<String,AnyObject>
@@ -246,14 +246,14 @@ class LogHistoryTableViewController: UITableViewController {
                 }})
         }
         if vals.hasPicture == 1 {
-            ref.child("Logs/\(key!)/Pictures").observeSingleEvent(of: .value, with: { (snapshot) in
+            ref.child("\(key!)/Pictures").observeSingleEvent(of: .value, with: { (snapshot) in
                 if let values = snapshot.value as? [String : AnyObject] {
                     for (_,val) in values.enumerated() {
                         let entry = val.1 as! Dictionary<String,AnyObject>
                         let imageURL = entry["imageURL"] as! String
-                        self.storageRef?.child(imageURL).delete(completion: { (error) in
-                            if let _ = error {
-                                print("Error occurred deleting picture")
+                        Storage.storage().reference(forURL: imageURL).delete(completion: { (error) in
+                            if let e = error {
+                                print(e.localizedDescription)
                                 return
                             }
                             print("Picture Deleted")
@@ -261,7 +261,7 @@ class LogHistoryTableViewController: UITableViewController {
                     }
                 }})
         }
-        ref.child("Logs").child(key!).removeValue()
+        ref.child(key!).removeValue()
    }
     
     func saveLogToFirebase(key: String?, ref: DatabaseReference?, vals: NSMutableDictionary) {

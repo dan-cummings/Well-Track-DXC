@@ -28,6 +28,10 @@ class LogInformationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setFields()
+    }
+    
+    func setFields() {
         
         if let log = self.log {
             heartRateLabel.text = log.heartrate
@@ -72,8 +76,6 @@ class LogInformationViewController: UIViewController {
         let editView = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LogCreation") as! LogCreationViewController
         editView.delegate = self
         editView.hasPresetLog = true
-        editView.photoSegmentController = photoSegment
-        editView.videoSegmentController = videoSegment
         editView.log = log
         self.navigationController?.pushViewController(editView, animated: true)
     }
@@ -121,6 +123,8 @@ class LogInformationViewController: UIViewController {
 
 extension LogInformationViewController: LogCreationViewDelegate {
     func saveLog(log: HealthLog) {
+        self.log = log
         delegate?.saveLog(log: log)
+        self.setFields()
     }
 }
