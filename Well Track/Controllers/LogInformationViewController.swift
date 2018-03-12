@@ -53,7 +53,8 @@ class LogInformationViewController: UIViewController {
                 break
             }
             moodImageView.tintColor = .black
-            dateLabel.text = log.date?.short
+            dateLabel.text = log.date?.short            
+
         }
         textView.isHidden = false
         photoView.isHidden = true

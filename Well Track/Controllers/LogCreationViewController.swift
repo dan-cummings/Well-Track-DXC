@@ -238,11 +238,9 @@ class LogCreationViewController: UIViewController {
             let hasPicture = photoSegmentController?.image != nil ? 1 : 0
             
             var location:CLLocation?
-            var hasLocation = 0
-            if (appDelegate != nil){
-                hasLocation = 1
-                location = appDelegate.currentLocation;
-            }
+            var hasLocation = 1
+            location = appDelegate.currentLocation;
+            
             
             if hasPresetLog {
                 self.presetLog?.hasVideo = hasVideo
@@ -252,7 +250,7 @@ class LogCreationViewController: UIViewController {
                 let log = HealthLog.init(key: nil, date: Date(), temperature: temperatureLabel.text!,
                                          heartrate: heartrateLabel.text!, moodrating: (selectedRatingLabel?.text)!,
                                          hasText: hasText, text: textSegmentController?.getText(),
-                                         hasPicture: hasPicture, pictureURL: "", hasVideo: hasVideo, videoURL: "", hasLocation: hasLocation, latitude: 0.0, longitude: 0.0)
+                                         hasPicture: hasPicture, pictureURL: "", hasVideo: hasVideo, videoURL: "", hasLocation: hasLocation, latitude: Float((location?.coordinate.latitude.magnitude)!), longitude: Float((location?.coordinate.longitude.magnitude)!))
                 delegate?.saveLog(log: log, picture: photoSegmentController?.image, video: videoSegmentController?.video, latitude: Float((location?.coordinate.latitude.magnitude)!), longitude: Float((location?.coordinate.longitude.magnitude)!))
             }
             self.navigationController?.popViewController(animated: true)
