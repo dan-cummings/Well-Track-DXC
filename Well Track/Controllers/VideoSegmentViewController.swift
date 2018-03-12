@@ -12,6 +12,7 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
 
+/// View Controller for the video segment of the log creation to handle displaying or adding a video to this log item.
 class VideoSegmentViewController: UIViewController {
 
     
@@ -202,6 +203,10 @@ class VideoSegmentViewController: UIViewController {
         ref.child(item.key!).removeValue()
     }
     
+    
+    /// Function to get a new temporary URL object.
+    ///
+    /// - Returns: Temporary URL optional.
     func tempURL() -> URL? {
         let directory = NSTemporaryDirectory() as NSString
         

@@ -11,6 +11,7 @@ import AVFoundation
 import AVKit
 import FirebaseStorage
 
+/// View Controller to handle displaying media from the camera view controller.
 class PreviewViewController: UIViewController {
 
     @IBOutlet weak var photo: UIImageView!
@@ -46,7 +47,6 @@ class PreviewViewController: UIViewController {
             self.addChildViewController(playerController)
             self.view.addSubview(playerController.view)
             playerController.view.frame = self.view.frame
-            
             player.play()
         }
     }

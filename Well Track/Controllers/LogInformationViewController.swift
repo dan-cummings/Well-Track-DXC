@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 
+/// View controller to display health log information with more detail. Contains views for video and photos along with extra text information.
 class LogInformationViewController: UIViewController {
     @IBOutlet weak var heartRateLabel: UILabel!
     @IBOutlet weak var moodLabel: UILabel!
@@ -57,7 +58,8 @@ class LogInformationViewController: UIViewController {
                 break
             }
             moodImageView.tintColor = .black
-            dateLabel.text = log.date?.short
+            dateLabel.text = log.date?.short            
+
         }
         textView.isHidden = false
         photoView.isHidden = true
@@ -72,6 +74,10 @@ class LogInformationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /// Instantiates log creation view and passes a health log to it which indicates edits will be made on the provided log.
+    ///
+    /// - Parameter sender: The button sending the action.
     @IBAction func editLogPressed(_ sender: Any) {
         let editView = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LogCreation") as! LogCreationViewController
         editView.delegate = self
@@ -123,9 +129,9 @@ class LogInformationViewController: UIViewController {
 }
 
 extension LogInformationViewController: LogCreationViewDelegate {
-    func saveLog(log: HealthLog) {
+    func saveLog(log: HealthLog, latitude: Float?, longitude: Float?) {
         self.log = log
-        delegate?.saveLog(log: log)
+        delegate?.saveLog(log: log, latitude: Float?, longitude: Float?)
         self.setFields()
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 
+/// Controller for the sign in screen.
 class LandingPageViewController: UIViewController {
 
     @IBOutlet weak var passwordField: UITextField!
@@ -28,6 +29,10 @@ class LandingPageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /// Attempts to log the user in with the input information.
+    ///
+    /// - Parameter sender: The button connected to this action.
     @IBAction func signinPressed(_ sender: Any) {
         if let email = emailField.text {
             if let password = passwordField.text {

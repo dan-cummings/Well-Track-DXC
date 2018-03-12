@@ -3,20 +3,28 @@
 //  Well Track
 //
 //  Created by Morgan Oneka on 1/31/18.
+//  Implementation by Daniel Cummings, 2/27/18
 //  Copyright © 2018 Team DXC. All rights reserved.
 //
 
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
+import CoreLocation
 
+
+/// Delegate for Well Track log creation.
 protocol LogCreationViewDelegate {
-    func saveLog(log: HealthLog)
+    func saveLog(log: HealthLog, latitude: Float?, longitude: Float?)
 }
 
+
+/// Controller for the log creation screen which displays components of log creation to the user. Users can include temperature, heart rate, and mood as necessary minimum information. In addition to the necessary information, users can choose to include additional text and video/pictures to the log.
 class LogCreationViewController: UIViewController {
     
+    /// Stack view UI picker and navbar.
     @IBOutlet weak var pickerStack: UIStackView!
+    /// Stack view containing sub-stackviews for each mood object.
     @IBOutlet weak var imageStack: UIStackView!
     @IBOutlet weak var segBtns: UISegmentedControl!
     @IBOutlet weak var pickerview: UIPickerView!
@@ -48,10 +56,11 @@ class LogCreationViewController: UIViewController {
     var log: HealthLog!
     var uid: String!
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         generateRange(scale: selectedScale)
-        
         for i in 50...190 {
             bpm.append(i)
         }
@@ -61,6 +70,7 @@ class LogCreationViewController: UIViewController {
         videoCont.isHidden = true
         pickerStack.isHidden = true
         
+        // Set delegate and datasource of UIPickerview.
         pickerview.delegate = self
         pickerview.dataSource = self
         
@@ -69,13 +79,13 @@ class LogCreationViewController: UIViewController {
         temperatureLabel.textColor = .gray
         heartrateLabel.textColor = .gray
         
+        // Sets all of the tint colors for images in mood stack.
         for stack in imageStack.arrangedSubviews {
             let rating = stack as? UIStackView
             rating?.arrangedSubviews[0].tintColor = .black
         }
-        
+       
         uid = Auth.auth().currentUser?.uid
-        
         if hasPresetLog {
             self.populateFields()
         } else {
@@ -112,6 +122,8 @@ class LogCreationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /// Helper method to populate views with data passed to the controller.
     func populateFields() {
         if let presetLog = log {
             if presetLog.hasText == 1 {
@@ -137,6 +149,7 @@ class LogCreationViewController: UIViewController {
             default:
                 break
             }
+            // Set the selected mood image color.
             let temp = imageStack.arrangedSubviews[loc] as? UIStackView
             selectedRatingLabel = temp?.arrangedSubviews[1] as? UILabel
             selectedRatingImage = temp?.arrangedSubviews[0] as? UIImageView
@@ -148,6 +161,10 @@ class LogCreationViewController: UIViewController {
         }
     }
     
+    
+    /// Generates the input scale for the UI picker view.
+    ///
+    /// - Parameter scale: Indicates which scale needs to be generated.
     func generateRange(scale: String) {
         beforeDecimal = []
         if (scale == "F") {
@@ -161,6 +178,9 @@ class LogCreationViewController: UIViewController {
         }
     }
     
+    /// Fires when a tap gesture recognizer on the mood image stack is fired.
+    ///
+    /// - Parameter sender: Tap gesture recognizer which was activated.
     @IBAction func ratingSelected(_ sender: UITapGestureRecognizer) {
         if selectedRatingLabel != nil {
             selectedRatingLabel?.textColor = .black
@@ -179,6 +199,9 @@ class LogCreationViewController: UIViewController {
         }
     }
     
+    /// Fires when the temperature stack view is selected by the user.
+    ///
+    /// - Parameter sender: Tap gesture recognizer which was activated by the user.
     @IBAction func temperaturePressed(_ sender: UITapGestureRecognizer) {
         heartPicker = false
         pickerview.reloadAllComponents()
@@ -192,6 +215,9 @@ class LogCreationViewController: UIViewController {
         
     }
     
+    /// Fires when the heart rate stack is selected by the user.
+    ///
+    /// - Parameter sender: Tap gesture recognizer that was selected by the user.
     @IBAction func heartratePressed ( _ sender: UITapGestureRecognizer) {
         heartPicker = true
         pickerview.reloadAllComponents()
@@ -204,6 +230,10 @@ class LogCreationViewController: UIViewController {
         }
     }
     
+    
+    /// Fires when the user selects the "done" button attached to the UIPickerView's navbar.
+    ///
+    /// - Parameter sender: The button that activated the method.
     @IBAction func dismissPickerview(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
             self.pickerStack.alpha = 0.0
@@ -211,6 +241,9 @@ class LogCreationViewController: UIViewController {
         pickerStack.isHidden = true
     }
     
+    /// Fires when the user attempts to save the log. The function checks whether the minimal requirements for a Well Track log has been met. If no errors are found the function creates a new health log and calls the saveLog method in the delegate.
+    ///
+    /// - Parameter sender: The button item attached to this function.
     @IBAction func saveLogPressed(_ sender: UIBarButtonItem) {
         let validation = validateLog()
         if validation.isEmpty || hasPresetLog {
@@ -221,6 +254,9 @@ class LogCreationViewController: UIViewController {
             self.saved = true
             log.hasVideo = videoSegmentController?.data != nil ? 1 : 0
             log.hasPicture = photoSegmentController?.data != nil ? 1 : 0
+            log.hasLocation = hasLocation
+            log.latitude = Float((location?.coordinate.latitude.magnitude)!)
+            log.longitude = Float((location?.coordinate.longitude.magnitude)!)
             delegate?.saveLog(log: log)
             self.navigationController?.popViewController(animated: true)
         } else {
@@ -228,6 +264,9 @@ class LogCreationViewController: UIViewController {
         }
     }
     
+    /// Action function for the segmented view controller which shows and hides views based on the user selected option.
+    ///
+    /// - Parameter sender: the Segmented controller attached to this function.
     @IBAction func segmentselected(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -246,10 +285,14 @@ class LogCreationViewController: UIViewController {
             videoCont.isHidden = false
             break
         default:
+            // Required break.
             break
         }
     }
     
+    /// Attempts to validate the information provided to this log controller by the user.
+    ///
+    /// - Returns: Error messages to indicate problems with log validation, may be empty.
     func validateLog() -> [String] {
         var errors = [String]()
         if selectedBeforeDecimal == 0 {
@@ -264,6 +307,9 @@ class LogCreationViewController: UIViewController {
         return errors
     }
     
+    /// Unwind segue definition for adding media to the appropriate view controller.
+    ///
+    /// - Parameter segue: The segue containing information about the unwind being performed.
     @IBAction func addMediaToLog(segue: UIStoryboardSegue) {
         if let source = segue.source as? PreviewViewController {
             if source.videoPreview {
@@ -274,6 +320,10 @@ class LogCreationViewController: UIViewController {
         }
     }
     
+    
+    /// Function to obtain an instance of CameraViewController and push it onto the view stack for this navigation controller.
+    ///
+    /// - Parameter sender: View controller sending the request to start the camera.
     func startCamera(_ sender: UIViewController) {
         let controller = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "cameraview") as? CameraViewController
         if let _ = sender as? PhotoSegmentViewController {
@@ -284,6 +334,10 @@ class LogCreationViewController: UIViewController {
         self.navigationController?.pushViewController(controller!, animated: true)
     }
     
+    
+    /// Helper function to fire a UIAlertController to display the messaged passed to the function.
+    ///
+    /// - Parameter msg: Message to be displayed to the user.
     func reportError(msg: String) {
         let alert = UIAlertController(title: "Log not created", message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
