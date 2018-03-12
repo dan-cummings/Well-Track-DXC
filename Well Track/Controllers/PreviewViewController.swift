@@ -12,18 +12,21 @@ import AVFoundation
 class PreviewViewController: UIViewController {
 
     @IBOutlet weak var photo: UIImageView!
+    @IBOutlet weak var saveButton: UIButton!
     
     var player = AVQueuePlayer()
     var playerLayer: AVPlayerLayer!
     var playerLooper: AVPlayerLooper!
     
     var videoPreview: Bool = false
+    var hideButton: Bool!
     var image: UIImage?
     
     var videoURL: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        saveButton.isHidden = hideButton
         if videoPreview {
             photo.isHidden = true
             playerLayer = AVPlayerLayer(player: player)
@@ -34,10 +37,8 @@ class PreviewViewController: UIViewController {
             let playItem = AVPlayerItem(url: videoURL!)
             player.replaceCurrentItem(with: playItem)
             playerLooper = AVPlayerLooper(player: player, templateItem: playItem)
-            
             player.play()
         }
-        
     }
     
     override func viewWillLayoutSubviews() {

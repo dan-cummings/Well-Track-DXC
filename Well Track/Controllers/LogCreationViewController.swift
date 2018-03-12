@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
 
 protocol LogCreationViewDelegate {
-    func saveLog(log: HealthLog, picture: UIImage?, video: URL?)
+    func saveLog(log: HealthLog)
 }
 
 class LogCreationViewController: UIViewController {
@@ -42,9 +44,8 @@ class LogCreationViewController: UIViewController {
     
     var delegate: LogCreationViewDelegate?
     var hasPresetLog = false
-    var presetLog: HealthLog?
-    var presetImage: UIImage?
-    var presetVideo: URL?
+    var log: HealthLog!
+    var uid: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,9 +72,23 @@ class LogCreationViewController: UIViewController {
             let rating = stack as? UIStackView
             rating?.arrangedSubviews[0].tintColor = .black
         }
-        
+        uid = Auth.auth().currentUser?.uid
         if hasPresetLog {
             self.populateFields()
+        } else {
+            let key = Database.database().reference(withPath: uid!).childByAutoId().key
+            log = HealthLog()
+            log.date = Date()
+            log.key = key
+        }
+        videoSegmentController?.startFirebase(uid: uid, log: log)
+        photoSegmentController?.startFirebase(uid: uid, log: log)
+    }
+    
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            //Remove media additions to log.
         }
     }
     
@@ -83,15 +98,9 @@ class LogCreationViewController: UIViewController {
     }
     
     func populateFields() {
-        if let log = presetLog {
-            if log.hasText == 1 {
+        if let presetLog = log {
+            if presetLog.hasText == 1 {
                 textSegmentController?.setText(log.text)
-            }
-            if log.hasPicture == 1 {
-                photoSegmentController?.setImage(image: presetImage)
-            }
-            if log.hasVideo == 1 {
-                videoSegmentController?.video = presetVideo
             }
             var loc = 0
             switch log.moodrating {
@@ -119,8 +128,8 @@ class LogCreationViewController: UIViewController {
             selectedRatingImage?.tintColor = self.view.tintColor
             selectedRatingLabel?.textColor = self.view.tintColor
             
-            self.temperatureLabel.text = log.temperature
-            self.heartrateLabel.text = log.heartrate
+            self.temperatureLabel.text = presetLog.temperature
+            self.heartrateLabel.text = presetLog.heartrate
         }
     }
     
@@ -150,6 +159,7 @@ class LogCreationViewController: UIViewController {
             if let text = selected.arrangedSubviews[1] as? UILabel {
                 text.textColor = self.view.tintColor
                 selectedRatingLabel = text
+                log.moodrating = text.text!
             }
         }
     }
@@ -189,20 +199,13 @@ class LogCreationViewController: UIViewController {
     @IBAction func saveLogPressed(_ sender: UIBarButtonItem) {
         let validation = validateLog()
         if validation.isEmpty || hasPresetLog {
-            let hasText = (textSegmentController?.hasBeenEdited)! ? 1 : 0
-            let hasVideo = videoSegmentController?.video != nil ? 1 : 0
-            let hasPicture = photoSegmentController?.image != nil ? 1 : 0
-            if hasPresetLog {
-                self.presetLog?.hasVideo = hasVideo
-                self.presetLog?.hasPicture = hasPicture
-                delegate?.saveLog(log: presetLog!, picture: photoSegmentController?.image, video: videoSegmentController?.video)
-            } else {
-                let log = HealthLog.init(key: nil, date: Date(), temperature: temperatureLabel.text!,
-                                         heartrate: heartrateLabel.text!, moodrating: (selectedRatingLabel?.text)!,
-                                         hasText: hasText, text: textSegmentController?.getText(),
-                                         hasPicture: hasPicture, pictureURL: "", hasVideo: hasVideo, videoURL: "")
-                delegate?.saveLog(log: log, picture: photoSegmentController?.image, video: videoSegmentController?.video)
+            if (textSegmentController?.hasBeenEdited)! {
+                self.log?.text = textSegmentController?.getText()
+                self.log?.hasText = 1
             }
+            log.hasVideo = videoSegmentController?.data != nil ? 1 : 0
+            log.hasPicture = photoSegmentController?.data != nil ? 1 : 0
+            delegate?.saveLog(log: log)
             self.navigationController?.popViewController(animated: true)
         } else {
             reportError(msg: validation[0])
@@ -248,9 +251,9 @@ class LogCreationViewController: UIViewController {
     @IBAction func addMediaToLog(segue: UIStoryboardSegue) {
         if let source = segue.source as? PreviewViewController {
             if source.videoPreview {
-                videoSegmentController?.video = source.videoURL
+                videoSegmentController?.addVideoToFirebase(source.videoURL!)
             } else {
-                photoSegmentController?.setImage(image: source.image)
+                photoSegmentController?.addPhotoToFirebase(source.image!)
             }
         }
     }
@@ -275,12 +278,21 @@ class LogCreationViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "embeddedPhotoSegue" {
+            if photoSegmentController != nil {
+                photoSegmentController?.infoView = false
+                photoSegmentController?.removeButton.isHidden = false
+                photoSegmentController?.photoBtn.isHidden = false
+                return
+            }
             photoSegmentController = segue.destination as? PhotoSegmentViewController
         } else if segue.identifier == "embeddedVideoSegue" {
-            videoSegmentController = segue.destination as? VideoSegmentViewController
-            if hasPresetLog {
-                videoSegmentController?.video = presetVideo
+            if videoSegmentController != nil {
+                videoSegmentController?.infoView = false
+                videoSegmentController?.addBtn.isHidden = false
+                videoSegmentController?.removeBtn.isHidden = false
+                return
             }
+            videoSegmentController = segue.destination as? VideoSegmentViewController
         } else if segue.identifier == "embeddedTextSegue" {
             textSegmentController = segue.destination as? TextSegmentViewController
         }
@@ -319,7 +331,8 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if heartPicker {
             selectedBPM = bpm[row]
-            heartrateLabel.text = "\(selectedBPM) BPM"
+            log.heartrate = "\(selectedBPM) BPM"
+            heartrateLabel.text = log.heartrate
             heartrateLabel.textColor = .black
         } else {
             switch component {
@@ -341,7 +354,8 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
             default:
                 break
             }
-            temperatureLabel.text = "\(selectedBeforeDecimal).\(selectedAfterDecimal) °\(selectedScale)"
+            log.temperature = "\(selectedBeforeDecimal).\(selectedAfterDecimal) °\(selectedScale)"
+            self.temperatureLabel.text = log.temperature
             temperatureLabel.textColor = .black
         }
     }

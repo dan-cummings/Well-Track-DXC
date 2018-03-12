@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LogInformationViewController: UIViewController {
     @IBOutlet weak var heartRateLabel: UILabel!
@@ -57,6 +58,9 @@ class LogInformationViewController: UIViewController {
         textView.isHidden = false
         photoView.isHidden = true
         videoView.isHidden = true
+        let uid = Auth.auth().currentUser?.uid
+        videoSegment?.startFirebase(uid: uid!, log: log!)
+        photoSegment?.startFirebase(uid: uid!, log: log!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,9 +72,9 @@ class LogInformationViewController: UIViewController {
         let editView = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LogCreation") as! LogCreationViewController
         editView.delegate = self
         editView.hasPresetLog = true
-        editView.presetImage = photoSegment?.image
-        editView.presetVideo = videoSegment?.video
-        editView.presetLog = log
+        editView.photoSegmentController = photoSegment
+        editView.videoSegmentController = videoSegment
+        editView.log = log
         self.navigationController?.pushViewController(editView, animated: true)
     }
     
@@ -107,21 +111,16 @@ class LogInformationViewController: UIViewController {
         } else if segue.identifier == "infoPhotoEmbeddedSegue" {
             photoSegment = segue.destination as? PhotoSegmentViewController
             photoSegment?.infoView = true
-            photoSegment?.log = self.log
         } else if segue.identifier == "infoVideoEmbeddedSegue" {
             videoSegment = segue.destination as? VideoSegmentViewController
             videoSegment?.infoView = true
-            videoSegment?.log = self.log
         }
     }
 
 }
 
 extension LogInformationViewController: LogCreationViewDelegate {
-    func saveLog(log: HealthLog, picture: UIImage?, video: URL?) {
-        delegate?.saveLog(log: log, picture: picture, video: video)
-        self.navigationController?.popViewController(animated: true)
+    func saveLog(log: HealthLog) {
+        delegate?.saveLog(log: log)
     }
-    
-    
 }
