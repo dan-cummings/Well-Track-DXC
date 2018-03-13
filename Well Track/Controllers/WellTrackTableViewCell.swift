@@ -7,9 +7,9 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
-/// Cell definition for the Well Track log history table view.
-class WellTrackTableViewCell: UITableViewCell {
+class WellTrackTableViewCell: MGSwipeTableCell {
 
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var heartRateLabel: UILabel!

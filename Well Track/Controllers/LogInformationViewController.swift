@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 /// View controller to display health log information with more detail. Contains views for video and photos along with extra text information.
 class LogInformationViewController: UIViewController {
@@ -28,6 +29,10 @@ class LogInformationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setFields()
+    }
+    
+    func setFields() {
         
         if let log = self.log {
             heartRateLabel.text = log.heartrate
@@ -53,11 +58,15 @@ class LogInformationViewController: UIViewController {
                 break
             }
             moodImageView.tintColor = .black
-            dateLabel.text = log.date?.short
+            dateLabel.text = log.date?.short            
+
         }
         textView.isHidden = false
         photoView.isHidden = true
         videoView.isHidden = true
+        let uid = Auth.auth().currentUser?.uid
+        videoSegment?.startFirebase(uid: uid!, log: log!)
+        photoSegment?.startFirebase(uid: uid!, log: log!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,9 +82,8 @@ class LogInformationViewController: UIViewController {
         let editView = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LogCreation") as! LogCreationViewController
         editView.delegate = self
         editView.hasPresetLog = true
-        editView.presetImage = photoSegment?.image
-        editView.presetVideo = videoSegment?.video
-        editView.presetLog = log
+        editView.saved = true
+        editView.log = log
         self.navigationController?.pushViewController(editView, animated: true)
     }
     
@@ -112,22 +120,18 @@ class LogInformationViewController: UIViewController {
         } else if segue.identifier == "infoPhotoEmbeddedSegue" {
             photoSegment = segue.destination as? PhotoSegmentViewController
             photoSegment?.infoView = true
-            photoSegment?.log = self.log
         } else if segue.identifier == "infoVideoEmbeddedSegue" {
             videoSegment = segue.destination as? VideoSegmentViewController
             videoSegment?.infoView = true
-            videoSegment?.log = self.log
         }
     }
 
 }
 
 extension LogInformationViewController: LogCreationViewDelegate {
-    func saveLog(log: HealthLog, picture: UIImage?, video: URL?) {
-        //Passes delegate call.
-        delegate?.saveLog(log: log, picture: picture, video: video)
-        self.navigationController?.popViewController(animated: true)
+    func saveLog(log: HealthLog, latitude: Float?, longitude: Float?) {
+        self.log = log
+        delegate?.saveLog(log: log, latitude: Float?, longitude: Float?)
+        self.setFields()
     }
-    
-    
 }

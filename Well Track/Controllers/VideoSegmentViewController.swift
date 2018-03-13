@@ -8,7 +8,9 @@
 
 import UIKit
 import AVFoundation
+import FirebaseAuth
 import FirebaseStorage
+import FirebaseDatabase
 
 /// View Controller for the video segment of the log creation to handle displaying or adding a video to this log item.
 class VideoSegmentViewController: UIViewController {
@@ -16,21 +18,36 @@ class VideoSegmentViewController: UIViewController {
     
     @IBOutlet weak var addBtn: UIButton!
     @IBOutlet weak var removeBtn: UIButton!
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var collection: UICollectionView!
     
-    var player = AVQueuePlayer()
-    var playerLayer: AVPlayerLayer!
-    var playerLooper: AVPlayerLooper!
+    fileprivate let reuseIdentifier = "MediaCell"
+    
+    fileprivate var ref: DatabaseReference!
+    fileprivate var storeRef: StorageReference!
+    fileprivate var uid: String!
+
     var infoView = false
-    var log: HealthLog?
+    var editMode = false
+    var log: HealthLog!
     
-    @IBOutlet weak var previewView: UIView!
-    
-    var video: URL?
+    var data: [MediaItems]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.collection.reloadData()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.addBtn.imageView?.contentMode = .scaleAspectFit
+        if infoView {
+            addBtn.isHidden = true
+            removeBtn.isHidden = true
+        }
+        self.collection.delegate = self
+        self.collection.dataSource = self
+        collection.allowsSelection = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,60 +57,118 @@ class VideoSegmentViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if infoView {
-            if let info = log, info.hasVideo == 1 {
-                let storageRef = Storage.storage().reference(forURL: info.videoURL!)
-                let tempUrl = tempURL()
-                storageRef.write(toFile: tempUrl!) { url, error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    } else {
-                        self.removeBtn.isHidden = true
-                        self.previewView.isHidden = false
-                        self.addBtn.isHidden = true
-                        self.label.isHidden = true
-                        self.video = url
-                        self.previewView.isHidden = false
-                        self.addBtn.isHidden = true
-                        self.label.isHidden = true
-                        self.playerLayer = AVPlayerLayer(player: self.player)
-                        self.playerLayer.frame = self.previewView.bounds
-                        self.playerLayer.videoGravity = .resizeAspect
-                        self.previewView.layer.insertSublayer(self.playerLayer, at: 0)
-                        let playItem = AVPlayerItem(url: self.video!)
-                        self.player.isMuted = true
-                        self.player.replaceCurrentItem(with: playItem)
-                        self.playerLooper = AVPlayerLooper(player: self.player, templateItem: playItem)
-                        self.player.play()
-                    }
+        if let _ = ref {
+            registerForFirebase()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let _ = ref {
+            ref.removeAllObservers()
+        }
+    }
+    
+    func startFirebase(uid: String, log: HealthLog) {
+        self.log = log
+        self.uid = uid
+        ref = Database.database().reference(withPath: "\(uid)/Logs/\(log.key!)/Videos")
+        storeRef = Storage.storage().reference()
+        self.registerForFirebase()
+    }
+
+    fileprivate func registerForFirebase() {
+        ref.observe(.value, with: { snapshot in
+            if let values = snapshot.value as? [String : AnyObject] {
+                var tmpItems = [MediaItems]()
+                for (_,val) in values.enumerated() {
+                    let entry = val.1 as! Dictionary<String,AnyObject>
+                    let key = val.0
+                    let videoURL = entry["videoURL"] as! String
+                    let duration = Double(truncating: entry["duration"] as! NSNumber)
+                    let imageURL = entry["imageURL"] as! String
+                    tmpItems.append(MediaItems(key: key, videoURL: videoURL, duration: duration, imageURL: imageURL))
                 }
-            } else {
-                addBtn.isHidden = true
-                removeBtn.isHidden = true
+                self.data = tmpItems
+            }})
+        
+        ref.observe(.childRemoved, with: { (snapshot) in
+            var tempItems = [MediaItems]()
+            for item in self.data! {
+                if snapshot.key != item.key {
+                    tempItems.append(item)
+                }
             }
-        } else {
-            if let _ = video {
-                removeBtn.isHidden = false
-                previewView.isHidden = false
-                addBtn.isHidden = true
-                label.isHidden = true
-                playerLayer = AVPlayerLayer(player: player)
-                playerLayer.frame = previewView.bounds
-                playerLayer.videoGravity = .resizeAspect
-                previewView.layer.insertSublayer(playerLayer, at: 0)
-                let playItem = AVPlayerItem(url: video!)
-                player.isMuted = true
-                player.replaceCurrentItem(with: playItem)
-                playerLooper = AVPlayerLooper(player: player, templateItem: playItem)
-                player.play()
-            } else {
-                removeBtn.isHidden = true
-                previewView.isHidden = true
-                addBtn.isHidden = false
-                label.isHidden = false
-                label.isHidden = false
+            self.data = tempItems
+        })
+    }
+    
+    func saveMediaFileToFirebase(type: Int, media: URL?, saveRefClosure: @escaping (String) -> ()) {
+        let mediaType : String = type == 1 ? "Photos" : "Videos"
+        let ext : String = type == 1 ? "jpg" : "mp4"
+        let mime : String = type == 1 ? "image/jpeg" : "video/mp4"
+        
+        do {
+            let media = try Data(contentsOf: media!)
+            let mediaPath = "\(self.uid!)/\(mediaType)/\(Int(Date.timeIntervalSinceReferenceDate * 1000)).\(ext)"
+            let metadata = StorageMetadata()
+            metadata.contentType = mime
+            if let storageRef = self.storeRef {
+                storageRef.child(mediaPath).putData(media, metadata: metadata) {(metadata, error) in
+                    if let error = error {
+                        print("Error uploading: \(error.localizedDescription)")
+                        return
+                    }
+                    saveRefClosure(metadata!.downloadURL()!.absoluteString)
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func addVideoToFirebase(_ item: URL) {
+        var mediaItem = MediaItems()
+        
+        mediaItem.key = ref.childByAutoId().key
+        
+        if let info = getThumbnail(forURL: item) {
+            let tempURL = self.tempURL()
+            mediaItem.duration = info.0
+            do {
+                try UIImageJPEGRepresentation(info.1!, 0.8)?.write(to: tempURL!)
+                self.saveMediaFileToFirebase(type: 1, media: tempURL, saveRefClosure: { (photoURL) in
+                    mediaItem.imageURL = photoURL
+                    self.saveMediaFileToFirebase(type: 0, media: item, saveRefClosure: { (videoURL) in
+                        mediaItem.videoURL = videoURL
+                        let vals = self.toDictionary(mediaItem)
+                        self.ref.child(mediaItem.key!).setValue(vals)
+                    })
+                })
+            } catch {
+                print(error.localizedDescription)
             }
         }
+    }
+    
+    func getThumbnail(forURL url: URL) -> (Float64?, UIImage?)? {
+        do {
+            let asset = AVAsset(url: url)
+            let duration = asset.duration
+            let thumbnailImage = try AVAssetImageGenerator(asset: AVAsset(url: url)).copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            return (CMTimeGetSeconds(duration), UIImage(cgImage: thumbnailImage))
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    func toDictionary(_ item: MediaItems) -> NSMutableDictionary {
+        return [
+            "imageURL": item.imageURL! as NSString,
+            "videoURL": item.videoURL! as NSString,
+            "duration": item.duration! as NSNumber
+        ]
     }
 
     @IBAction func addVideoPressed(_ sender: Any) {
@@ -102,48 +177,30 @@ class VideoSegmentViewController: UIViewController {
     }
     
     @IBAction func removeVideo(_ sender: Any) {
-        removeBtn.isHidden = true
-        label.isHidden = false
-        addBtn.isHidden = false;
-        previewView.isHidden = true
-        player.removeAllItems()
-        playerLooper.disableLooping()
-        do {
-            try FileManager.default.removeItem(at: video!)
-        } catch {
-            print(error.localizedDescription)
+        self.editMode = !self.editMode
+        if self.editMode {
+            self.removeBtn.setTitle("Cancel", for: UIControlState.normal)
+        } else {
+            self.removeBtn.setTitle("Remove", for: UIControlState.normal)
         }
     }
     
-    
-    /// Helper function which is called when a log is being viewed in more detail.
-    ///
-    /// - Parameter info: The log that is being displayed.
-    func setupForInfoView(_ info: HealthLog) {
-        if info.hasVideo == 1 {
-            let storageRef = Storage.storage().reference(forURL: info.videoURL!)
-            let tempUrl = tempURL()
-            storageRef.write(toFile: tempUrl!) { url, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    self.video = url
-                    self.previewView.isHidden = false
-                    self.addBtn.isHidden = true
-                    self.label.isHidden = true
-                    self.playerLayer = AVPlayerLayer(player: self.player)
-                    self.playerLayer.frame = self.previewView.bounds
-                    self.playerLayer.videoGravity = .resizeAspect
-                    self.previewView.layer.insertSublayer(self.playerLayer, at: 0)
-                    let playItem = AVPlayerItem(url: self.video!)
-                    self.player.isMuted = true
-                    self.player.replaceCurrentItem(with: playItem)
-                    self.playerLooper = AVPlayerLooper(player: self.player, templateItem: playItem)
-                    self.player.play()
-                }
+    func removeSelectedVideo(item: MediaItems) {
+        Storage.storage().reference(forURL: item.imageURL!).delete { (error) in
+            guard let _ = error else {
+                print("Error removing thumbnail from storage")
+                return
             }
-        } else {
+            print("Thumbnail removed from storage")
         }
+        Storage.storage().reference(forURL: item.videoURL!).delete { (error) in
+            guard let _ = error else {
+                print("Error removing video from storage")
+                return
+            }
+            print("Video removed from storage")
+        }
+        ref.child(item.key!).removeValue()
     }
     
     
@@ -157,7 +214,6 @@ class VideoSegmentViewController: UIViewController {
             let path = directory.appendingPathComponent(NSUUID().uuidString + ".mp4")
             return URL(fileURLWithPath: path)
         }
-        
         return nil
     }
     
@@ -170,5 +226,54 @@ class VideoSegmentViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+}
 
+extension VideoSegmentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? WellTrackMediaCollectionViewCell {
+            if self.editMode {
+                // Remove selected cell
+                self.removeSelectedVideo(item: cell.data)
+            } else {
+                // Call preview with the video url
+                let previewController = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as! PreviewViewController
+                previewController.videoPreview = true
+                previewController.hideButton = true
+                previewController.videoToLoad = cell.data.videoURL
+                self.navigationController?.pushViewController(previewController, animated: true)
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let count = data?.count {
+            collection.backgroundView = nil
+            if !infoView {
+                self.removeBtn.isHidden = false
+            }
+            return count
+        } else {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: collection.bounds.size.width, height: collection.bounds.size.height))
+            label.text = "No videos have been added to this log"
+            label.textColor = .black
+            label.textAlignment = .center
+            collection.backgroundView = label
+            if !infoView {
+                self.removeBtn.isHidden = true
+            }
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! WellTrackMediaCollectionViewCell
+        guard let item = data?[indexPath.row] else {
+            return cell
+        }
+        cell.data = item
+        cell.image.loadImageFromCacheUsingURL(urlString: item.imageURL!)
+        cell.image.contentMode = .scaleAspectFill
+        return cell
+    }
 }

@@ -61,9 +61,7 @@ class HomePageViewController: UIViewController {
                     tmpItem.hasText = entry["hasText"] as! Int
                     tmpItem.text = entry["text"] as? String
                     tmpItem.hasPicture = entry["hasPicture"] as! Int
-                    tmpItem.pictureURL = entry["pictureURL"] as? String
                     tmpItem.hasVideo = entry["hasVideo"] as! Int
-                    tmpItem.videoURL = entry["videoURL"] as? String
                     if self.mostRecent!.date != nil {
                         if (self.mostRecent?.date)! < tmpItem.date! {
                             self.mostRecent = tmpItem
@@ -109,6 +107,10 @@ class HomePageViewController: UIViewController {
         temperatureLabel.text = mostRecent?.temperature
         heartrateLabel.text = mostRecent?.heartrate
         moodLabel.text = mostRecent?.moodrating
+        
+        print("What is the lat and long?")
+        print(mostRecent?.latitude)
+        print(mostRecent?.longitude)
         
         dateLabel.isHidden = false
         temperatureLabel.isHidden = false
