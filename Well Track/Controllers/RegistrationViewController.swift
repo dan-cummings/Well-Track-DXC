@@ -37,7 +37,7 @@ class RegistrationViewController: UIViewController{
         if errors.isEmpty {
             Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!, completion: { (user, error) in
                 if let _ = user {
-                    self.performSegue(withIdentifier: "unwindToTop", sender: self)
+                    self.performSegue(withIdentifier: "setDefaultSettings", sender: self)
                 } else {
                     self.reportError(msg: (error?.localizedDescription)!)
                 }
