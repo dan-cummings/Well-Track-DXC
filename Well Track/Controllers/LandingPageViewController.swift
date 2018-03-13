@@ -9,11 +9,11 @@
 import UIKit
 import FirebaseAuth
 
+/// Controller for the sign in screen.
 class LandingPageViewController: UIViewController {
 
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
-    var handle: NSObjectProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,6 @@ class LandingPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        handle = Auth.auth().addStateDidChangeListener({(auth, user) in })
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,6 +29,10 @@ class LandingPageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /// Attempts to log the user in with the input information.
+    ///
+    /// - Parameter sender: The button connected to this action.
     @IBAction func signinPressed(_ sender: Any) {
         if let email = emailField.text {
             if let password = passwordField.text {
@@ -42,11 +45,6 @@ class LandingPageViewController: UIViewController {
                 })
             }
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        Auth.auth().removeStateDidChangeListener(handle!)
     }
     
     func reportError(msg: String) {

@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
-class WellTrackTableViewCell: UITableViewCell {
+class WellTrackTableViewCell: MGSwipeTableCell {
 
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var heartRateLabel: UILabel!
     @IBOutlet weak var moodLabel: UILabel!
     @IBOutlet weak var moodImage: UIImageView!
     
+    
+    /// Log being used to populate views in the cell.
     var log: HealthLog?
     
     override func awakeFromNib() {
@@ -24,7 +27,5 @@ class WellTrackTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
-
 }

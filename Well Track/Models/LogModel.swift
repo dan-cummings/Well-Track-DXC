@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 struct HealthLog {
     var key: String?
     var date: Date?
@@ -18,10 +17,13 @@ struct HealthLog {
     var hasText: Int
     var text: String?
     var hasPicture: Int
-    var pictureURL: String?
     var hasVideo: Int
-    var videoURL: String?
-    init(key: String?, date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, pictureURL: String?, hasVideo: Int, videoURL: String?) {
+    var hasLocation: Int
+    var latitude: Float?
+    var longitude: Float?
+    
+    init(key: String?, date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, hasVideo: Int, hasLocation: Int, latitude: Float?, longitude: Float?) {
+
         self.key = key
         self.date = date
         self.temperature = temperature
@@ -30,11 +32,12 @@ struct HealthLog {
         self.hasText = hasText
         self.text = text
         self.hasPicture = hasPicture
-        self.pictureURL = pictureURL
         self.hasVideo = hasVideo
-        self.videoURL = videoURL
+        self.hasLocation = hasLocation
+        self.latitude = latitude
+        self.longitude = longitude
     }
-    init( date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, pictureURL: String?, hasVideo: Int, videoURL: String?) {
+    init( date: Date?, temperature: String, heartrate: String, moodrating: String, hasText: Int, text: String?, hasPicture: Int, hasVideo: Int, hasLocation: Int, latitude: Float?, longitude: Float?) {
         self.date = date
         self.temperature = temperature
         self.heartrate = heartrate
@@ -42,9 +45,10 @@ struct HealthLog {
         self.hasText = hasText
         self.text = text
         self.hasPicture = hasPicture
-        self.pictureURL = pictureURL
         self.hasVideo = hasVideo
-        self.videoURL = videoURL
+        self.hasLocation = hasLocation
+        self.latitude = latitude
+        self.longitude = longitude
     }
     init() {
         self.key = nil
@@ -55,8 +59,9 @@ struct HealthLog {
         self.hasText = 0
         self.text = ""
         self.hasPicture = 0
-        self.pictureURL = nil
         self.hasVideo = 0
-        self.videoURL = nil
+        self.hasLocation = 0
+        self.latitude = nil
+        self.longitude = nil
     }
 }

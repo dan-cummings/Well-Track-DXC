@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// View controller for the text segment of the log creation view controller.
 class TextSegmentViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextView!
@@ -20,7 +21,7 @@ class TextSegmentViewController: UIViewController {
         textField.delegate = self
         // Do any additional setup after loading the view.
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if infoCaller {

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
+/// The home page to display the most recent log that was added and act as the hub for the user settings.
 class HomePageViewController: UIViewController {
 
     @IBOutlet weak var noLogsLabel: UILabel!
@@ -36,16 +37,15 @@ class HomePageViewController: UIViewController {
         indicator.startAnimating()
         
         healthRatingImage.tintColor = .black
-        if let uid = userId {
-            databaseRef = Database.database().reference(withPath: "\(uid)/Logs")
-        } else {
-            userId = Auth.auth().currentUser?.uid
-            databaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                self.userId = user.uid
+                self.startFirebase()
+            }
         }
-        mostRecent = HealthLog()
-        registerForFireBaseUpdates()
     }
     
+    /// Function to set up the view controller to receive updates from firebase.
     fileprivate func registerForFireBaseUpdates() {
         self.databaseRef!.observe(.value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
@@ -61,9 +61,7 @@ class HomePageViewController: UIViewController {
                     tmpItem.hasText = entry["hasText"] as! Int
                     tmpItem.text = entry["text"] as? String
                     tmpItem.hasPicture = entry["hasPicture"] as! Int
-                    tmpItem.pictureURL = entry["pictureURL"] as? String
                     tmpItem.hasVideo = entry["hasVideo"] as! Int
-                    tmpItem.videoURL = entry["videoURL"] as? String
                     if self.mostRecent!.date != nil {
                         if (self.mostRecent?.date)! < tmpItem.date! {
                             self.mostRecent = tmpItem
@@ -82,6 +80,8 @@ class HomePageViewController: UIViewController {
             }})
     }
 
+    
+    /// Updates the view to display the log information.
     func updateFields() {
         switch mostRecent!.moodrating {
         case "Fine":
@@ -108,6 +108,10 @@ class HomePageViewController: UIViewController {
         heartrateLabel.text = mostRecent?.heartrate
         moodLabel.text = mostRecent?.moodrating
         
+        print("What is the lat and long?")
+        print(mostRecent?.latitude)
+        print(mostRecent?.longitude)
+        
         dateLabel.isHidden = false
         temperatureLabel.isHidden = false
         heartrateLabel.isHidden = false
@@ -115,11 +119,26 @@ class HomePageViewController: UIViewController {
         healthRatingImage.isHidden = false
     }
     
+    /// Helper function to prepare the reference to the firebase database.
+    func startFirebase() {
+        if let uid = userId {
+            databaseRef = Database.database().reference(withPath: "\(uid)/Logs")
+        } else {
+            userId = Auth.auth().currentUser?.uid
+            databaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
+        }
+        mostRecent = HealthLog()
+        registerForFireBaseUpdates()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    /// Handles when the user logs out of the app.
+    ///
+    /// - Parameter sender: The button connected to this action.
     @IBAction func logoutPressed(_ sender: Any) {
         do {
             try Auth.auth().signOut()
