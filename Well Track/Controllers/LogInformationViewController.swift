@@ -131,7 +131,7 @@ class LogInformationViewController: UIViewController {
 extension LogInformationViewController: LogCreationViewDelegate {
     func saveLog(log: HealthLog, latitude: Float?, longitude: Float?) {
         self.log = log
-        delegate?.saveLog(log: log, latitude: Float?, longitude: Float?)
+        delegate?.saveLog(log: log, latitude: latitude, longitude: longitude)
         self.setFields()
     }
 }

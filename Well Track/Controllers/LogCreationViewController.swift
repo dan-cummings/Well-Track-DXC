@@ -254,10 +254,14 @@ class LogCreationViewController: UIViewController {
             self.saved = true
             log.hasVideo = videoSegmentController?.data != nil ? 1 : 0
             log.hasPicture = photoSegmentController?.data != nil ? 1 : 0
-            log.hasLocation = hasLocation
-            log.latitude = Float((location?.coordinate.latitude.magnitude)!)
-            log.longitude = Float((location?.coordinate.longitude.magnitude)!)
-            delegate?.saveLog(log: log)
+            if let location = appDelegate.currentLocation {
+                log.hasLocation = 1
+                log.latitude = Float(location.coordinate.latitude.magnitude)
+                log.longitude = Float(location.coordinate.longitude.magnitude)
+            } else {
+                log.hasLocation = 0
+            }
+            delegate?.saveLog(log: log, latitude: log.latitude, longitude: log.longitude)
             self.navigationController?.popViewController(animated: true)
         } else {
             reportError(msg: validation[0])

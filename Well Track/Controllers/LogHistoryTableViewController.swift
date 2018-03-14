@@ -189,15 +189,14 @@ class LogHistoryTableViewController: UITableViewController {
                     let text = entry["text"] as! String
                     let hasPicture = entry["hasPicture"] as! Int
                     let hasVideo = entry["hasVideo"] as! Int
-                    
                     let hasLocation = entry["hasLocation"] as! Int
                     let latitude = entry["latitude"] as! Float
                     let longitude = entry["longitude"] as! Float
                     tmpItems.append(HealthLog(key: key, date: date.iso8601,
                                               temperature: temperature, heartrate: heartrate,
                                               moodrating: moodrating, hasText: hasText, text: text,
-                                              hasPicture: hasPicture, pictureURL: pictureURL,
-                                              hasVideo: hasVideo, videoURL: videoURL, hasLocation: hasLocation,
+                                              hasPicture: hasPicture,
+                                              hasVideo: hasVideo, hasLocation: hasLocation,
                                               latitude: latitude, longitude: longitude))
                 }
                 self.sortLogsIntoSections(tmpItems)
@@ -286,7 +285,7 @@ class LogHistoryTableViewController: UITableViewController {
     ///   - ref: The database reference where the entry will be stored.
     ///   - vals: The dictionary containing the health log values.
     /// - Returns: Reference to the entry that was created or updated.
-    func saveLogToFirebase(key: String?, ref: DatabaseReference?, vals: NSMutableDictionary) -> DatabaseReference? {
+    func saveLogToFirebase(key: String?, ref: DatabaseReference?, vals: NSMutableDictionary) {
         var child: DatabaseReference?
         if let k = key {
             child = ref?.child(k)
