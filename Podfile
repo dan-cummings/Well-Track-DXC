@@ -14,6 +14,8 @@ target 'Well Track' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Database'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
   target 'Well TrackTests' do
     inherit! :search_paths
     # Pods for testing
