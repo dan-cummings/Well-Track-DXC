@@ -11,6 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 import FirebaseDatabase
 import MGSwipeTableCell
+import UserNotifications
 
 
 /// Table view to display the users health log history. When selected the cell will give detailed information about the selected user log. The user can change the logs by editing them and new logs will be automatically added to the list. This controller facilitates the creation of new logs by conforming to the LogCreationViewDelegate protocol.
@@ -18,6 +19,8 @@ class LogHistoryTableViewController: UITableViewController {
     
     var uid: String!
     fileprivate var databaseRef: DatabaseReference?
+    // added for local notifications
+    fileprivate var settingsRef: DatabaseReference?
     fileprivate var storageRef: StorageReference?
     
     var tableViewData: [(sectionHeader: String, logs: [HealthLog])]? {
@@ -44,6 +47,8 @@ class LogHistoryTableViewController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         databaseRef = Database.database().reference(withPath: "\(id)/Logs")
+        // added for local notifications
+        settingsRef = Database.database().reference(withPath: "\(id)/Settings")
         self.registerForFireBaseUpdates()
         storageRef = Storage.storage().reference()
     }
@@ -318,5 +323,101 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         
         let vals = self.toDictionary(log: log)
         self.saveLogToFirebase(key: log.key, ref: database, vals: vals)
+        self.checkRanges(log: log)
+    }
+    
+    // added for local notifications
+    func checkRanges(log: HealthLog) {
+        // hold settings to compare against value of log being added
+        var maxHeart: Double
+        var minHeart: Double
+        var maxTemp: Double
+        var minTemp: Double
+        var tmpSet = Settings()
+        // checking settings, unsure is easier way
+        // currently not entering loop
+        self.settingsRef?.observeSingleEvent(of: .value, with: { snapshot in
+            if let values = snapshot.value as? [String : AnyObject] {
+                var tmpItem = Settings()
+                print("++++++BEFORE LOOP++++++")
+                for (_,val) in values.enumerated() {
+                    print("+++++++IN LOOP++++++++")
+                    let entry = val.1 as! Dictionary<String,AnyObject>
+                    tmpItem.key = val.0
+                    tmpItem.maxHeart = entry["maxHeart"] as? String
+                    tmpItem.minHeart = entry["minHeart"] as? String
+                    tmpItem.maxTemp = entry["maxTemp"] as? String
+                    tmpItem.minTemp = entry["minTemp"] as? String
+                    tmpItem.alert = entry["alert"] as! Int
+                }
+                tmpSet = tmpItem
+            }
+        })
+        
+        // Convert values from strings to doubles, set to -1 if empty
+        print("Max heart should be: \(tmpSet.maxHeart ?? "not found")")
+        let maxHeartVal = tmpSet.maxHeart ?? "-1"
+        let minHeartVal = tmpSet.minHeart ?? "-1"
+        let maxTempVal = tmpSet.maxTemp ?? "-1"
+        let minTempVal = tmpSet.minTemp ?? "-1"
+        if maxHeartVal != "" {
+            maxHeart = Double(maxHeartVal)!
+        }
+        else {
+            maxHeart = -1.0
+        }
+        // will need to add if/else statements (or something else) to check for empty strings
+        minHeart = Double(minHeartVal)!
+        maxTemp = Double(maxTempVal)!
+        minTemp = Double(minTempVal)!
+        
+        // get the numbers from the log being created
+        let tempArray = log.temperature.components(separatedBy: " ")
+        let heartArray = log.heartrate.components(separatedBy: " ")
+        
+        // check if log values are inside setting boundaries
+        if let temp = Double(tempArray[0]) {
+            if (maxTemp > -1.0) && (temp > maxTemp) {
+                sendNotification(reason: "temp", direction: "over", value: temp)
+            }
+            else if (minTemp > -1.0) && (temp < minTemp) {
+                sendNotification(reason: "temp", direction: "under", value: temp)
+            }
+        }
+        else {
+            print("Can't convert temp")
+        }
+        if let rate = Double(heartArray[0]) {
+            if (maxHeart > -1.0) && (rate > maxHeart) {
+                sendNotification(reason: "heartrate", direction: "over", value: rate)
+            }
+            if (minHeart > -1.0) && (rate < minHeart) {
+                sendNotification(reason: "heartrate", direction: "under", value: rate)
+            }
+        }
+        else {
+            print("Can't convert heartrate")
+        }
+    }
+    
+    // added for local notifications
+    func sendNotification(reason: String, direction: String, value: Double) {
+        var unit: String
+        if reason == "temp" {
+            unit = "degrees"
+        }
+        else {
+            unit = "bpm"
+        }
+        let content = UNMutableNotificationContent()
+        content.title = "Time to check in!"
+        content.body = "An hour ago, your \(reason) was \(direction) \(value) \(unit)."
+        content.sound = UNNotificationSound.default()
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "TestNotification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }
