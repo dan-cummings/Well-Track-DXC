@@ -22,6 +22,7 @@ class LogHistoryTableViewController: UITableViewController {
     // added for local notifications
     fileprivate var settingsRef: DatabaseReference?
     fileprivate var storageRef: StorageReference?
+    var settingsRecord: Settings!
     
     var tableViewData: [(sectionHeader: String, logs: [HealthLog])]? {
         didSet {
@@ -206,6 +207,22 @@ class LogHistoryTableViewController: UITableViewController {
                 }
                 self.sortLogsIntoSections(tmpItems)
             }})
+        
+        self.settingsRef?.observeSingleEvent(of: .value, with: { snapshot in
+            if let values = snapshot.value as? [String : AnyObject] {
+                var tmpItem = Settings()
+                for (_,val) in values.enumerated() {
+                    let entry = val.1 as! Dictionary<String,AnyObject>
+                    tmpItem.key = val.0
+                    tmpItem.maxHeart = entry["maxHeart"] as? String
+                    tmpItem.minHeart = entry["minHeart"] as? String
+                    tmpItem.maxTemp = entry["maxTemp"] as? String
+                    tmpItem.minTemp = entry["minTemp"] as? String
+                    tmpItem.alert = entry["alert"] as! Int
+                }
+                self.settingsRecord = tmpItem
+            }
+        })
     }
     
     /// Method to provide a new ondevice URL to store a jpg.
@@ -333,39 +350,14 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         var minHeart: Double
         var maxTemp: Double
         var minTemp: Double
-        var tmpSet = Settings()
-        // checking settings, unsure is easier way
-        // currently not entering loop
-        self.settingsRef?.observeSingleEvent(of: .value, with: { snapshot in
-            if let values = snapshot.value as? [String : AnyObject] {
-                var tmpItem = Settings()
-                print("++++++BEFORE LOOP++++++")
-                for (_,val) in values.enumerated() {
-                    print("+++++++IN LOOP++++++++")
-                    let entry = val.1 as! Dictionary<String,AnyObject>
-                    tmpItem.key = val.0
-                    tmpItem.maxHeart = entry["maxHeart"] as? String
-                    tmpItem.minHeart = entry["minHeart"] as? String
-                    tmpItem.maxTemp = entry["maxTemp"] as? String
-                    tmpItem.minTemp = entry["minTemp"] as? String
-                    tmpItem.alert = entry["alert"] as! Int
-                }
-                tmpSet = tmpItem
-            }
-        })
         
         // Convert values from strings to doubles, set to -1 if empty
-        print("Max heart should be: \(tmpSet.maxHeart ?? "not found")")
-        let maxHeartVal = tmpSet.maxHeart ?? "-1"
-        let minHeartVal = tmpSet.minHeart ?? "-1"
-        let maxTempVal = tmpSet.maxTemp ?? "-1"
-        let minTempVal = tmpSet.minTemp ?? "-1"
-        if maxHeartVal != "" {
-            maxHeart = Double(maxHeartVal)!
-        }
-        else {
-            maxHeart = -1.0
-        }
+        print("Max heart should be: \(settingsRecord.maxHeart ?? "not found")")
+        let maxHeartVal = settingsRecord.maxHeart ?? "-1"
+        let minHeartVal = settingsRecord.minHeart ?? "-1"
+        let maxTempVal = settingsRecord.maxTemp ?? "-1"
+        let minTempVal = settingsRecord.minTemp ?? "-1"
+        maxHeart = Double(maxHeartVal)!
         // will need to add if/else statements (or something else) to check for empty strings
         minHeart = Double(minHeartVal)!
         maxTemp = Double(maxTempVal)!

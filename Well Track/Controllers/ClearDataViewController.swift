@@ -20,15 +20,8 @@ class ClearDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if let user = user {
-                self.userId = user.uid
-                self.startFireBase()
-                
-            }
-        }
-        
-        // Do any additional setup after loading the view.
+        self.userId = Auth.auth().currentUser?.uid
+        self.startFireBase()
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,7 +42,6 @@ class ClearDataViewController: UIViewController {
     @IBAction func clearSomeData(_ sender: UIButton) {
         let startDate = fromDate.date
         let endDate = toDate.date
-
         self.databaseRef!.child("Logs").observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = HealthLog()
@@ -71,7 +63,6 @@ class ClearDataViewController: UIViewController {
     }
     
     @IBAction func clearAllData(_ sender: UIButton) {
-        //let settingsDatabaseRef = Database.database().reference(withPath: "\(userId!)/Settings")
         let logDatabaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
         logDatabaseRef.removeValue()
     }

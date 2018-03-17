@@ -21,7 +21,6 @@ class RegistrationViewController: UIViewController{
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var nameField: UITextField!
     
-    var handle: NSObjectProtocol?
     var delegate: RegistrationDelegate?
     
     

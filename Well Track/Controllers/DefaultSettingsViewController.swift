@@ -21,20 +21,21 @@ class DefaultSettingsViewController: UIViewController {
     @IBOutlet weak var GPSSwitch: UISwitch!
     
     var userId: String?
+    var settingsRecord: Settings!
     fileprivate var databaseRef: DatabaseReference?
-    var mostRecent: Settings?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 self.userId = user.uid
-                self.startFireBase()
-                
+                self.startFirebase()
             }
         }
+        settingsRecord
+            = Settings(minTemp: "97.9", maxTemp: "99.0", minHeart: "60",
+                       maxHeart: "100", hours: "0", minutes: "30", gps: 1, alert: 1)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,41 +43,25 @@ class DefaultSettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func startFireBase() {
+    func startFirebase() {
         if let uid = userId {
             databaseRef = Database.database().reference(withPath: "\(uid)")
         } else {
             userId = Auth.auth().currentUser?.uid
             databaseRef = Database.database().reference(withPath: "\(userId!)")
         }
-        mostRecent = Settings()
     }
     
     func getSettingsDictionary () -> NSMutableDictionary {
-        var gpsInt: Int
-        var alertInt: Int
-        if GPSSwitch.isOn {
-            gpsInt = 1
-        }
-        else {
-            gpsInt = 0
-        }
-        if AlertSwitch.isOn {
-            alertInt = 1
-        }
-        else {
-            alertInt = 0
-        }
+        let gpsInt = GPSSwitch.isOn ? 1 : 0
+        let alertInt = AlertSwitch.isOn ? 1 : 0
         return [
-            // figure out how date works?
-            //let currentDate = Date()
-            //"date" : NSString(Date()),
-            "minHeart" : MinHeartField.text! as NSString,
-            "maxHeart" : MaxHeartField.text! as NSString,
-            "minTemp" : MinTempField.text! as NSString,
-            "maxTemp" : MaxTempField.text! as NSString,
-            "hours" : HoursField.text! as NSString,
-            "minutes" : MinutesField.text! as NSString,
+            "minHeart" : settingsRecord.minHeart! as NSString,
+            "maxHeart" : settingsRecord.maxHeart! as NSString,
+            "minTemp" : settingsRecord.minTemp! as NSString,
+            "maxTemp" : settingsRecord.maxTemp! as NSString,
+            "hours" : settingsRecord.hours! as NSString,
+            "minutes" : settingsRecord.minutes! as NSString,
             "gps" : gpsInt as NSInteger,
             "alert" : alertInt as NSInteger
         ]
@@ -90,21 +75,7 @@ class DefaultSettingsViewController: UIViewController {
         }
         
         let vals = self.getSettingsDictionary()
-        let settingsRef = self.saveLogToFirebase(key: mostRecent?.key, ref: database, vals: vals)
-        
-        //self.performSegue(withIdentifier: "setDefaultSettings", sender: self)
-    }
-    
-    func saveLogToFirebase(key: String?, ref: DatabaseReference?, vals: NSMutableDictionary) -> DatabaseReference? {
-        var child: DatabaseReference?
-        if let k = key {
-            child = ref?.child("Settings").child(k)
-            child?.setValue(vals)
-        } else {
-            child = ref?.child("Settings").childByAutoId()
-            child?.setValue(vals)
-        }
-        return child
+        database.child("Settings").childByAutoId().setValue(vals)
     }
     
     @IBAction func alertChange(_ sender: UISwitch) {
@@ -114,13 +85,7 @@ class DefaultSettingsViewController: UIViewController {
         MinHeartField.isEnabled = enabled
         MaxHeartField.isEnabled = enabled
         
-        var color: UIColor
-        if AlertSwitch.isOn {
-            color = UIColor.black
-        }
-        else {
-            color = UIColor.gray
-        }
+        let color = enabled ? UIColor.black : UIColor.gray
         
         MinTempField.textColor = color
         MaxTempField.textColor = color
@@ -133,16 +98,29 @@ class DefaultSettingsViewController: UIViewController {
         HoursField.isEnabled = enabled
         MinutesField.isEnabled = enabled
         
-        var color: UIColor
-        if GPSSwitch.isOn {
-            color = UIColor.black
-        }
-        else {
-            color = UIColor.gray
-        }
+        let color = enabled ? UIColor.black : UIColor.gray
         
         HoursField.textColor = color
         MinutesField.textColor = color
+    }
+    
+    @IBAction func textChanged(_ sender: UITextField) {
+        switch sender.tag {
+        case 0:
+            settingsRecord?.minHeart = sender.text
+        case 1:
+            settingsRecord?.maxHeart = sender.text
+        case 2:
+            settingsRecord?.minTemp = sender.text
+        case 3:
+            settingsRecord?.maxTemp = sender.text
+        case 4:
+            settingsRecord?.hours = sender.text
+        case 5:
+            settingsRecord?.minutes = sender.text
+        default:
+            break
+        }
     }
     
     /*
