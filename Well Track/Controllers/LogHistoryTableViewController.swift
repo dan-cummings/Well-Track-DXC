@@ -132,6 +132,7 @@ class LogHistoryTableViewController: UITableViewController {
         
         //MG cell setup
         cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: .red)]
+        cell.rightSwipeSettings.transition = .drag
         cell.delegate = self
         return cell
     }

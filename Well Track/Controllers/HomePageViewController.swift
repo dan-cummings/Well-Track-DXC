@@ -46,12 +46,25 @@ class HomePageViewController: UIViewController {
                 self.startFirebase()
             }
         }
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let _ = databaseRef {
+            self.registerForFireBaseUpdates()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let _ = databaseRef {
+            databaseRef?.removeAllObservers()
+        }
     }
     
     /// Function to set up the view controller to receive updates from firebase.
     fileprivate func registerForFireBaseUpdates() {
-        self.databaseRef!.observe(.value, with: { snapshot in
+        self.databaseRef!.observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = HealthLog()
                 for (_,val) in values.enumerated() {
@@ -79,7 +92,6 @@ class HomePageViewController: UIViewController {
                 }
                 if let _ = self.mostRecent {
                     self.updateFields()
-                    self.checkRanges()
                 } else {
                     self.noLogsLabel.isHidden = false
                 }
@@ -115,8 +127,6 @@ class HomePageViewController: UIViewController {
         temperatureLabel.text = mostRecent?.temperature
         heartrateLabel.text = mostRecent?.heartrate
         moodLabel.text = mostRecent?.moodrating
-        
-        print("What is the lat and long?")
         
         dateLabel.isHidden = false
         temperatureLabel.isHidden = false
@@ -155,92 +165,6 @@ class HomePageViewController: UIViewController {
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }
-    }
-    
-    // added for local notifications
-    func checkRanges() {
-        // hold settings as doubles
-        var maxHeart: Double
-        var minHeart: Double
-        var maxTemp: Double
-        var minTemp: Double
-        var tmpSet = Settings()
-        // checking settings, unsure is easier way
-        // currently not entering loop?
-        self.settingsRef?.observeSingleEvent(of: .value, with: { snapshot in
-            if let values = snapshot.value as? [String : AnyObject] {
-                var tmpItem = Settings()
-                for (_,val) in values.enumerated() {
-                    let entry = val.1 as! Dictionary<String,AnyObject>
-                    tmpItem.key = val.0
-                    tmpItem.maxHeart = entry["maxHeart"] as? String
-                    tmpItem.minHeart = entry["minHeart"] as? String
-                    tmpItem.maxTemp = entry["maxTemp"] as? String
-                    tmpItem.minTemp = entry["minTemp"] as? String
-                    tmpItem.alert = entry["alert"] as! Int
-                }
-                tmpSet = tmpItem
-                
-            }
-        })
-        
-        
-        // convert strings to doubles, set to -1 if empty
-        let maxHeartVal = tmpSet.maxHeart ?? "-1"
-        let minHeartVal = tmpSet.minHeart ?? "-1"
-        let maxTempVal = tmpSet.maxTemp ?? "-1"
-        let minTempVal = tmpSet.minTemp ?? "-1"
-        maxHeart = Double(maxHeartVal)!
-        minHeart = Double(minHeartVal)!
-        maxTemp = Double(maxTempVal)!
-        minTemp = Double(minTempVal)!
-
-        let tempArray = mostRecent?.temperature.components(separatedBy: " ")
-        let heartArray = mostRecent?.heartrate.components(separatedBy: " ")
-        // check thresholds
-        if let temp = Double(tempArray![0]) {
-            if (maxTemp > -1.0) && (temp > maxTemp) {
-                sendNotification(reason: "temp", direction: "over", value: temp)
-            }
-            else if (minTemp > -1.0) && (temp < minTemp) {
-                sendNotification(reason: "temp", direction: "under", value: temp)
-            }
-        }
-        else {
-            print("Can't convert temp")
-        }
-        if let rate = Double(heartArray![0]) {
-            if (maxHeart > -1.0) && (rate > maxHeart) {
-                sendNotification(reason: "heartrate", direction: "over", value: rate)
-            }
-            if (minHeart > -1.0) && (rate < minHeart) {
-                sendNotification(reason: "heartrate", direction: "under", value: rate)
-            }
-        }
-        else {
-            print("Can't convert heartrate")
-        }
-    }
-    
-    // added for local notifications
-    func sendNotification(reason: String, direction: String, value: Double) {
-        var unit: String
-        if reason == "temp" {
-            unit = "degrees"
-        }
-        else {
-            unit = "bpm"
-        }
-        let content = UNMutableNotificationContent()
-        content.title = "Time to check in!"
-        content.body = "An hour ago, your \(reason) was \(direction) \(value) \(unit)."
-        content.sound = UNNotificationSound.default()
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30, repeats: false)
-        
-        let request = UNNotificationRequest(identifier: "TestNotification", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
     /*

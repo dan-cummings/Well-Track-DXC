@@ -70,6 +70,7 @@ class WellTrackMapTableViewController: UITableViewController {
         cell.till.text = location.to.time
         
         cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: .red)]
+        cell.rightSwipeSettings.transition = .drag
         return cell
     }
 

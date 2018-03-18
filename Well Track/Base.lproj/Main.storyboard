@@ -1575,21 +1575,21 @@
                                     <constraint firstAttribute="height" constant="169" id="lFE-eF-Kem"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zaK-Vx-4HL">
-                                    <size key="itemSize" width="150" height="160"/>
+                                    <size key="itemSize" width="150" height="150"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MediaCell" id="eX4-in-PQN" customClass="WellTrackMediaCollectionViewCell" customModule="Well_Track" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="4.5" width="150" height="160"/>
+                                        <rect key="frame" x="0.0" y="9.5" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rWd-Oj-zi8">
-                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="160"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rWd-Oj-zi8">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
@@ -1606,7 +1606,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Aj-4e-dFy">
-                                <rect key="frame" x="288" y="8" width="55" height="30"/>
+                                <rect key="frame" x="288" y="8" width="55" height="8"/>
                                 <state key="normal" title="Remove"/>
                                 <connections>
                                     <action selector="removePressed:" destination="RZl-oG-AYd" eventType="touchUpInside" id="jyu-es-c8Q"/>
@@ -1633,6 +1633,7 @@
                             <constraint firstItem="F28-aM-ZjE" firstAttribute="trailing" secondItem="i7p-e8-w78" secondAttribute="trailing" constant="-8" id="ee7-uS-fKV"/>
                             <constraint firstItem="F28-aM-ZjE" firstAttribute="top" secondItem="JsL-L4-CCg" secondAttribute="bottom" constant="8" id="gRX-Jl-FDK"/>
                             <constraint firstItem="8Aj-4e-dFy" firstAttribute="top" secondItem="i7p-e8-w78" secondAttribute="top" constant="8" id="n3S-X4-0JT"/>
+                            <constraint firstItem="F28-aM-ZjE" firstAttribute="top" secondItem="8Aj-4e-dFy" secondAttribute="bottom" constant="8" id="oZe-QD-ozf"/>
                             <constraint firstItem="i7p-e8-w78" firstAttribute="trailing" secondItem="8Aj-4e-dFy" secondAttribute="trailing" constant="16" id="qy5-jQ-RPM"/>
                             <constraint firstItem="8Aj-4e-dFy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tXC-6x-m1I" secondAttribute="leading" constant="20" symbolic="YES" id="xcB-5r-gwi"/>
                         </constraints>
@@ -1668,21 +1669,21 @@
                                     <constraint firstAttribute="height" constant="169" id="Yyi-rV-Jm7"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vYk-R1-a0l">
-                                    <size key="itemSize" width="150" height="160"/>
+                                    <size key="itemSize" width="150" height="150"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MediaCell" id="EGV-YF-aVf" customClass="WellTrackMediaCollectionViewCell" customModule="Well_Track" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="4.5" width="150" height="160"/>
+                                        <rect key="frame" x="0.0" y="9.5" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DqQ-OP-p8t">
-                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="160"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DqQ-OP-p8t">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
@@ -1699,7 +1700,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKE-87-jT6">
-                                <rect key="frame" x="288" y="8" width="55" height="30"/>
+                                <rect key="frame" x="288" y="8" width="55" height="8"/>
                                 <state key="normal" title="Remove"/>
                                 <connections>
                                     <action selector="removeVideo:" destination="113-G2-7A0" eventType="touchUpInside" id="2aF-fc-wPf"/>
@@ -1725,6 +1726,7 @@
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9y7-nN-YAX" secondAttribute="trailing" constant="20" symbolic="YES" id="YiV-WN-dY6"/>
                             <constraint firstItem="Os6-oz-5Pe" firstAttribute="leading" secondItem="eKX-rA-XYI" secondAttribute="leading" constant="8" id="ZsM-e4-D2X"/>
                             <constraint firstItem="aKE-87-jT6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6hW-wH-tYy" secondAttribute="leading" constant="20" symbolic="YES" id="gXk-fc-gcL"/>
+                            <constraint firstItem="Os6-oz-5Pe" firstAttribute="top" secondItem="aKE-87-jT6" secondAttribute="bottom" constant="8" id="gdA-Sc-tOW"/>
                             <constraint firstItem="aKE-87-jT6" firstAttribute="top" secondItem="eKX-rA-XYI" secondAttribute="top" constant="8" id="ky3-TQ-dL1"/>
                             <constraint firstItem="eKX-rA-XYI" firstAttribute="trailing" secondItem="aKE-87-jT6" secondAttribute="trailing" constant="16" id="lpk-IS-U88"/>
                             <constraint firstItem="Os6-oz-5Pe" firstAttribute="top" secondItem="9y7-nN-YAX" secondAttribute="bottom" constant="8" id="oH5-xz-9qf"/>
