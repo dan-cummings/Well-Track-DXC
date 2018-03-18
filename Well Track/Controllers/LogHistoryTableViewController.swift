@@ -341,7 +341,10 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         
         let vals = self.toDictionary(log: log)
         self.saveLogToFirebase(key: log.key, ref: database, vals: vals)
-        self.checkRanges(log: log)
+        let currentDate = Date()
+        if Calendar.current.isDate(log.date!, inSameDayAs: currentDate) {
+            self.checkRanges(log: log)
+        }
     }
     
     // added for local notifications
@@ -371,10 +374,10 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         // check if log values are inside setting boundaries
         if let temp = Double(tempArray[0]) {
             if (maxTemp > -1.0) && (temp > maxTemp) {
-                sendNotification(reason: "temp", direction: "over", value: temp)
+                sendNotification(reason: "temp", direction: "over", value: maxTemp)
             }
             else if (minTemp > -1.0) && (temp < minTemp) {
-                sendNotification(reason: "temp", direction: "under", value: temp)
+                sendNotification(reason: "temp", direction: "under", value: minTemp)
             }
         }
         else {
@@ -382,10 +385,10 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         }
         if let rate = Double(heartArray[0]) {
             if (maxHeart > -1.0) && (rate > maxHeart) {
-                sendNotification(reason: "heartrate", direction: "over", value: rate)
+                sendNotification(reason: "heartrate", direction: "over", value: maxHeart)
             }
             if (minHeart > -1.0) && (rate < minHeart) {
-                sendNotification(reason: "heartrate", direction: "under", value: rate)
+                sendNotification(reason: "heartrate", direction: "under", value: minHeart)
             }
         }
         else {
@@ -403,14 +406,22 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
             unit = "bpm"
         }
         let content = UNMutableNotificationContent()
+        content.title = "Alert"
+        content.body = "Your \(reason) is \(direction) \(value) \(unit). Reminder set for 1 hour."
+        content.sound = UNNotificationSound.default()
+        var trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        let request1 = UNNotificationRequest(identifier: "Initial", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request1, withCompletionHandler: nil)
+        
         content.title = "Time to check in!"
         content.body = "An hour ago, your \(reason) was \(direction) \(value) \(unit)."
-        content.sound = UNNotificationSound.default()
+        trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30, repeats: false)
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30, repeats: false)
+        let request2 = UNNotificationRequest(identifier: "Delayed", content: content, trigger: trigger)
         
-        let request = UNNotificationRequest(identifier: "TestNotification", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
         
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }
