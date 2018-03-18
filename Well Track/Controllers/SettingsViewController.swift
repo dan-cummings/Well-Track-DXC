@@ -114,9 +114,6 @@ class SettingsViewController: UIViewController {
                 for (_,val) in values.enumerated() {
                     let entry = val.1 as! Dictionary<String,AnyObject>
                     tmpItem.key = val.0
-                    // to do
-                    //let date = entry["date"] as! String
-                    //tmpItem.date = date.iso8601
                     tmpItem.minHeart = entry["minHeart"] as? String
                     tmpItem.maxHeart = entry["maxHeart"] as? String
                     tmpItem.minTemp = entry["minTemp"] as? String
@@ -125,7 +122,6 @@ class SettingsViewController: UIViewController {
                     tmpItem.minutes = entry["minutes"] as? String
                     tmpItem.gps = entry["gps"] as! Int
                     tmpItem.alert = entry["alert"] as! Int
-                    
                 }
                 self.mostRecent = tmpItem
                 if let _ = self.mostRecent {
