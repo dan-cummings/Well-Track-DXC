@@ -342,7 +342,7 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         let vals = self.toDictionary(log: log)
         self.saveLogToFirebase(key: log.key, ref: database, vals: vals)
         let currentDate = Date()
-        if Calendar.current.isDate(log.date!, inSameDayAs: currentDate) {
+        if (settingsRecord.alert == 1) && (Calendar.current.isDate(log.date!, inSameDayAs: currentDate)) {
             self.checkRanges(log: log)
         }
     }
