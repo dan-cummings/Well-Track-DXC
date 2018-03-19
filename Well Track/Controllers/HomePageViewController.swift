@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import UserNotifications
 
 /// The home page to display the most recent log that was added and act as the hub for the user settings.
 class HomePageViewController: UIViewController {
@@ -45,9 +46,23 @@ class HomePageViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let _ = databaseRef {
+            self.registerForFireBaseUpdates()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let _ = databaseRef {
+            databaseRef?.removeAllObservers()
+        }
+    }
+    
     /// Function to set up the view controller to receive updates from firebase.
     fileprivate func registerForFireBaseUpdates() {
-        self.databaseRef!.observe(.value, with: { snapshot in
+        self.databaseRef!.observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = HealthLog()
                 for (_,val) in values.enumerated() {
@@ -61,9 +76,10 @@ class HomePageViewController: UIViewController {
                     tmpItem.hasText = entry["hasText"] as! Int
                     tmpItem.text = entry["text"] as? String
                     tmpItem.hasPicture = entry["hasPicture"] as! Int
-                    tmpItem.pictureURL = entry["pictureURL"] as? String
                     tmpItem.hasVideo = entry["hasVideo"] as! Int
-                    tmpItem.videoURL = entry["videoURL"] as? String
+                    tmpItem.hasLocation = entry["hasLocation"] as! Int
+                    tmpItem.latitude = entry["latitude"] as? Float
+                    tmpItem.longitude = entry["longitude"] as? Float
                     if self.mostRecent!.date != nil {
                         if (self.mostRecent?.date)! < tmpItem.date! {
                             self.mostRecent = tmpItem

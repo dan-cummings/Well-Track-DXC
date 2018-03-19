@@ -6,14 +6,16 @@ target 'Well Track' do
   use_frameworks!
 
   # Pods for Well Track
+  pod 'MGSwipeTableCell'
   pod 'IQKeyboardManagerSwift'
-  pod 'Eureka', '~> 4.0'
-  pod 'GoogleMaps', '~> 2.5'
+  pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Database'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
   target 'Well TrackTests' do
     inherit! :search_paths
     # Pods for testing

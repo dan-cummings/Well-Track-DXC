@@ -271,14 +271,15 @@ class CameraViewController: UIViewController {
     ///
     /// - Parameter media: An optional representing the media being displayed.
     func previewMedia(media: Any?) {
-        let previewController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as? PreviewViewController
+        let previewController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "photopreview") as! PreviewViewController
         if let photo = media as? UIImage {
-            previewController!.image = photo
+            previewController.image = photo
         } else if let videoURL = media as? URL {
-            previewController!.videoPreview = true
-            previewController!.videoURL = videoURL
+            previewController.videoPreview = true
+            previewController.videoURL = videoURL
         }
-        self.navigationController?.pushViewController(previewController!, animated: true)
+        previewController.hideButton = false
+        self.navigationController?.pushViewController(previewController, animated: true)
     }
     
     
