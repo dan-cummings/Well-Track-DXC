@@ -29,6 +29,7 @@ class GoogleMapViewController: UIViewController {
         locationManager.delegate = self
         mapView = GMSMapView.map(withFrame: view.bounds, camera: GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.60, zoom: zoomLevel))
         mapView.settings.myLocationButton = true
+        mapView.isMyLocationEnabled = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view = mapView
         mapView.isHidden = true
@@ -79,10 +80,8 @@ class GoogleMapViewController: UIViewController {
 extension GoogleMapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
-        print("Location: \(location)")
         
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: zoomLevel)
-        
         if mapView.isHidden {
             mapView.isHidden = false
             mapView.camera = camera
