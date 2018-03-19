@@ -23,8 +23,7 @@ class SettingsViewController: UIViewController {
     
     var userId: String?
     fileprivate var databaseRef: DatabaseReference?
-    var mostRecent: Settings?
-    //var userId
+    var mostRecent: Settings!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +35,7 @@ class SettingsViewController: UIViewController {
                 
             }
         }
-            
-        // Do any additional setup after loading the view.
+        mostRecent = Settings()
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,6 +51,7 @@ class SettingsViewController: UIViewController {
         print("Going to save all from save button.")
     }
     
+    // Saves values currently in text fields to Firebase
     func saveAll() {
         guard let database = databaseRef else {
             print("Database/storage error")
@@ -60,19 +59,15 @@ class SettingsViewController: UIViewController {
         }
         
         let vals = self.getSettingsDictionary()
-        let settingsRef = self.saveLogToFirebase(key: mostRecent?.key, ref: database, vals: vals)
+        self.saveLogToFirebase(key: mostRecent?.key, ref: database, vals: vals)
     }
     
-    func saveLogToFirebase(key: String?, ref: DatabaseReference?, vals: NSMutableDictionary) -> DatabaseReference? {
-        var child: DatabaseReference?
+    func saveLogToFirebase(key: String?, ref: DatabaseReference?, vals: NSMutableDictionary) {
         if let k = key {
-            child = ref?.child("Settings").child(k)
-            child?.setValue(vals)
+            ref?.child("Settings").child(k).setValue(vals)
         } else {
-            child = ref?.child("Settings").childByAutoId()
-            child?.setValue(vals)
+            ref?.child("Settings").childByAutoId().setValue(vals)
         }
-        return child
     }
     
     func startFireBase() {
@@ -102,31 +97,18 @@ class SettingsViewController: UIViewController {
             alertInt = 0
         }
         return [
-            // figure out how date works?
-            //let currentDate = Date()
-            //"date" : NSString(Date()),
-            "minHeart" : MinHeartField.text! as NSString,
-            "maxHeart" : MaxHeartField.text! as NSString,
-            "minTemp" : MinTempField.text! as NSString,
-            "maxTemp" : MaxTempField.text! as NSString,
-            "hours" : HoursField.text! as NSString,
-            "minutes" : MinutesField.text! as NSString,
+            "minHeart" : mostRecent.minHeart! as NSString,
+            "maxHeart" : mostRecent.maxHeart! as NSString,
+            "minTemp" : mostRecent.minTemp! as NSString,
+            "maxTemp" : mostRecent.maxTemp! as NSString,
+            "hours" : mostRecent.hours! as NSString,
+            "minutes" : mostRecent.minutes! as NSString,
             "gps" : gpsInt as NSInteger,
             "alert" : alertInt as NSInteger
         ]
     }
-    // Unsure if needed
-    func toDictionary (log: Settings) -> NSMutableDictionary {
-        return [
-            "date": NSString(string: (log.date?.iso8601)!),
-            "minHeart" : log.minHeart! as NSString,
-            "maxHeart" : log.maxHeart! as NSString,
-            "minTemp" : log.minTemp! as NSString,
-            "maxTemp" : log.maxTemp! as NSString,
-            "hours" : log.hours! as NSString,
-            "minutes" : log.minutes! as NSString
-        ]
-    }
+    
+    // Observes settings in Firebase, and updates most recent when there have been changes
     func registerForFireBaseUpdates() {
         self.databaseRef!.child("Settings").observe(.value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
@@ -134,9 +116,6 @@ class SettingsViewController: UIViewController {
                 for (_,val) in values.enumerated() {
                     let entry = val.1 as! Dictionary<String,AnyObject>
                     tmpItem.key = val.0
-                    // to do
-                    //let date = entry["date"] as! String
-                    //tmpItem.date = date.iso8601
                     tmpItem.minHeart = entry["minHeart"] as? String
                     tmpItem.maxHeart = entry["maxHeart"] as? String
                     tmpItem.minTemp = entry["minTemp"] as? String
@@ -145,20 +124,15 @@ class SettingsViewController: UIViewController {
                     tmpItem.minutes = entry["minutes"] as? String
                     tmpItem.gps = entry["gps"] as! Int
                     tmpItem.alert = entry["alert"] as! Int
-                    if self.mostRecent!.date != nil {
-                        if (self.mostRecent?.date)! < tmpItem.date! {
-                            self.mostRecent = tmpItem
-                        }
-                    } else {
-                        self.mostRecent = tmpItem
-                    }
                 }
+                self.mostRecent = tmpItem
                 if let _ = self.mostRecent {
                     self.updateFields()
                 }
             }})
     }
 
+    // Updates text fields with values stored in mostRecent, if that is not already the case
     func updateFields() {
         MinHeartField.text = mostRecent?.minHeart
         MaxHeartField.text = mostRecent?.maxHeart
@@ -167,6 +141,7 @@ class SettingsViewController: UIViewController {
         HoursField.text = mostRecent?.hours
         MinutesField.text = mostRecent?.minutes
         
+        // Updates alert and gps switches and fields
         if mostRecent?.alert == 1 {
             AlertSwitch.setOn(true, animated: true)
         }
@@ -194,7 +169,7 @@ class SettingsViewController: UIViewController {
         changeGPSStatus()
     }
     
-    
+    // Enables or disables text fields for alerts depending on status of switch
     func changeAlertStatus() {
         let enabled = AlertSwitch.isOn
         MinTempField.isEnabled = enabled
@@ -216,6 +191,26 @@ class SettingsViewController: UIViewController {
         MaxHeartField.textColor = color
     }
     
+    @IBAction func textChanged(_ sender: UITextField) {
+        switch sender.tag {
+        case 0:
+            mostRecent.minHeart = MinHeartField.text
+        case 1:
+            mostRecent.maxHeart = MaxHeartField.text
+        case 2:
+            mostRecent.minTemp = MinTempField.text
+        case 3:
+            mostRecent.maxTemp = MaxTempField.text
+        case 4:
+            mostRecent.hours = HoursField.text
+        case 5:
+            mostRecent.minutes = MinutesField.text
+        default:
+            break
+        }
+    }
+    
+    // Enables or disables text fields for GPS depending on switch status
     func changeGPSStatus() {
         let enabled = GPSSwitch.isOn
         HoursField.isEnabled = enabled

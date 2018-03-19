@@ -10,7 +10,6 @@ import Foundation
 
 struct Settings {
     var key: String?
-    var date: Date?
     var minTemp: String?
     var maxTemp: String?
     var minHeart: String?
@@ -20,9 +19,8 @@ struct Settings {
     var gps: Int
     var alert: Int
 
-    init(key: String?, date: Date?, minTemp: String?, maxTemp: String?, minHeart: String?, maxHeart: String?, hours: String?, minutes: String?, gps: Int, alert: Int) {
+    init(key: String?, minTemp: String?, maxTemp: String?, minHeart: String?, maxHeart: String?, hours: String?, minutes: String?, gps: Int, alert: Int) {
         self.key = key
-        self.date = date
         self.minTemp = minTemp
         self.maxTemp = maxTemp
         self.minHeart = minHeart
@@ -32,8 +30,7 @@ struct Settings {
         self.gps = gps
         self.alert = alert
     }
-    init( date: Date?, minTemp: String?, maxTemp: String?, minHeart: String?, maxHeart: String?, hours: String?, minutes: String?, gps: Int, alert: Int) {
-        self.date = date
+    init(minTemp: String?, maxTemp: String?, minHeart: String?, maxHeart: String?, hours: String?, minutes: String?, gps: Int, alert: Int) {
         self.minTemp = minTemp
         self.maxTemp = maxTemp
         self.minHeart = minHeart
@@ -45,7 +42,6 @@ struct Settings {
     }
     init() {
         self.key = nil
-        self.date = nil
         // should probably have default values
         self.minTemp = ""
         self.maxTemp = ""

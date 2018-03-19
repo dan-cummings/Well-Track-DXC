@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import UserNotifications
 
 /// The home page to display the most recent log that was added and act as the hub for the user settings.
 class HomePageViewController: UIViewController {
@@ -45,9 +46,23 @@ class HomePageViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let _ = databaseRef {
+            self.registerForFireBaseUpdates()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let _ = databaseRef {
+            databaseRef?.removeAllObservers()
+        }
+    }
+    
     /// Function to set up the view controller to receive updates from firebase.
     fileprivate func registerForFireBaseUpdates() {
-        self.databaseRef!.observe(.value, with: { snapshot in
+        self.databaseRef!.observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = HealthLog()
                 for (_,val) in values.enumerated() {
@@ -110,8 +125,6 @@ class HomePageViewController: UIViewController {
         temperatureLabel.text = mostRecent?.temperature
         heartrateLabel.text = mostRecent?.heartrate
         moodLabel.text = mostRecent?.moodrating
-        
-        print("What is the lat and long?")
         
         dateLabel.isHidden = false
         temperatureLabel.isHidden = false
