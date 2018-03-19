@@ -19,7 +19,6 @@ class LogHistoryTableViewController: UITableViewController {
     
     var uid: String!
     fileprivate var databaseRef: DatabaseReference?
-    // added for local notifications
     fileprivate var settingsRef: DatabaseReference?
     fileprivate var storageRef: StorageReference?
     var settingsRecord: Settings!
@@ -48,7 +47,6 @@ class LogHistoryTableViewController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         databaseRef = Database.database().reference(withPath: "\(id)/Logs")
-        // added for local notifications
         settingsRef = Database.database().reference(withPath: "\(id)/Settings")
         self.registerForFireBaseUpdates()
         storageRef = Storage.storage().reference()
@@ -342,12 +340,13 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         let vals = self.toDictionary(log: log)
         self.saveLogToFirebase(key: log.key, ref: database, vals: vals)
         let currentDate = Date()
+        // Check whether to send notification if user wants notifications and the log is from current day
         if (settingsRecord.alert == 1) && (Calendar.current.isDate(log.date!, inSameDayAs: currentDate)) {
             self.checkRanges(log: log)
         }
     }
     
-    // added for local notifications
+    // Checks the values in new log against settings
     func checkRanges(log: HealthLog) {
         // hold settings to compare against value of log being added
         var maxHeart: Double
@@ -362,7 +361,6 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         let maxTempVal = settingsRecord.maxTemp ?? "-1"
         let minTempVal = settingsRecord.minTemp ?? "-1"
         maxHeart = Double(maxHeartVal)!
-        // will need to add if/else statements (or something else) to check for empty strings
         minHeart = Double(minHeartVal)!
         maxTemp = Double(maxTempVal)!
         minTemp = Double(minTempVal)!
@@ -396,31 +394,36 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         }
     }
     
-    // added for local notifications
+    // Creates a set of notifications given a reason, direction, and threshold value
     func sendNotification(reason: String, direction: String, value: Double) {
         var unit: String
+        // Checks reason in order to determine unit
         if reason == "temp" {
             unit = "degrees"
         }
         else {
             unit = "bpm"
         }
+        // Creates the first, immediate notification alerting the user that some data is outside range
         let content = UNMutableNotificationContent()
         content.title = "Alert"
         content.body = "Your \(reason) is \(direction) \(value) \(unit). Reminder set for 1 hour."
         content.sound = UNNotificationSound.default()
+        // Will notify user 1 second after log is saved
         var trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        
         let request1 = UNNotificationRequest(identifier: "Initial", content: content, trigger: trigger)
         
+        // Adds initial notification
         UNUserNotificationCenter.current().add(request1, withCompletionHandler: nil)
         
+        // Creates second, delayed notification
         content.title = "Time to check in!"
         content.body = "An hour ago, your \(reason) was \(direction) \(value) \(unit)."
+        // Sets delay, will want to change to 1 hour when not testing/demoing
         trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30, repeats: false)
         
         let request2 = UNNotificationRequest(identifier: "Delayed", content: content, trigger: trigger)
-        
+        // Adds second notification
         UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
         
     }

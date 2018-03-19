@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         print("Entering notification code")
         
+        // Sets up notifications
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -45,13 +46,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             application.registerUserNotificationSettings(settings)
         }
         
-        print("About to register for remote notifications")
-        
         application.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         
-        print("Getting token")
-        
+        // Creates token and prints it, if you want to send individual push notifications
+        // May want to remove this
         let token = Messaging.messaging().fcmToken
         print("FCM token: \(token ?? "nope") TOKEN ENDED")
         return true
@@ -127,6 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
 
+    // Method needed in order to receive notifications even while app is active
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
     }

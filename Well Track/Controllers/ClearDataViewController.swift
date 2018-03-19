@@ -43,9 +43,11 @@ class ClearDataViewController: UIViewController {
         mostRecent = Settings()
     }
     
+    // Remove logs from within the specified date range
     @IBAction func clearSomeData(_ sender: UIButton) {
         let startDate = fromDate.date
         let endDate = toDate.date
+        // Loops through logs once
         self.databaseRef!.child("Logs").observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = HealthLog()
@@ -111,6 +113,7 @@ class ClearDataViewController: UIViewController {
         ref.child(key!).removeValue()
     }
     
+    // Clears all logs from Firebase
     @IBAction func clearAllData(_ sender: UIButton) {
         let logDatabaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
         logDatabaseRef.removeValue()

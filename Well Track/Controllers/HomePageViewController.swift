@@ -25,8 +25,6 @@ class HomePageViewController: UIViewController {
     var userId: String?
     var mostRecent: HealthLog?
     fileprivate var databaseRef: DatabaseReference?
-    // added for local notifications
-    fileprivate var settingsRef: DatabaseReference?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,13 +137,9 @@ class HomePageViewController: UIViewController {
     func startFirebase() {
         if let uid = userId {
             databaseRef = Database.database().reference(withPath: "\(uid)/Logs")
-            // added for local notifications
-            settingsRef = Database.database().reference(withPath: "\(uid)/Settings")
         } else {
             userId = Auth.auth().currentUser?.uid
             databaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
-            // added for local notifications
-            settingsRef = Database.database().reference(withPath: "\(userId!)/Settings")
         }
         mostRecent = HealthLog()
         registerForFireBaseUpdates()

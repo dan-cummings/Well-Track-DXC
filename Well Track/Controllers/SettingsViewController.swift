@@ -51,6 +51,7 @@ class SettingsViewController: UIViewController {
         print("Going to save all from save button.")
     }
     
+    // Saves values currently in text fields to Firebase
     func saveAll() {
         guard let database = databaseRef else {
             print("Database/storage error")
@@ -107,6 +108,7 @@ class SettingsViewController: UIViewController {
         ]
     }
     
+    // Observes settings in Firebase, and updates most recent when there have been changes
     func registerForFireBaseUpdates() {
         self.databaseRef!.child("Settings").observe(.value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
@@ -130,6 +132,7 @@ class SettingsViewController: UIViewController {
             }})
     }
 
+    // Updates text fields with values stored in mostRecent, if that is not already the case
     func updateFields() {
         MinHeartField.text = mostRecent?.minHeart
         MaxHeartField.text = mostRecent?.maxHeart
@@ -138,6 +141,7 @@ class SettingsViewController: UIViewController {
         HoursField.text = mostRecent?.hours
         MinutesField.text = mostRecent?.minutes
         
+        // Updates alert and gps switches and fields
         if mostRecent?.alert == 1 {
             AlertSwitch.setOn(true, animated: true)
         }
@@ -165,7 +169,7 @@ class SettingsViewController: UIViewController {
         changeGPSStatus()
     }
     
-    
+    // Enables or disables text fields for alerts depending on status of switch
     func changeAlertStatus() {
         let enabled = AlertSwitch.isOn
         MinTempField.isEnabled = enabled
@@ -205,6 +209,8 @@ class SettingsViewController: UIViewController {
             break
         }
     }
+    
+    // Enables or disables text fields for GPS depending on switch status
     func changeGPSStatus() {
         let enabled = GPSSwitch.isOn
         HoursField.isEnabled = enabled
