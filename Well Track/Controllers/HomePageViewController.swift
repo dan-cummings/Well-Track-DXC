@@ -68,6 +68,10 @@ class HomePageViewController: UIViewController {
                 for (_,val) in values.enumerated() {
                     let entry = val.1 as! Dictionary<String,AnyObject>
                     tmpItem.key = val.0
+                    //TODO Temp fix needs refactoring.
+                    if !snapshot.hasChild("\(tmpItem.key!)/temperature") {
+                        continue
+                    }
                     tmpItem.temperature = entry["temperature"] as! String
                     let date = entry["date"] as! String
                     tmpItem.date = date.iso8601
