@@ -186,6 +186,9 @@ class LogHistoryTableViewController: UITableViewController {
                 for (_,val) in values.enumerated() {
                     let entry = val.1 as! Dictionary<String,AnyObject>
                     let key = val.0
+                    if !snapshot.hasChild("\(key)/temperature") {
+                        continue
+                    }
                     let temperature = entry["temperature"] as! String
                     let date = entry["date"] as! String
                     let heartrate = entry["heartrate"] as! String
