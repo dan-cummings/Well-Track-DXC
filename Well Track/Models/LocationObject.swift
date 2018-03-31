@@ -10,21 +10,31 @@ import Foundation
 
 struct LocationObject {
     
+    var key: String?
     var lat: Double
     var lon: Double
-    var snippet: String
+    var placeID: String
     var name: String
     var type: String
-    var from: Date
-    var to: Date
+    var date: Date?
     
-    init(lat: Double, lon: Double, snippet: String, name: String, type: String, from: Date, to: Date) {
+    init(key: String, lat: Double, lon: Double, placeID: String, name: String, type: String, date: Date) {
+        self.key = key
         self.lat = lat
         self.lon = lon
-        self.snippet = snippet
+        self.placeID = placeID
         self.name = name
         self.type = type
-        self.from = from
-        self.to = to
+        self.date = date
+    }
+    
+    init() {
+        self.key = ""
+        self.lat = 0.0
+        self.lon = 0.0
+        self.placeID = ""
+        self.name = ""
+        self.type = ""
+        self.date = nil
     }
 }

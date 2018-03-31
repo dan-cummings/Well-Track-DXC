@@ -2,19 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Well Track would like to use the microphone to record video audio for health logs</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Well Track would like to use the camera to attach photos/videos to health logs</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -33,6 +20,23 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Well Track would like to use the camera to attach photos/videos to health logs</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Well Track would like to use the location services on your device to identify when specific locations are visited</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Well Track would like to use the microphone to record video audio for health logs</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

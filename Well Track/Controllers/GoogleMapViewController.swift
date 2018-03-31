@@ -49,7 +49,6 @@ class GoogleMapViewController: UIViewController {
         for location in marks {
             let mark = GMSMarker(position: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
             mark.title = location.name
-            mark.snippet = location.snippet
             mark.map = mapView
             path.add(CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
         }
@@ -57,6 +56,11 @@ class GoogleMapViewController: UIViewController {
         let gradient = GMSStrokeStyle.gradient(from: .red, to: .blue)
         polyline.spans = [GMSStyleSpan(style: gradient)]
         polyline.map = mapView
+    }
+    
+    func focusCamera(onLocation: LocationObject) {
+        let camera = GMSCameraPosition.camera(withLatitude: onLocation.lat, longitude: onLocation.lon, zoom: zoomLevel)
+        mapView.animate(to: camera)
     }
 
     override func didReceiveMemoryWarning() {

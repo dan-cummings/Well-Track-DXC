@@ -8,9 +8,20 @@
 
 import UIKit
 import MGSwipeTableCell
+import FirebaseDatabase
+import FirebaseAuth
+import GooglePlaces
+
+protocol MapTableViewDelegate {
+    func displaySelectedLocations(locations: [LocationObject])
+    func locationSelected(location: LocationObject)
+}
 
 class WellTrackMapTableViewController: UITableViewController {
 
+    var delegate: MapTableViewDelegate!
+    var ref: DatabaseReference!
+    var placesClient: GMSPlacesClient!
     var tableViewData: [(sectionHeader: String, locations: [LocationObject])]? {
         didSet {
             DispatchQueue.main.async {
@@ -26,14 +37,61 @@ class WellTrackMapTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            guard let user = user else {
+                return
+            }
+            self.registerForFirebase(uid: user.uid)
+        }
+        placesClient = GMSPlacesClient.shared()
     }
-
+    
+    func registerForFirebase(uid: String) {
+        ref = Database.database().reference(withPath: "\(uid)/Locations")
+        ref.observe(.value, with: { (snapshot) in
+            if let values = snapshot.value as? [String : AnyObject] {
+                var tmpItems = [LocationObject]()
+                for (_,val) in values.enumerated() {
+                    let entry = val.1 as! Dictionary<String,AnyObject>
+                    let key = val.0
+                    let lat = entry["Lat"] as! Double
+                    let lon = entry["Lon"] as! Double
+                    let name = entry["Name"] as! String
+                    let placeID = entry["PlaceID"] as! String
+                    let type = entry["Type"] as! String
+                    let date = entry["Date"] as! String
+                    
+                    tmpItems.append(LocationObject(key: key, lat: lat, lon: lon, placeID: placeID, name: name, type: type, date: date.iso8601!))
+                }
+                self.sortLogsIntoSections(items: tmpItems)
+            }
+        })
+    }
+        
+    func sortLogsIntoSections(items: [LocationObject]) {
+        var tempSorted = [String: [LocationObject]]()
+        for item in items {
+            if let _ = tempSorted.index(forKey:(item.date?.short)!) {
+                tempSorted[(item.date?.short)!]?.append(item);
+            } else {
+                tempSorted[(item.date?.short)!] = [LocationObject]()
+                var sectLog = [LocationObject]()
+                sectLog.append(item)
+                tempSorted[(item.date?.short)!] = sectLog
+            }
+        }
+        var temp = [(sectionHeader: String, locations: [LocationObject])]()
+        for (date, sectLogs) in tempSorted {
+            temp.append((sectionHeader: date, locations: sectLogs))
+        }
+        tableViewData = temp
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -52,7 +110,7 @@ class WellTrackMapTableViewController: UITableViewController {
             return 0
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return tableViewData?[section].locations.count ?? 0
@@ -65,13 +123,27 @@ class WellTrackMapTableViewController: UITableViewController {
         }
         cell.data = location
         cell.locTitle.text = location.name
-        cell.locType.text = location.type
-        cell.from.text = "\(location.from.time) -"
-        cell.till.text = location.to.time
-        
+        switch location.type {
+        case "airport":
+            cell.icon.image = UIImage(named: "plane")
+            cell.locType.text = "Airport"
+        case "food":
+            cell.icon.image = UIImage(named: "food")
+            cell.locType.text = "Restaurant"
+        case "train_station":
+            cell.icon.image = UIImage(named: "train")
+            cell.locType.text = "Train Station"
+        default:
+            cell.icon.image = UIImage(named: "locdef")
+            cell.locType.text = "Road"
+        }
         cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: .red)]
         cell.rightSwipeSettings.transition = .drag
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.tableViewData?[section].sectionHeader
     }
 
     /*
