@@ -10,6 +10,7 @@ target 'Well Track' do
   pod 'IQKeyboardManagerSwift'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'SwiftyJSON'
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'

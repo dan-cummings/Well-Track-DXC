@@ -57,11 +57,11 @@ class WellTrackMapTableViewController: UITableViewController {
                     let lat = entry["Lat"] as! Double
                     let lon = entry["Lon"] as! Double
                     let name = entry["Name"] as! String
-                    let placeID = entry["PlaceID"] as! String
                     let type = entry["Type"] as! String
-                    let date = entry["Date"] as! String
+                    let startDate = entry["StartDate"] as! String
+                    let endDate = entry["EndDate"] as! String
                     
-                    tmpItems.append(LocationObject(key: key, lat: lat, lon: lon, placeID: placeID, name: name, type: type, date: date.iso8601!))
+                    tmpItems.append(LocationObject(key: key, lat: lat, lon: lon, name: name, type: type, startDate: startDate.iso8601!, endDate: endDate.iso8601))
                 }
                 self.sortLogsIntoSections(items: tmpItems)
             }
@@ -71,13 +71,13 @@ class WellTrackMapTableViewController: UITableViewController {
     func sortLogsIntoSections(items: [LocationObject]) {
         var tempSorted = [String: [LocationObject]]()
         for item in items {
-            if let _ = tempSorted.index(forKey:(item.date?.short)!) {
-                tempSorted[(item.date?.short)!]?.append(item);
+            if let _ = tempSorted.index(forKey:(item.startDate?.short)!) {
+                tempSorted[(item.startDate?.short)!]?.append(item);
             } else {
-                tempSorted[(item.date?.short)!] = [LocationObject]()
+                tempSorted[(item.startDate?.short)!] = [LocationObject]()
                 var sectLog = [LocationObject]()
                 sectLog.append(item)
-                tempSorted[(item.date?.short)!] = sectLog
+                tempSorted[(item.startDate?.short)!] = sectLog
             }
         }
         var temp = [(sectionHeader: String, locations: [LocationObject])]()

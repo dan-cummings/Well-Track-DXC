@@ -14,29 +14,24 @@ import GooglePlaces
 import CoreLocation
 import UserNotifications
 
+let googleApiKey =  "AIzaSyCmyVu2yUf1svtM2_K330G2_AQrw_aa0sE"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
     var window: UIWindow?
     var locationManager: CLLocationManager!
     var currentLocation:CLLocation?
-    var types: [String] = ["airport", "bus_station", "city_hall", "stadium", "transit_station", "train_station", "subway_station"]
+    var types: [String] = ["airport", "bus_station", "transit_station", "train_station", "subway_station"]
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            guard let _ = user else {
-                self.turnOffLocationService()
-                return
-            }
-            self.setupLocationManager()
-        }
-        
         IQKeyboardManager.sharedManager().enable = true
         GMSServices.provideAPIKey("AIzaSyBoqRmhL_IqQ097skdZk3gxBtmc219Wz5Y")
         GMSPlacesClient.provideAPIKey("AIzaSyBoqRmhL_IqQ097skdZk3gxBtmc219Wz5Y")
+        
         
         // Sets up notifications
         if #available(iOS 10.0, *) {
@@ -83,94 +78,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-    
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        let placesClient  = GMSPlacesClient()
-        placesClient.currentPlace(callback: { (placeslikelihoodlist, error) in
-            if let placeslist = placeslikelihoodlist {
-                let place = placeslist.likelihoods.first
-                let uid = Auth.auth().currentUser?.uid
-                let vals = self.toDictionary(place: (place?.place)!)
-                Database.database().reference(withPath: "\(uid!)/Locations").childByAutoId().setValue(vals)
-                completionHandler(.newData)
-                return
-            }
-            completionHandler(.noData)
-        })
-    }
-    
-    func toDictionary(place: GMSPlace) -> NSMutableDictionary {
-        return [
-            "Name": place.name as NSString,
-            "Type": place.types.first! as NSString,
-            "Lat": place.coordinate.latitude as NSNumber,
-            "Lon": place.coordinate.longitude as NSNumber,
-            "PlaceID": place.placeID as NSString,
-            "Date": Date().iso8601 as NSString
-        ]
-    }
-    
-    // sets up the location manager
-    func setupLocationManager(){
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.requestAlwaysAuthorization()
-        locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.distanceFilter = 100
-        locationManager?.startMonitoringSignificantLocationChanges()
-    }
-    
-    // Below method will provide you current location.
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if currentLocation == nil {
-            currentLocation = locations.last
-            locationManager.stopUpdatingLocation()
-        } else {
-            let placesClient = GMSPlacesClient()
-            placesClient.currentPlace(callback: { (likelihoodlist, error) in
-                guard let list = likelihoodlist else {
-                    print("Error retrieving list from Google.")
-                    return
-                }
-                if let likelihood = list.likelihoods.first {
-                    //Solution for filtering by type.
-//                    for type in likelihood.place.types {
-//                        if self.types.contains(type) {
-//                            let uid = Auth.auth().currentUser?.uid
-//                            Database.database().reference(withPath: "\(uid!)/Locations").childByAutoId()
-//                                .setValue(self.toDictionary(place: likelihood.place))
-//                            break
-//                        }
-//                    }
-                    let uid = Auth.auth().currentUser?.uid
-                    Database.database().reference(withPath: "\(uid!)/Locations").childByAutoId()
-                                    .setValue(self.toDictionary(place: likelihood.place))
-                }
-            })
-        
-        }
-    }
-    
-    func turnOffLocationService() {
-        locationManager.stopMonitoringSignificantLocationChanges()
-    }
-    
-    // Below Mehtod will print error if not able to update location.
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error")
-    }
-    
-    func determineMyCurrentLocation() {
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.startUpdatingLocation()
-            
-        }
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
