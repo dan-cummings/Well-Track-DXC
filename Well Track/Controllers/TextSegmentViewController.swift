@@ -68,8 +68,8 @@ extension TextSegmentViewController: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if !hasBeenEdited {
+        /*if !hasBeenEdited {
             textView.text = ""
-        }
+        }*/
     }
 }
