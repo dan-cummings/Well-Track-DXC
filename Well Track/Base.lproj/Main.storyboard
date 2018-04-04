@@ -1771,7 +1771,7 @@
         <!--Map-->
         <scene sceneID="bbN-F4-lM6">
             <objects>
-                <viewController id="gNX-UH-Efk" sceneMemberID="viewController">
+                <viewController id="gNX-UH-Efk" customClass="WellTrackMapViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lhk-zB-nYS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

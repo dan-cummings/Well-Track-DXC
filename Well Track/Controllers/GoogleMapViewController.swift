@@ -17,6 +17,7 @@ class GoogleMapViewController: UIViewController {
     var mapView: GMSMapView!
     var markerList: [GMSMarker] = []
     var zoomLevel: Float = 15.0
+    var objectFocus: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,21 +47,34 @@ class GoogleMapViewController: UIViewController {
         
         mapView.clear()
         let path = GMSMutablePath()
+        var totalLat = 0.0
+        var totalLon = 0.0
         for location in marks {
             let mark = GMSMarker(position: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
             mark.title = location.name
             mark.map = mapView
             path.add(CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
+            totalLat += location.lat
+            totalLon += location.lon
         }
+        objectFocus = true
+        let camera = GMSCameraPosition.camera(withLatitude: (totalLat / Double(marks.count)), longitude: (totalLon / Double(marks.count)), zoom: zoomLevel)
+        mapView.animate(to: camera)
         let polyline = GMSPolyline(path: path)
         let gradient = GMSStrokeStyle.gradient(from: .red, to: .blue)
         polyline.spans = [GMSStyleSpan(style: gradient)]
         polyline.map = mapView
     }
     
+    func clearMarkers() {
+        mapView.clear()
+        objectFocus = false
+    }
+    
     func focusCamera(onLocation: LocationObject) {
         let camera = GMSCameraPosition.camera(withLatitude: onLocation.lat, longitude: onLocation.lon, zoom: zoomLevel)
         mapView.animate(to: camera)
+        objectFocus = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,7 +98,9 @@ class GoogleMapViewController: UIViewController {
 extension GoogleMapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
-        
+        if objectFocus {
+            return
+        }
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: zoomLevel)
         if mapView.isHidden {
             mapView.isHidden = false
