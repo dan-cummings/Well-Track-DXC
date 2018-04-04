@@ -47,12 +47,19 @@ class GoogleMapViewController: UIViewController {
         
         mapView.clear()
         let path = GMSMutablePath()
+        var totalLat = 0.0
+        var totalLon = 0.0
         for location in marks {
             let mark = GMSMarker(position: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
             mark.title = location.name
             mark.map = mapView
             path.add(CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
+            totalLat += location.lat
+            totalLon += location.lon
         }
+        objectFocus = true
+        let camera = GMSCameraPosition.camera(withLatitude: (totalLat / Double(marks.count)), longitude: (totalLon / Double(marks.count)), zoom: zoomLevel)
+        mapView.animate(to: camera)
         let polyline = GMSPolyline(path: path)
         let gradient = GMSStrokeStyle.gradient(from: .red, to: .blue)
         polyline.spans = [GMSStyleSpan(style: gradient)]

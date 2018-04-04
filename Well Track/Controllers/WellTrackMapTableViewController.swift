@@ -91,7 +91,7 @@ class WellTrackMapTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         if let count = self.tableViewData?.count {
@@ -165,15 +165,15 @@ class WellTrackMapTableViewController: UITableViewController {
         case "airport":
             cell.icon.image = UIImage(named: "plane")
             cell.locType.text = "Airport"
-        case "food":
-            cell.icon.image = UIImage(named: "food")
-            cell.locType.text = "Restaurant"
+        case "subway_station":
+            cell.icon.image = UIImage(named: "train")
+            cell.locType.text = "Subway Station"
         case "train_station":
             cell.icon.image = UIImage(named: "train")
             cell.locType.text = "Train Station"
         default:
             cell.icon.image = UIImage(named: "locdef")
-            cell.locType.text = "Road"
+            cell.locType.text = "Unknown"
         }
         cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: .red)]
         cell.rightSwipeSettings.transition = .drag
