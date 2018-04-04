@@ -31,10 +31,26 @@ class WellTrackMapViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dest = segue.destination as? WellTrackMapTableViewController {
             tableView = dest
+            dest.delegate = self
         }
         if let dest = segue.destination as? GoogleMapViewController {
             mapView = dest
         }
     }
 
+}
+
+extension WellTrackMapViewController: MapTableViewDelegate {
+    
+    func displaySelectedLocations(locations: [LocationObject]) {
+        mapView.updateMarkers(locations)
+    }
+    
+    func locationSelected(location: LocationObject) {
+        mapView.focusCamera(onLocation: location)
+    }
+    
+    func clearDisplay() {
+        mapView.clearMarkers()
+    }
 }

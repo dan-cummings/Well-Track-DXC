@@ -13,9 +13,14 @@ import FirebaseAuth
 /// The root controller for the TabViewController.
 class WellTrackUITabController: UITabBarController {
     
+    private var placeSweeper: PlacesSearch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        placeSweeper = PlacesSearch()
+        placeSweeper.setupLocationManager()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -25,7 +30,9 @@ class WellTrackUITabController: UITabBarController {
                         c.uid = user.uid
                     }
                 }
+                self.placeSweeper.startLocationServices(uid: user.uid)
             } else {
+                self.placeSweeper.turnOffLocationService()
                 self.performSegue(withIdentifier: "loginSegue", sender: self)
             }
         }
