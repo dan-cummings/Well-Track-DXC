@@ -55,8 +55,7 @@ class LogCreationViewController: UIViewController {
     var hasPresetLog = false
     var log: HealthLog!
     var uid: String!
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var currentLocation: CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +93,10 @@ class LogCreationViewController: UIViewController {
             log.date = Date()
             log.key = key
         }
+        
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
         videoSegmentController?.startFirebase(uid: uid, log: log)
         photoSegmentController?.startFirebase(uid: uid, log: log)
     }
@@ -254,7 +257,7 @@ class LogCreationViewController: UIViewController {
             self.saved = true
             log.hasVideo = videoSegmentController?.data != nil ? 1 : 0
             log.hasPicture = photoSegmentController?.data != nil ? 1 : 0
-            if let location = appDelegate.currentLocation {
+            if let location = self.currentLocation {
                 log.hasLocation = 1
                 log.latitude = Float(location.coordinate.latitude.magnitude)
                 log.longitude = Float(location.coordinate.longitude.magnitude)
@@ -358,6 +361,16 @@ class LogCreationViewController: UIViewController {
         } else if segue.identifier == "embeddedTextSegue" {
             textSegmentController = segue.destination as? TextSegmentViewController
         }
+    }
+}
+
+extension LogCreationViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else {
+            return
+        }
+        self.currentLocation = location
+        manager.stopUpdatingLocation()
     }
 }
 
