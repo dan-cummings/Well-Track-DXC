@@ -17,6 +17,7 @@ class GoogleMapViewController: UIViewController {
     var mapView: GMSMapView!
     var markerList: [GMSMarker] = []
     var zoomLevel: Float = 15.0
+    var objectFocus: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,9 +59,15 @@ class GoogleMapViewController: UIViewController {
         polyline.map = mapView
     }
     
+    func clearMarkers() {
+        mapView.clear()
+        objectFocus = false
+    }
+    
     func focusCamera(onLocation: LocationObject) {
         let camera = GMSCameraPosition.camera(withLatitude: onLocation.lat, longitude: onLocation.lon, zoom: zoomLevel)
         mapView.animate(to: camera)
+        objectFocus = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,7 +91,9 @@ class GoogleMapViewController: UIViewController {
 extension GoogleMapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
-        
+        if objectFocus {
+            return
+        }
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: zoomLevel)
         if mapView.isHidden {
             mapView.isHidden = false

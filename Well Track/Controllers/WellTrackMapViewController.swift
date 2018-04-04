@@ -49,4 +49,8 @@ extension WellTrackMapViewController: MapTableViewDelegate {
     func locationSelected(location: LocationObject) {
         mapView.focusCamera(onLocation: location)
     }
+    
+    func clearDisplay() {
+        mapView.clearMarkers()
+    }
 }

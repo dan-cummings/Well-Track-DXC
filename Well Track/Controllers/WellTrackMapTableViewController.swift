@@ -15,6 +15,7 @@ import GooglePlaces
 protocol MapTableViewDelegate {
     func displaySelectedLocations(locations: [LocationObject])
     func locationSelected(location: LocationObject)
+    func clearDisplay()
 }
 
 class WellTrackMapTableViewController: UITableViewController {
@@ -34,11 +35,6 @@ class WellTrackMapTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         Auth.auth().addStateDidChangeListener { (auth, user) in
             guard let user = user else {
                 return
@@ -150,48 +146,6 @@ class WellTrackMapTableViewController: UITableViewController {
         }
     }
     
-    func tableViewCollapseSection(_ section: Int, imageView: UIImageView) {
-        let sectionData = self.tableViewData![section].locations
-        self.expandedSectionHeaderNumber = -1
-        if sectionData.count == 0 {
-            return
-        } else {
-            UIView.animate(withDuration: 0.4) {
-                imageView.transform = CGAffineTransform(rotationAngle: (0.0 * CGFloat(Double.pi)) / 180.0)
-            }
-            var indexesPath = [IndexPath]()
-            for i in 0 ..< sectionData.count {
-                let index = IndexPath(row: i, section: section)
-                indexesPath.append(index)
-            }
-            self.tableView.beginUpdates()
-            self.tableView!.deleteRows(at: indexesPath, with: UITableViewRowAnimation.fade)
-            self.tableView.endUpdates()
-        }
-    }
-    
-    func tableViewExpandSection(_ section: Int, imageView: UIImageView) {
-        let sectionData = self.tableViewData![section].locations
-        if sectionData.count == 0 {
-            self.expandedSectionHeaderNumber = -1
-            return
-        } else {
-            UIView.animate(withDuration: 0.4) {
-                imageView.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(Double.pi)) / 180.0)
-            }
-            var indexesPath = [IndexPath]()
-            for i in 0 ..< sectionData.count {
-                let index = IndexPath(row: i, section: section)
-                indexesPath.append(index)
-            }
-            self.expandedSectionHeaderNumber = section
-            self.tableView.beginUpdates()
-            self.tableView.insertRows(at: indexesPath, with: UITableViewRowAnimation.fade)
-            self.tableView.endUpdates()
-            self.delegate.displaySelectedLocations(locations: sectionData)
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.expandedSectionHeaderNumber == section {
             return tableViewData?[section].locations.count ?? 0
@@ -226,44 +180,59 @@ class WellTrackMapTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+        self.delegate.locationSelected(location: self.tableViewData![indexPath.section].locations[indexPath.row])
+    }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.tableViewData?[section].sectionHeader
+        return "Trip on \(self.tableViewData?[section].sectionHeader ?? "")"
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    // MARK: - Expanding and collapsing cells
+    
+    func tableViewCollapseSection(_ section: Int, imageView: UIImageView) {
+        let sectionData = self.tableViewData![section].locations
+        self.expandedSectionHeaderNumber = -1
+        if sectionData.count == 0 {
+            return
+        } else {
+            UIView.animate(withDuration: 0.4) {
+                imageView.transform = CGAffineTransform(rotationAngle: (0.0 * CGFloat(Double.pi)) / 180.0)
+            }
+            var indexesPath = [IndexPath]()
+            for i in 0 ..< sectionData.count {
+                let index = IndexPath(row: i, section: section)
+                indexesPath.append(index)
+            }
+            self.tableView.beginUpdates()
+            self.tableView!.deleteRows(at: indexesPath, with: UITableViewRowAnimation.fade)
+            self.tableView.endUpdates()
+            self.delegate.clearDisplay()
+        }
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func tableViewExpandSection(_ section: Int, imageView: UIImageView) {
+        let sectionData = self.tableViewData![section].locations
+        if sectionData.count == 0 {
+            self.expandedSectionHeaderNumber = -1
+            return
+        } else {
+            UIView.animate(withDuration: 0.4) {
+                imageView.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(Double.pi)) / 180.0)
+            }
+            var indexesPath = [IndexPath]()
+            for i in 0 ..< sectionData.count {
+                let index = IndexPath(row: i, section: section)
+                indexesPath.append(index)
+            }
+            self.expandedSectionHeaderNumber = section
+            self.tableView.beginUpdates()
+            self.tableView.insertRows(at: indexesPath, with: UITableViewRowAnimation.fade)
+            self.tableView.endUpdates()
+            self.delegate.displaySelectedLocations(locations: sectionData)
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation
