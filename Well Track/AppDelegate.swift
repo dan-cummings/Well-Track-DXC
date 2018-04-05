@@ -20,9 +20,6 @@ let googleApiKey =  "AIzaSyCmyVu2yUf1svtM2_K330G2_AQrw_aa0sE"
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
     var window: UIWindow?
-    var locationManager: CLLocationManager!
-    var currentLocation:CLLocation?
-    var types: [String] = ["airport", "bus_station", "transit_station", "train_station", "subway_station"]
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

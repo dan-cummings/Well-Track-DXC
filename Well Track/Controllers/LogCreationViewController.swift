@@ -52,6 +52,7 @@ class LogCreationViewController: UIViewController {
     var bpm: [Int] = []
     
     var delegate: LogCreationViewDelegate?
+    var locationManager: CLLocationManager?
     var hasPresetLog = false
     var log: HealthLog!
     var uid: String!
@@ -94,9 +95,11 @@ class LogCreationViewController: UIViewController {
             log.key = key
         }
         
-        let locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+        locationManager = CLLocationManager()
+        locationManager!.delegate = self
+        locationManager!.requestAlwaysAuthorization()
+        locationManager!.requestLocation()
+        
         videoSegmentController?.startFirebase(uid: uid, log: log)
         photoSegmentController?.startFirebase(uid: uid, log: log)
     }
@@ -263,6 +266,8 @@ class LogCreationViewController: UIViewController {
                 log.longitude = Float(location.coordinate.longitude.magnitude)
             } else {
                 log.hasLocation = 0
+                log.latitude = 0.0
+                log.longitude = 0.0
             }
             delegate?.saveLog(log: log, latitude: log.latitude, longitude: log.longitude)
             self.navigationController?.popViewController(animated: true)
@@ -366,11 +371,15 @@ class LogCreationViewController: UIViewController {
 
 extension LogCreationViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
         guard let location = locations.last else {
             return
         }
         self.currentLocation = location
-        manager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
 }
 
