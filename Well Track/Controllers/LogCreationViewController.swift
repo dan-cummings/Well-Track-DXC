@@ -52,11 +52,11 @@ class LogCreationViewController: UIViewController {
     var bpm: [Int] = []
     
     var delegate: LogCreationViewDelegate?
+    var locationManager: CLLocationManager?
     var hasPresetLog = false
     var log: HealthLog!
     var uid: String!
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var currentLocation: CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +94,12 @@ class LogCreationViewController: UIViewController {
             log.date = Date()
             log.key = key
         }
+        
+        locationManager = CLLocationManager()
+        locationManager!.delegate = self
+        locationManager!.requestAlwaysAuthorization()
+        locationManager!.requestLocation()
+        
         videoSegmentController?.startFirebase(uid: uid, log: log)
         photoSegmentController?.startFirebase(uid: uid, log: log)
     }
@@ -254,12 +260,14 @@ class LogCreationViewController: UIViewController {
             self.saved = true
             log.hasVideo = videoSegmentController?.data != nil ? 1 : 0
             log.hasPicture = photoSegmentController?.data != nil ? 1 : 0
-            if let location = appDelegate.currentLocation {
+            if let location = self.currentLocation {
                 log.hasLocation = 1
                 log.latitude = Float(location.coordinate.latitude.magnitude)
                 log.longitude = Float(location.coordinate.longitude.magnitude)
             } else {
                 log.hasLocation = 0
+                log.latitude = 0.0
+                log.longitude = 0.0
             }
             delegate?.saveLog(log: log, latitude: log.latitude, longitude: log.longitude)
             self.navigationController?.popViewController(animated: true)
@@ -358,6 +366,20 @@ class LogCreationViewController: UIViewController {
         } else if segue.identifier == "embeddedTextSegue" {
             textSegmentController = segue.destination as? TextSegmentViewController
         }
+    }
+}
+
+extension LogCreationViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
+        guard let location = locations.last else {
+            return
+        }
+        self.currentLocation = location
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
 }
 
