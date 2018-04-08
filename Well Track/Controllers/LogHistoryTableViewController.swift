@@ -142,6 +142,7 @@ class LogHistoryTableViewController: UITableViewController {
         }
         infoView.log = log
         infoView.delegate = self
+        infoView.title = "Log Information"
         self.navigationController?.pushViewController(infoView, animated: true)
     }
     

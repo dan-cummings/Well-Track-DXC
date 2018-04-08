@@ -1270,7 +1270,7 @@
         <!--Log Information-->
         <scene sceneID="Cjj-FA-28H">
             <objects>
-                <viewController storyboardIdentifier="LogInformation" hidesBottomBarWhenPushed="YES" id="fhP-ts-ZQO" customClass="LogInformationViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LogInformation" title="Log Information" hidesBottomBarWhenPushed="YES" id="fhP-ts-ZQO" customClass="LogInformationViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qf1-6M-9K7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1394,7 +1394,6 @@
                         <viewLayoutGuide key="safeArea" id="6HX-P5-z4R"/>
                     </view>
                     <navigationItem key="navigationItem" title="Log Information" id="VMU-uR-Pge">
-                        <barButtonItem key="backBarButtonItem" title="History" id="KPU-EN-Ala"/>
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="AP8-Vg-gci">
                             <connections>
                                 <action selector="editLogPressed:" destination="fhP-ts-ZQO" id="q0o-u3-Qgh"/>
@@ -1506,7 +1505,7 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" title="Logs" id="oXg-pF-wfu">
-                        <barButtonItem key="backBarButtonItem" title="Cancel" id="orK-GC-UHd"/>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="orK-GC-UHd"/>
                         <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="jEC-pC-L8o">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gy1-83-n6b">
                                 <rect key="frame" x="334" y="9.5" width="25" height="25"/>
@@ -1528,11 +1527,11 @@
             <objects>
                 <viewController id="8yH-YB-iVu" customClass="TextSegmentViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0rl-k7-ZkY">
-                        <rect key="frame" x="0.0" y="0.0" width="359" height="201"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="222.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Add Additional Details" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cx3-DY-Bsu">
-                                <rect key="frame" x="24" y="8" width="311" height="185"/>
+                                <rect key="frame" x="24" y="8" width="311" height="206.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1565,11 +1564,11 @@
             <objects>
                 <viewController id="RZl-oG-AYd" customClass="PhotoSegmentViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tXC-6x-m1I">
-                        <rect key="frame" x="0.0" y="0.0" width="359" height="201"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="222.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="F28-aM-ZjE">
-                                <rect key="frame" x="8" y="24" width="343" height="169"/>
+                                <rect key="frame" x="8" y="45.5" width="343" height="169"/>
                                 <color key="backgroundColor" red="0.89034775658758381" green="0.90133970419977616" blue="0.90133970419977616" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="169" id="lFE-eF-Kem"/>
@@ -1606,14 +1605,14 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Aj-4e-dFy">
-                                <rect key="frame" x="288" y="8" width="55" height="8"/>
+                                <rect key="frame" x="288" y="8" width="55" height="29.5"/>
                                 <state key="normal" title="Remove"/>
                                 <connections>
                                     <action selector="removePressed:" destination="RZl-oG-AYd" eventType="touchUpInside" id="jyu-es-c8Q"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JsL-L4-CCg">
-                                <rect key="frame" x="16" y="8" width="147" height="8"/>
+                                <rect key="frame" x="16" y="8" width="147" height="29.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Add Photo" image="Camera">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1659,11 +1658,11 @@
             <objects>
                 <viewController id="113-G2-7A0" customClass="VideoSegmentViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6hW-wH-tYy">
-                        <rect key="frame" x="0.0" y="0.0" width="359" height="201"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="222.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Os6-oz-5Pe">
-                                <rect key="frame" x="8" y="24" width="343" height="169"/>
+                                <rect key="frame" x="8" y="45.5" width="343" height="169"/>
                                 <color key="backgroundColor" red="0.89034775658758381" green="0.90133970419977616" blue="0.90133970419977616" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="169" id="Yyi-rV-Jm7"/>
@@ -1700,14 +1699,14 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKE-87-jT6">
-                                <rect key="frame" x="288" y="8" width="55" height="8"/>
+                                <rect key="frame" x="288" y="8" width="55" height="29.5"/>
                                 <state key="normal" title="Remove"/>
                                 <connections>
                                     <action selector="removeVideo:" destination="113-G2-7A0" eventType="touchUpInside" id="2aF-fc-wPf"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9y7-nN-YAX">
-                                <rect key="frame" x="16" y="8" width="146" height="8"/>
+                                <rect key="frame" x="16" y="8" width="146" height="29.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Add Video" image="Camera">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1944,8 +1943,8 @@
         <image name="recent" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ft4-Kn-F99"/>
-        <segue reference="ziR-oS-Udi"/>
-        <segue reference="Rjt-My-uIq"/>
+        <segue reference="z34-kX-IVv"/>
+        <segue reference="BKF-pS-JnE"/>
+        <segue reference="PIM-CX-Tml"/>
     </inferredMetricsTieBreakers>
 </document>
