@@ -793,10 +793,10 @@
             </objects>
             <point key="canvasLocation" x="305" y="2481"/>
         </scene>
-        <!--Preview View Controller-->
+        <!--Preview-->
         <scene sceneID="vcl-M6-n2K">
             <objects>
-                <viewController storyboardIdentifier="photopreview" modalTransitionStyle="flipHorizontal" id="f28-6f-maN" customClass="PreviewViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="photopreview" title="Preview" modalTransitionStyle="flipHorizontal" id="f28-6f-maN" customClass="PreviewViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="53h-qt-6IS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -84,6 +84,7 @@ class LogInformationViewController: UIViewController {
         editView.hasPresetLog = true
         editView.saved = true
         editView.log = log
+        editView.title = "Edit Log"
         self.navigationController?.pushViewController(editView, animated: true)
     }
     
