@@ -1936,7 +1936,7 @@
         <image name="Heart" width="75" height="75"/>
         <image name="Location" width="25" height="25"/>
         <image name="Log" width="25" height="25"/>
-        <image name="Logo" width="400" height="400"/>
+        <image name="Logo" width="1200" height="1200"/>
         <image name="Plus" width="25" height="25"/>
         <image name="RightArrow" width="75" height="75"/>
         <image name="Terrible" width="75" height="75"/>

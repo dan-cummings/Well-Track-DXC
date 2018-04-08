@@ -11,6 +11,8 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 import CoreLocation
+import WatchConnectivity
+import HealthKit
 
 
 /// Delegate for Well Track log creation.
@@ -58,8 +60,12 @@ class LogCreationViewController: UIViewController {
     var uid: String!
     var currentLocation: CLLocation?
     
+    //Needed for session details if possible.
+    let session = WCSession.default
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         generateRange(scale: selectedScale)
         for i in 50...190 {
             bpm.append(i)
@@ -93,6 +99,11 @@ class LogCreationViewController: UIViewController {
             log = HealthLog()
             log.date = Date()
             log.key = key
+        }
+        
+        if session.isReachable {
+            //Registers the view for update from the watch.
+            NotificationCenter.default.addObserver(self, selector: #selector(updateFromWatch(info:)), name: NSNotification.Name(rawValue: "heartRateRecieved"), object: nil)
         }
         
         locationManager = CLLocationManager()
@@ -370,6 +381,7 @@ class LogCreationViewController: UIViewController {
 }
 
 extension LogCreationViewController: CLLocationManagerDelegate {
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(locations)
         guard let location = locations.last else {
@@ -460,6 +472,20 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
             default:
                 return ""
             }
+        }
+    }
+}
+
+// Watch notification function.
+extension LogCreationViewController {
+    
+    @objc func updateFromWatch(info: Notification) {
+        let message = info.userInfo!
+        self.selectedBPM = Int((message["heartrate"] as? Double)!)
+        self.log.heartrate = "\(self.selectedBPM) BPM"
+        DispatchQueue.main.async {
+            self.heartrateLabel.textColor = UIColor.init(red: 255/255,green: 118/255,blue: 117/255, alpha: 1.0)
+            self.heartrateLabel.text = "\(self.selectedBPM) BPM"
         }
     }
 }

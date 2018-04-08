@@ -11,8 +11,9 @@ import Firebase
 import IQKeyboardManagerSwift
 import GoogleMaps
 import GooglePlaces
-import CoreLocation
 import UserNotifications
+import HealthKit
+import WatchConnectivity
 
 let googleApiKey =  "AIzaSyCmyVu2yUf1svtM2_K330G2_AQrw_aa0sE"
 
@@ -20,15 +21,31 @@ let googleApiKey =  "AIzaSyCmyVu2yUf1svtM2_K330G2_AQrw_aa0sE"
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
     var window: UIWindow?
+    var healthStore: HKHealthStore?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        
         IQKeyboardManager.sharedManager().enable = true
         GMSServices.provideAPIKey("AIzaSyBoqRmhL_IqQ097skdZk3gxBtmc219Wz5Y")
         GMSPlacesClient.provideAPIKey("AIzaSyBoqRmhL_IqQ097skdZk3gxBtmc219Wz5Y")
         
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
+        
+        //Create a new healthstore object to be used universally.
+        if HKHealthStore.isHealthDataAvailable() {
+            self.healthStore = HKHealthStore()
+            let readTypes: Set<HKSampleType> = [HKObjectType.quantityType(forIdentifier: .heartRate)!]
+            self.healthStore?.requestAuthorization(toShare: nil, read: readTypes) { (set, error) in
+                if !set {
+                    self.healthStore = nil
+                }
+            }
+        }
         
         // Sets up notifications
         if #available(iOS 10.0, *) {
@@ -89,5 +106,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         completionHandler([.alert, .sound])
     }
     
+}
+
+extension AppDelegate: WCSessionDelegate {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        switch activationState {
+        case .activated:
+            print("Connected")
+        case .inactive:
+            fallthrough
+        case .notActivated:
+            print("No good")
+        }
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("Inactive")
+        return
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("Deactivated")
+        return
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "heartRateRecieved"), object: self, userInfo: message)
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "heartRateRecieved"), object: self, userInfo: message)
+    }
 }
 
