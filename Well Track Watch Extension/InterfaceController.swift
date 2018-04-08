@@ -45,6 +45,8 @@ class InterfaceController: WKInterfaceController {
         super.willActivate()
     }
     
+
+    /// Method is called when the button in the interface is pressed. The watch begins a workout session if there is not one already running and begins receiving heart rate objects from the Apple health store related to the workout. If there is a workout session then the session is ended and the health store query halted.
     @IBAction func startMonitor() {
         if readingHeartrate {
             self.healthstore.end(self.workoutSession)
@@ -84,7 +86,9 @@ class InterfaceController: WKInterfaceController {
                 self.heartRateLabel.setText("\(heartrate!) BPM")
                 if self.session.isReachable {
                     let message = ["heartrate": heartrate as Any]
-                    self.session.sendMessage(message, replyHandler: nil, errorHandler: nil)
+                    self.session.sendMessage(message, replyHandler: nil, errorHandler: { (error) in
+                        print(error.localizedDescription)
+                    })
                 }
             }
             self.healthstore.execute(heartRateAnchoredQuery)

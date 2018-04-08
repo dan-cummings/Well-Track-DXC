@@ -133,5 +133,9 @@ extension AppDelegate: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "heartRateRecieved"), object: self, userInfo: message)
     }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "heartRateRecieved"), object: self, userInfo: message)
+    }
 }
 

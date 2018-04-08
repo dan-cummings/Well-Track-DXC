@@ -60,9 +60,7 @@ class LogCreationViewController: UIViewController {
     var uid: String!
     var currentLocation: CLLocation?
     
-    private var healthStore: HKHealthStore!
-//    private var heartrateAnchoredQuery: HKAnchoredObjectQuery!
-//    private var myAnchor: HKQueryAnchor!
+    //Needed for session details if possible.
     let session = WCSession.default
     
     override func viewDidLoad() {
@@ -101,6 +99,10 @@ class LogCreationViewController: UIViewController {
             log = HealthLog()
             log.date = Date()
             log.key = key
+        }
+        
+        if session.isReachable {
+            //Registers the view for update from the watch.
             NotificationCenter.default.addObserver(self, selector: #selector(updateFromWatch(info:)), name: NSNotification.Name(rawValue: "heartRateRecieved"), object: nil)
         }
         
@@ -379,6 +381,7 @@ class LogCreationViewController: UIViewController {
 }
 
 extension LogCreationViewController: CLLocationManagerDelegate {
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(locations)
         guard let location = locations.last else {
@@ -473,41 +476,16 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
     }
 }
 
+// Watch notification function.
 extension LogCreationViewController {
     
     @objc func updateFromWatch(info: Notification) {
         let message = info.userInfo!
+        self.selectedBPM = Int((message["heartrate"] as? Double)!)
+        self.log.heartrate = "\(self.selectedBPM) BPM"
         DispatchQueue.main.async {
-            self.selectedBPM = Int((message["heartrate"] as? Double)!)
+            self.heartrateLabel.textColor = UIColor.init(red: 255/255,green: 118/255,blue: 117/255, alpha: 1.0)
             self.heartrateLabel.text = "\(self.selectedBPM) BPM"
         }
     }
-//    func startMonitoringHeartRate() {
-//
-//        let heartrateType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)
-//        let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast, end: Date.distantFuture, options: .strictStartDate)
-//        myAnchor = HKQueryAnchor.init(fromValue: 0)
-//        heartrateAnchoredQuery = HKAnchoredObjectQuery(type: heartrateType!, predicate: predicate, anchor: myAnchor, limit: Int(HKObjectQueryNoLimit)) { (query, returnedSamples, deletedObjects, anchor, error) in
-//            guard let samples = returnedSamples as? [HKQuantitySample] else {
-//                return
-//            }
-//            self.myAnchor = anchor!
-//            self.selectedBPM = Int((samples.first?.quantity.doubleValue(for: HKUnit.init(from: "count/min")))!)
-//            DispatchQueue.main.async {
-//                self.heartrateLabel.text = "\(self.selectedBPM) BPM"
-//            }
-//        }
-//
-//        heartrateAnchoredQuery.updateHandler = { (query, updateSamples, deletedObjects, anchor, error) in
-//            guard let samples = updateSamples as? [HKQuantitySample] else {
-//                return
-//            }
-//            self.myAnchor = anchor!
-//            self.selectedBPM = Int((samples.first?.quantity.doubleValue(for: HKUnit.init(from: "count/min")))!)
-//            DispatchQueue.main.async {
-//                self.heartrateLabel.text = "\(self.selectedBPM) BPM"
-//            }
-//        }
-//        self.healthStore.execute(self.heartrateAnchoredQuery)
-//    }
 }
