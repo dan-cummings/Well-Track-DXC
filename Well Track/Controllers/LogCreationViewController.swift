@@ -11,6 +11,8 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 import CoreLocation
+import WatchConnectivity
+import HealthKit
 
 
 /// Delegate for Well Track log creation.
@@ -58,8 +60,14 @@ class LogCreationViewController: UIViewController {
     var uid: String!
     var currentLocation: CLLocation?
     
+    private var healthStore: HKHealthStore!
+//    private var heartrateAnchoredQuery: HKAnchoredObjectQuery!
+//    private var myAnchor: HKQueryAnchor!
+    let session = WCSession.default
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         generateRange(scale: selectedScale)
         for i in 50...190 {
             bpm.append(i)
@@ -93,6 +101,7 @@ class LogCreationViewController: UIViewController {
             log = HealthLog()
             log.date = Date()
             log.key = key
+            NotificationCenter.default.addObserver(self, selector: #selector(updateFromWatch(info:)), name: NSNotification.Name(rawValue: "heartRateRecieved"), object: nil)
         }
         
         locationManager = CLLocationManager()
@@ -462,4 +471,43 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
             }
         }
     }
+}
+
+extension LogCreationViewController {
+    
+    @objc func updateFromWatch(info: Notification) {
+        let message = info.userInfo!
+        DispatchQueue.main.async {
+            self.selectedBPM = Int((message["heartrate"] as? Double)!)
+            self.heartrateLabel.text = "\(self.selectedBPM) BPM"
+        }
+    }
+//    func startMonitoringHeartRate() {
+//
+//        let heartrateType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)
+//        let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast, end: Date.distantFuture, options: .strictStartDate)
+//        myAnchor = HKQueryAnchor.init(fromValue: 0)
+//        heartrateAnchoredQuery = HKAnchoredObjectQuery(type: heartrateType!, predicate: predicate, anchor: myAnchor, limit: Int(HKObjectQueryNoLimit)) { (query, returnedSamples, deletedObjects, anchor, error) in
+//            guard let samples = returnedSamples as? [HKQuantitySample] else {
+//                return
+//            }
+//            self.myAnchor = anchor!
+//            self.selectedBPM = Int((samples.first?.quantity.doubleValue(for: HKUnit.init(from: "count/min")))!)
+//            DispatchQueue.main.async {
+//                self.heartrateLabel.text = "\(self.selectedBPM) BPM"
+//            }
+//        }
+//
+//        heartrateAnchoredQuery.updateHandler = { (query, updateSamples, deletedObjects, anchor, error) in
+//            guard let samples = updateSamples as? [HKQuantitySample] else {
+//                return
+//            }
+//            self.myAnchor = anchor!
+//            self.selectedBPM = Int((samples.first?.quantity.doubleValue(for: HKUnit.init(from: "count/min")))!)
+//            DispatchQueue.main.async {
+//                self.heartrateLabel.text = "\(self.selectedBPM) BPM"
+//            }
+//        }
+//        self.healthStore.execute(self.heartrateAnchoredQuery)
+//    }
 }
