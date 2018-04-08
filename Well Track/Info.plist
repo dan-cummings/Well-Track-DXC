@@ -22,10 +22,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.DXC.WellTrack</string>
+			<string>com.well-track.ios</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>WellTrack</string>
+				<string>well-track</string>
 			</array>
 		</dict>
 	</array>

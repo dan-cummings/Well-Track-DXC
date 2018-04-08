@@ -92,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     // added for Thermo
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        if (url.host == "withings") {
+        if (url.host == "well-track") {
             OAuthSwift.handle(url: url)
         }
         return true

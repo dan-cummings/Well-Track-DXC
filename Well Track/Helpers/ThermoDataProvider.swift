@@ -61,7 +61,7 @@ class ThermoDataProvider {
         print("Date: \(Date().timeIntervalSince1970)")
         // authorize
         let handle = oauthswift?.authorize(
-            withCallbackURL: URL(string: "com.DXC.WellTrack")!,
+            withCallbackURL: URL(string: "well-track://")!,
             success: { credential, response, parameters in
                 print(credential.oauthToken)
                 print(credential.oauthTokenSecret)
