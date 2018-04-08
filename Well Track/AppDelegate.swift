@@ -13,6 +13,7 @@ import GoogleMaps
 import GooglePlaces
 import CoreLocation
 import UserNotifications
+import OAuthSwift
 
 let googleApiKey =  "AIzaSyCmyVu2yUf1svtM2_K330G2_AQrw_aa0sE"
 
@@ -87,6 +88,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     // Method needed in order to receive notifications even while app is active
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
+    }
+    
+    // added for Thermo
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if (url.host == "withings") {
+            OAuthSwift.handle(url: url)
+        }
+        return true
     }
     
 }

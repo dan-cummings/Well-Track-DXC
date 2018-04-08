@@ -36,6 +36,8 @@ class LogCreationViewController: UIViewController {
     var photoSegmentController: PhotoSegmentViewController?
     var videoSegmentController: VideoSegmentViewController?
     var textSegmentController: TextSegmentViewController?
+    private let thermData = ThermoDataProvider()
+    private var thermoTemp: Double?
     
     var heartPicker = true
     var selectedAfterDecimal: Int = 0
@@ -93,6 +95,8 @@ class LogCreationViewController: UIViewController {
             log = HealthLog()
             log.date = Date()
             log.key = key
+            // added for Thermo
+            self.checkIntervalTemp()
         }
         
         locationManager = CLLocationManager()
@@ -460,6 +464,15 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
             default:
                 return ""
             }
+        }
+    }
+    
+    // added for Thermo, unsure if correct way to add to log view
+    func checkIntervalTemp() {
+        let temp = thermData.fetchTempInRange(1)
+        print("After thermData done")
+        if temp != -1 {
+            self.temperatureLabel.text = "\(temp)"
         }
     }
 }

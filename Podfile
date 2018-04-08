@@ -17,6 +17,7 @@ target 'Well Track' do
   pod 'Firebase/Database'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+  pod 'OAuthSwift', '~> 1.2.0'
   target 'Well TrackTests' do
     inherit! :search_paths
     # Pods for testing
