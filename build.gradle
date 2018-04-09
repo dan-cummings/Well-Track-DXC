@@ -26,7 +26,10 @@ apply plugin: com.digitalservices.DsCredentialsPlugin
 def target_name = 'Well Track'
 def ipa_name = 'well-track'
 
-def provision_name = 'USPS_GVSU_Well_Track.mobileprovision'
+def appProvision = 'USPS_GVSU_Well_Track.mobileprovision'
+def watchProvision = 'USPS_GVSU_Well_Track_Watch.mobileprovision'
+def watchExtProvision = 'USPS_GVSU_Well_Track_Watch_Extension.mobileprovision'
+
 def cert_name = 'Dev2018.p12'
 def cert_password = getPassword('ios-digitalservices-dev')
 
@@ -61,7 +64,9 @@ xcodebuild {
   ipaFileName = ipa_name + "-" + environment + "-" + appVersion
   
   signing {
-		mobileProvisionURI = 'file://' + currentPath + '/'+ provision_name
+		mobileProvisionURI = ['file://' + currentPath + '/'+ appProvision,
+								'file://' + currentPath + '/'+ watchProvision,
+								'file://' + currentPath + '/'+ watchExtProvision]
 		certificateURI = 'file://' + currentPath + '/' + cert_name
 		certificatePassword = cert_password
 	}
@@ -70,6 +75,7 @@ xcodebuild {
 infoplist {
 	version = minorVersion
 	shortVersionString = appVersion
+	bundleIdentifier = 'com.well-track.ios'
 }
 
 tasks.hockeyapp.mustRunAfter tasks.package
@@ -91,22 +97,23 @@ import org.openbakery.CommandRunner
 task updateInfoPlist() {
 	doLast {
 		PlistHelper plistHelper = new PlistHelper(new CommandRunner())
-		def bundleId = 'com.well-track.ios'
 	
 		File infoPlistWatchkit = new File('Well Track Watch/Info.plist')
-		plistHelper.setValueForPlist(infoPlistWatchkit, "CFBundleIdentifier", bundleId + ".watchkitapp")
+		plistHelper.setValueForPlist(infoPlistWatchkit, "CFBundleIdentifier", infoplist.bundleIdentifier + ".watchkit")
 		plistHelper.setValueForPlist(infoPlistWatchkit, "CFBundleShortVersionString", appVersion)
 		plistHelper.setValueForPlist(infoPlistWatchkit, "CFBundleVersion", minorVersion as String)
-		plistHelper.setValueForPlist(infoPlistWatchkit, "WKCompanionAppBundleIdentifier", bundleId)
+		plistHelper.setValueForPlist(infoPlistWatchkit, "WKCompanionAppBundleIdentifier", infoplist.bundleIdentifier)
 
 
 		File infoPlistWatchkitExtenstion = new File('Well Track Watch Extension/Info.plist')
-		plistHelper.setValueForPlist(infoPlistWatchkitExtenstion, "CFBundleIdentifier", bundleId + ".watchkitapp.watchkitextension")
+		plistHelper.setValueForPlist(infoPlistWatchkitExtenstion, "CFBundleIdentifier", infoplist.bundleIdentifier + ".watchkit.extension")
 		plistHelper.setValueForPlist(infoPlistWatchkitExtenstion, "CFBundleShortVersionString", appVersion)
 		plistHelper.setValueForPlist(infoPlistWatchkitExtenstion, "CFBundleVersion", minorVersion as String)
-		plistHelper.setValueForPlist(infoPlistWatchkitExtenstion, "NSExtension:NSExtensionAttributes:WKAppBundleIdentifier", bundleId + ".watchkitapp")
+		plistHelper.setValueForPlist(infoPlistWatchkitExtenstion, "NSExtension:NSExtensionAttributes:WKAppBundleIdentifier", infoplist.bundleIdentifier + ".watchkit")
 	}
 }
+
+infoplistModify.dependsOn updateInfoPlist
 
 task buildApp (type: GradleBuild) {
 
@@ -118,13 +125,11 @@ task buildApp (type: GradleBuild) {
 		switch (environment) {
 			case 'Debug':
 				tasks = ['clean',
-						 'updateInfoPlist',
 						 'xcodebuild']
 				println 'Running dev tasks: ' + tasks
 				break
 			case 'Release':
 				tasks = ['clean',
-						 'updateInfoPlist',
 						 'xcodebuild',
 						 'archive',
 						 'package',
@@ -133,7 +138,6 @@ task buildApp (type: GradleBuild) {
 				break
 			default:
 				tasks = ['clean',
-						 'updateInfoPlist',
 						 'xcodebuild']
 				println 'Running local tasks: ' + tasks
 				break
