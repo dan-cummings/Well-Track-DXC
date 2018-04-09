@@ -34,6 +34,11 @@ class LogInformationViewController: UIViewController {
         setFields()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.tintAdjustmentMode = .normal
+    }
+    
     func setFields() {
         
         if let log = self.log {
