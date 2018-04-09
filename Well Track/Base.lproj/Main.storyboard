@@ -1680,13 +1680,20 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DqQ-OP-p8t">
                                                     <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Play" translatesAutoresizingMaskIntoConstraints="NO" id="lUt-z1-nQi">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="lUt-z1-nQi" secondAttribute="bottom" id="6jU-WG-3IA"/>
                                             <constraint firstAttribute="trailing" secondItem="DqQ-OP-p8t" secondAttribute="trailing" id="7wm-xs-QrB"/>
+                                            <constraint firstAttribute="trailing" secondItem="lUt-z1-nQi" secondAttribute="trailing" id="GUj-i5-wdU"/>
                                             <constraint firstItem="DqQ-OP-p8t" firstAttribute="leading" secondItem="EGV-YF-aVf" secondAttribute="leading" id="Oq5-nD-3H5"/>
                                             <constraint firstItem="DqQ-OP-p8t" firstAttribute="top" secondItem="EGV-YF-aVf" secondAttribute="top" id="b1g-si-5Ww"/>
                                             <constraint firstAttribute="bottom" secondItem="DqQ-OP-p8t" secondAttribute="bottom" id="jCJ-Jm-nOa"/>
+                                            <constraint firstItem="lUt-z1-nQi" firstAttribute="top" secondItem="EGV-YF-aVf" secondAttribute="top" id="jaH-0W-SgU"/>
+                                            <constraint firstItem="lUt-z1-nQi" firstAttribute="leading" secondItem="EGV-YF-aVf" secondAttribute="leading" id="sZF-Bf-2dy"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="image" destination="DqQ-OP-p8t" id="7kF-Sy-pZO"/>
@@ -1934,6 +1941,7 @@
         <image name="Location" width="25" height="25"/>
         <image name="Log" width="25" height="25"/>
         <image name="Logo" width="1200" height="1200"/>
+        <image name="Play" width="75" height="75"/>
         <image name="Plus" width="25" height="25"/>
         <image name="RightArrow" width="75" height="75"/>
         <image name="Terrible" width="75" height="75"/>

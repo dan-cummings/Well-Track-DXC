@@ -17,7 +17,7 @@ import HealthKit
 
 /// Delegate for Well Track log creation.
 protocol LogCreationViewDelegate {
-    func saveLog(log: HealthLog, latitude: Float?, longitude: Float?)
+    func saveLog(log: HealthLog, images: [MediaItems]?, videos: [MediaItems]?)
 }
 
 
@@ -113,25 +113,6 @@ class LogCreationViewController: UIViewController {
         
         videoSegmentController?.startFirebase(uid: uid, log: log)
         photoSegmentController?.startFirebase(uid: uid, log: log)
-    }
-    
-    override func willMove(toParentViewController parent: UIViewController?) {
-        super.willMove(toParentViewController: parent)
-        if parent == nil {
-            if !saved {
-                Database.database().reference(withPath: "\(uid)/Logs/\(log.key!)").removeValue()
-                if let data = videoSegmentController!.data {
-                    for item in data {
-                        videoSegmentController?.removeSelectedVideo(item: item)
-                    }
-                }
-                if let data = photoSegmentController!.data {
-                    for item in data {
-                        photoSegmentController?.removeSelectedPicture(item: item)
-                    }
-                }
-            }
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -280,7 +261,7 @@ class LogCreationViewController: UIViewController {
                 log.latitude = 0.0
                 log.longitude = 0.0
             }
-            delegate?.saveLog(log: log, latitude: log.latitude, longitude: log.longitude)
+            delegate?.saveLog(log: log, images: photoSegmentController?.data, videos: videoSegmentController?.data)
             self.navigationController?.popViewController(animated: true)
         } else {
             reportError(msg: validation[0])
@@ -336,9 +317,9 @@ class LogCreationViewController: UIViewController {
     @IBAction func addMediaToLog(segue: UIStoryboardSegue) {
         if let source = segue.source as? PreviewViewController {
             if source.videoPreview {
-                videoSegmentController?.addVideoToFirebase(source.videoURL!)
+                videoSegmentController?.addVideo(source.videoURL!)
             } else {
-                photoSegmentController?.addPhotoToFirebase(source.image!)
+                photoSegmentController?.addPhoto(source.image!)
             }
         }
     }
@@ -383,7 +364,6 @@ class LogCreationViewController: UIViewController {
 extension LogCreationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations)
         guard let location = locations.last else {
             return
         }

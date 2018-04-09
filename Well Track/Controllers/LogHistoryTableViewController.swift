@@ -259,6 +259,14 @@ class LogHistoryTableViewController: UITableViewController {
         ]
     }
     
+    func toDictionary(media: MediaItems) -> NSMutableDictionary {
+        return [
+            "imageURL": media.imageURL! as NSString,
+            "videoURL": media.videoURL! as NSString,
+            "duration": media.duration! as NSNumber
+        ]
+    }
+    
     func removeFromFirebase(key: String?, ref: DatabaseReference, vals: HealthLog) {
         if vals.hasVideo == 1 {
             ref.child("\(key!)/Videos").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -320,6 +328,63 @@ class LogHistoryTableViewController: UITableViewController {
             child?.setValue(vals)
         }
     }
+    
+    func saveMediaFileToFirebase(type: Int, media: URL?, saveRefClosure: @escaping (String) -> ()) {
+        let mediaType : String = type == 1 ? "Photos" : "Videos"
+        let ext : String = type == 1 ? "jpg" : "mp4"
+        let mime : String = type == 1 ? "image/jpeg" : "video/mp4"
+        
+        do {
+            let media = try Data(contentsOf: media!)
+            let mediaPath = "\(self.uid!)/\(mediaType)/\(Int(Date.timeIntervalSinceReferenceDate * 1000)).\(ext)"
+            let metadata = StorageMetadata()
+            metadata.contentType = mime
+            if let storageRef = self.storageRef {
+                storageRef.child(mediaPath).putData(media, metadata: metadata) {(metadata, error) in
+                    if let error = error {
+                        print("Error uploading: \(error.localizedDescription)")
+                        return
+                    }
+                    saveRefClosure(metadata!.downloadURL()!.absoluteString)
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func addVideoToFirebase(_ item: MediaItems, _ ref: DatabaseReference) {
+        var mediaItem = MediaItems()
+        mediaItem.key = ref.childByAutoId().key
+        let image = imageCache.object(forKey: item.imageURL as AnyObject)
+        let tempurl = tempURL()
+        do {
+            try UIImageJPEGRepresentation(image as! UIImage, 0.8)?.write(to: tempurl!)
+        } catch { }
+        self.saveMediaFileToFirebase(type: 1, media: tempurl, saveRefClosure: { (photoURL) in
+            mediaItem.imageURL = photoURL
+            self.saveMediaFileToFirebase(type: 0, media: videoCache.object(forKey: item.videoURL as AnyObject) as? URL, saveRefClosure: { (videoURL) in
+                mediaItem.videoURL = videoURL
+                let vals = self.toDictionary(media: mediaItem)
+                ref.child(mediaItem.key!).setValue(vals)
+            })
+        })
+    }
+    
+    func addPhotoToFirebase(_ item: MediaItems, _ ref: DatabaseReference) {
+        var mediaItem = MediaItems()
+        mediaItem.key = ref.childByAutoId().key
+        let image = imageCache.object(forKey: item.imageURL as AnyObject)
+        let tempurl = tempURL()
+        do {
+            try UIImageJPEGRepresentation(image as! UIImage, 0.8)?.write(to: tempurl!)
+        } catch { }
+        self.saveMediaFileToFirebase(type: 1, media: tempurl, saveRefClosure: { (downloadURL) in
+            mediaItem.imageURL = downloadURL
+            let vals = self.toDictionary(media: mediaItem)
+            ref.child(mediaItem.key!).setValue(vals)
+        })
+    }
 }
 
 extension LogHistoryTableViewController: MGSwipeTableCellDelegate {
@@ -335,7 +400,7 @@ extension LogHistoryTableViewController: MGSwipeTableCellDelegate {
 
 extension LogHistoryTableViewController: LogCreationViewDelegate {
     
-    func saveLog(log: HealthLog, latitude: Float?, longitude: Float?) {
+    func saveLog(log: HealthLog, images: [MediaItems]?, videos: [MediaItems]?) {
         guard let database = databaseRef else {
             print("Database/storage error")
             return
@@ -343,6 +408,28 @@ extension LogHistoryTableViewController: LogCreationViewDelegate {
         
         let vals = self.toDictionary(log: log)
         self.saveLogToFirebase(key: log.key, ref: database, vals: vals)
+        if let uploadImage = images {
+            let imageRef = database.child("\(log.key!)/Pictures")
+            for image in uploadImage {
+                if let _ = image.key {
+                    continue
+                } else {
+                    self.addPhotoToFirebase(image, imageRef)
+                }
+            }
+        }
+        
+        if let uploadVideo = videos {
+            let videoRef = database.child("\(log.key!)/Videos")
+            for video in uploadVideo {
+                if let _ = video.key {
+                    continue
+                } else {
+                    self.addVideoToFirebase(video, videoRef)
+                }
+            }
+        }
+        
         let currentDate = Date()
         // Check whether to send notification if user wants notifications and the log is from current day
         if (settingsRecord.alert == 1) && (Calendar.current.isDate(log.date!, inSameDayAs: currentDate)) {

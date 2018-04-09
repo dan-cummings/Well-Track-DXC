@@ -27,8 +27,7 @@ class PhotoSegmentViewController: UIViewController {
     var uid: String!
     
     var editMode = false
-    
-    var newItems: [MediaItems]?
+    var removal: DatabaseHandle?
     
     var infoView = false
     var data: [MediaItems]? {
@@ -84,6 +83,17 @@ class PhotoSegmentViewController: UIViewController {
     }
     
     func removeSelectedPicture(item: MediaItems) {
+        guard let _ = item.key else {
+            var tempData = [MediaItems]()
+            for picture in self.data! {
+                if picture.imageURL != item.imageURL {
+                    tempData.append(picture)
+                }
+            }
+            self.data = tempData
+            return
+        }
+        
         Storage.storage().reference(forURL: item.imageURL!).delete { (error) in
             guard let _ = error else {
                 print("Error removing photo from storage")
@@ -109,20 +119,21 @@ class PhotoSegmentViewController: UIViewController {
     }
     
     fileprivate func registerForFirebase() {
-        ref.observe(.value, with: { snapshot in
-                if let values = snapshot.value as? [String : AnyObject] {
-                    var tmpItems = [MediaItems]()
-                    for (_,val) in values.enumerated() {
-                        let entry = val.1 as! Dictionary<String,AnyObject>
-                        let key = val.0
-                        let videoURL = entry["videoURL"] as! String
-                        let duration = Double(truncating: entry["duration"] as! NSNumber)
-                        let imageURL = entry["imageURL"] as! String
-                        tmpItems.append(MediaItems(key: key, videoURL: videoURL, duration: duration, imageURL: imageURL))
-                    }
-                    self.data = tmpItems
-            }})
-        
+        if self.data == nil || self.infoView {
+            ref.observeSingleEvent(of: .value, with: { snapshot in
+                    if let values = snapshot.value as? [String : AnyObject] {
+                        var tmpItems = [MediaItems]()
+                        for (_,val) in values.enumerated() {
+                            let entry = val.1 as! Dictionary<String,AnyObject>
+                            let key = val.0
+                            let videoURL = entry["videoURL"] as! String
+                            let duration = Double(truncating: entry["duration"] as! NSNumber)
+                            let imageURL = entry["imageURL"] as! String
+                            tmpItems.append(MediaItems(key: key, videoURL: videoURL, duration: duration, imageURL: imageURL))
+                        }
+                        self.data = tmpItems
+                }})
+        }
         ref.observe(.childRemoved, with: { (snapshot) in
             var tempItems = [MediaItems]()
             for item in self.data! {
@@ -134,62 +145,37 @@ class PhotoSegmentViewController: UIViewController {
         })
     }
     
-    func saveMediaFileToFirebase(type: Int, media: URL?, saveRefClosure: @escaping (String) -> ()) {
-        let mediaType : String = type == 1 ? "Photos" : "Videos"
-        let ext : String = type == 1 ? "jpg" : "mp4"
-        let mime : String = type == 1 ? "image/jpeg" : "video/mp4"
-        
-        do {
-            let media = try Data(contentsOf: media!)
-            let mediaPath = "\(self.uid!)/\(mediaType)/\(Int(Date.timeIntervalSinceReferenceDate * 1000)).\(ext)"
-            let metadata = StorageMetadata()
-            metadata.contentType = mime
-            if let storageRef = self.storeRef {
-                storageRef.child(mediaPath).putData(media, metadata: metadata) {(metadata, error) in
-                    if let error = error {
-                        print("Error uploading: \(error.localizedDescription)")
-                        return
-                    }
-                    saveRefClosure(metadata!.downloadURL()!.absoluteString)
-                }
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func addPhotoToFirebase(_ image: UIImage) {
-        var mediaItem = MediaItems()
-        mediaItem.key = self.ref.childByAutoId().key
-        do {
-            let tempURL = self.tempURL()
-            try UIImageJPEGRepresentation(image, 0.8)?.write(to: tempURL!)
-            self.saveMediaFileToFirebase(type: 1, media: tempURL, saveRefClosure: { (downloadURL) in
-                mediaItem.imageURL = downloadURL
-                let vals = self.toDictionary(mediaItem)
-                self.ref.child(mediaItem.key!).setValue(vals)
-                })
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
+    /// Function to get a new URL object for our image.
+    ///
+    /// - Returns: URL for photo.
     func tempURL() -> URL? {
         let directory = NSTemporaryDirectory() as NSString
         
         if directory != "" {
-            let path = directory.appendingPathComponent(NSUUID().uuidString + ".mp4")
+            let path = directory.appendingPathComponent(NSUUID().uuidString + ".png")
             return URL(fileURLWithPath: path)
         }
         return nil
     }
     
-    func toDictionary(_ item: MediaItems) -> NSMutableDictionary {
-        return [
-            "imageURL": item.imageURL! as NSString,
-            "videoURL": item.videoURL! as NSString,
-            "duration": item.duration! as NSNumber
-        ]
+    func addPhoto(_ image: UIImage) {
+        
+        var newPhotoItem = MediaItems()
+        
+        newPhotoItem.imageURL = tempURL()?.absoluteString
+        imageCache.setObject(image, forKey: newPhotoItem.imageURL as AnyObject)
+        
+        var tempData = [MediaItems]()
+        
+        if let loadedData = self.data {
+            for item in loadedData {
+                tempData.append(item)
+            }
+            tempData.append(newPhotoItem)
+        } else {
+            tempData.append(newPhotoItem)
+        }
+        self.data = tempData
     }
     
     /*

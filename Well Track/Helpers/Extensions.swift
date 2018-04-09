@@ -52,30 +52,42 @@ extension String {
 }
 
 let imageCache = NSCache<AnyObject, AnyObject>()
-
+let videoCache = NSCache<AnyObject, AnyObject>()
 extension UIImageView {
     
     func loadImageFromCacheUsingURL(urlString: String) {
         
-        self.image = nil
+        self.image = UIImage(named: "placeholder")
         
         if let cachedImage = imageCache.object(forKey: urlString as AnyObject) as? UIImage {
             self.image = cachedImage
             return
         }
-        
-        let storageRef = Storage.storage().reference(forURL: urlString)
-        storageRef.getData(maxSize: 16 * 1024 * 1024, completion: { (data, error) in
-            if let e = error {
-                print("\(e.localizedDescription)")
-                return
+        if urlString.range(of: "file://") != nil {
+            guard FileManager.default.fileExists(atPath: urlString),
+                let imageData: Data = try? Data(contentsOf: URL(fileURLWithPath: urlString, isDirectory: true)),
+                let image: UIImage = UIImage(data: imageData) else {
+                    print("No image")
+                    return // No image found!
             }
             DispatchQueue.main.async {
-                if let downloadedImage = UIImage(data: data!) {
-                    imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
-                    self.image = downloadedImage
-                }
+                imageCache.setObject(image, forKey: urlString as AnyObject)
+                self.image = image
             }
-        })
+        } else {
+            let storageRef = Storage.storage().reference(forURL: urlString)
+            storageRef.getData(maxSize: 16 * 1024 * 1024, completion: { (data, error) in
+                if let e = error {
+                    print("\(e.localizedDescription)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    if let downloadedImage = UIImage(data: data!) {
+                        imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
+                        self.image = downloadedImage
+                    }
+                }
+            })
+        }
     }
 }
