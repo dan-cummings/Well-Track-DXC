@@ -22,7 +22,7 @@ struct MediaItems {
         self.imageURL = imageURL
     }
     init() {
-        self.key = ""
+        self.key = nil
         self.videoURL = ""
         self.duration = 0.0
         self.imageURL = ""

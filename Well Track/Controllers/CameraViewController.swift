@@ -338,7 +338,7 @@ class CameraViewController: UIViewController {
 // MARK: - Capture Delegate to handle and receive updates on the status of a photo capture for the capture session.
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard error == nil, let dataBuffer = photo.fileDataRepresentation() else {return}
+        guard error == nil, let dataBuffer = photo.fileDataRepresentation() else { return }
         previewMedia(media: UIImage.init(data: dataBuffer))
     }
 }
