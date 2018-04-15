@@ -51,8 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // Creates token and prints it, if you want to send individual push notifications
         // May want to remove this
-        let token = Messaging.messaging().fcmToken
-        print("FCM token: \(token ?? "nope") TOKEN ENDED")
+        // let token = Messaging.messaging().fcmToken
         return true
     }
     
@@ -92,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     // added for Thermo
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        if (url.host == "well-track") {
+        if (url.absoluteString.split(separator: ":")[0] == "well-track") {
             OAuthSwift.handle(url: url)
         }
         return true

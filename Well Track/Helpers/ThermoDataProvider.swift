@@ -66,16 +66,14 @@ class ThermoDataProvider {
                 print(credential.oauthToken)
                 print(credential.oauthTokenSecret)
                 //TO DO remove oops
-                print(parameters["user_id"] ?? "Oops")
-                print("Testing")
+                print(parameters["userid"] ?? "Oops")
                 // Do your request
-                self.makeRequest(userID: parameters["user_id"] as! String)
+                self.makeRequest(userID: parameters["userid"] as! String)
             },
             failure: { error in
                 print(error.localizedDescription)
                 print("Oh nooooo")
         })
-        
         
         
         /*
@@ -126,7 +124,6 @@ class ThermoDataProvider {
         return mostRecentTemp!
     }
     func makeRequest(userID: String) {
-        print("Here8")
         let url :String = "https://api.health.nokia.com/measure?action=getmeas"
         let parameters :Dictionary = [
             "userid"                : userID,
