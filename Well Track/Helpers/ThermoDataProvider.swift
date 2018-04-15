@@ -42,6 +42,9 @@ class ThermoDataProvider {
     private var placesTask: URLSessionDataTask?
     private var dispatchgroup = DispatchGroup()
     private var oauthswift: OAuth1Swift?
+    private var authToken: String?
+    private let conKey = "f1e408931983fde42f0fe43b6ecd7138891e7edf302d772cb5b0ed23b"
+    private var signature: String?
     private var session: URLSession {
         return URLSession.shared
     }
@@ -50,8 +53,9 @@ class ThermoDataProvider {
     func fetchTempInRange(_ hours: Int) -> Double {
         mostRecentTemp = -1.0
         // added
+        //if authToken == nil {
         oauthswift = OAuth1Swift(
-            consumerKey:    "f1e408931983fde42f0fe43b6ecd7138891e7edf302d772cb5b0ed23b",
+            consumerKey:    conKey,
             consumerSecret: "2970fbd3d1b29ef55146b4717987196973fc315576d5920499092cffdb1b6f8",
             requestTokenUrl: "https://developer.health.nokia.com/account/request_token",
             authorizeUrl:    "https://developer.health.nokia.com/account/authorize",
@@ -63,7 +67,8 @@ class ThermoDataProvider {
         let handle = oauthswift?.authorize(
             withCallbackURL: URL(string: "well-track://")!,
             success: { credential, response, parameters in
-                print(credential.oauthToken)
+                print("Token: \(credential.oauthToken)")
+                self.authToken = credential.oauthToken
                 print(credential.oauthTokenSecret)
                 //TO DO remove oops
                 print(parameters["userid"] ?? "Oops")
@@ -121,21 +126,27 @@ class ThermoDataProvider {
         DispatchQueue.main.async {
             //completion(placesArray)
         }*/
-        return mostRecentTemp!
+        //return mostRecentTemp!
+        return 98.0
     }
     func makeRequest(userID: String) {
-        let url :String = "https://api.health.nokia.com/measure?action=getmeas"
-        let parameters :Dictionary = [
+        print("Making request for user \(userID)")
+        let url :String = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&lastupdate=\(Date().timeIntervalSince1970 - 2592000)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature=\(signature ?? "no")&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(Date().timeIntervalSince1970)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
+        /*let parameters :Dictionary = [
             "userid"                : userID,
-            "lastupdate"            : Date().timeIntervalSince1970 - 3600,
-            "meastype"              : "12",
-            "oauth_consumer_key"    : "f1e408931983fde42f0fe43b6ecd7138891e7edf302d772cb5b0ed23b"
-            ] as [String : Any]
+            "lastupdate"            : Date().timeIntervalSince1970 - 2592000,
+            "meastype"              : "4"//,
+            //"limit"                 : 1//,
+            //"oauth_consumer_key"    : "f1e408931983fde42f0fe43b6ecd7138891e7edf302d772cb5b0ed23b",
+            
+            ] as [String : Any]*/
+        //print("Paramaters!:")
+        //print(parameters)
         let _ = oauthswift?.client.get(
-            url, parameters: parameters,
+            url, //parameters: parameters,
             success: { response in
                 let jsonDict = try? response.jsonObject()
-                print(jsonDict as Any)
+                print("jsonDict: \(jsonDict as Any)")
         },
             failure: { error in
                 print(error)

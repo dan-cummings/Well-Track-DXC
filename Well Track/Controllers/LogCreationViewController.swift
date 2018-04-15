@@ -472,7 +472,11 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
         let temp = thermData.fetchTempInRange(1)
         print("After thermData done")
         if temp != -1 {
+            print("Temp is not -1, it is \(temp)")
             self.temperatureLabel.text = "\(temp)"
+        }
+        else {
+            print("Temp is -1 (\(temp)")
         }
     }
 }
