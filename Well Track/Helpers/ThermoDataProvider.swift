@@ -66,12 +66,13 @@ class ThermoDataProvider {
         print("did the thing, about to authorize")
         print("Date: \(Date().timeIntervalSince1970)")
         // authorize
-        let handle = oauthswift?.authorize(
+        let _ = oauthswift?.authorize(
             withCallbackURL: URL(string: "well-track://")!,
             success: { credential, response, parameters in
                 print("Token: \(credential.oauthToken)")
                 self.authToken = credential.oauthToken
                 print(credential.oauthTokenSecret)
+                self.tokenSec = credential.oauthTokenSecret
                 
                 //TO DO remove oops
                 print(parameters["userid"] ?? "Oops")
@@ -87,31 +88,26 @@ class ThermoDataProvider {
         return 98.0
     }
     func makeRequest(userID: String) {
+        let allowedCharacterSet = (CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[] ").inverted)
         print("Making request for user \(userID)")
-        let toBase :String = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&lastupdate=\(Date().timeIntervalSince1970 - 2592000)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(Date().timeIntervalSince1970)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
-        let normalized = url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-        print("Normalized url: \(normalized!)")
-        let key = "\(conSec)&\(tokenSec)"
+        let time = Int(Date().timeIntervalSince1970)
+        let domain :String = "https://api.health.nokia.com/measure?action=getmeas"
+        let path = "userid=\(userID)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
+        let normDomain = domain.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
+        let normPath = path.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet);
+        let key = "\(conSec)&\(tokenSec!)"
+        let normalized = "GET&\(normDomain!)&\(normPath!)"
         signature = normalized.digestHMac1(key: key)
-        let url :String = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&lastupdate=\(Date().timeIntervalSince1970 - 2592000)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature=\(signature ?? "no")&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(Date().timeIntervalSince1970)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
-        /*let parameters :Dictionary = [
-            "userid"                : userID,
-            "lastupdate"            : Date().timeIntervalSince1970 - 2592000,
-            "meastype"              : "4"//,
-            //"limit"                 : 1//,
-            //"oauth_consumer_key"    : "f1e408931983fde42f0fe43b6ecd7138891e7edf302d772cb5b0ed23b",
-            
-            ] as [String : Any]*/
-        //print("Paramaters!:")
-        //print(parameters)
+        let url :String = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature=\(signature ?? "no")&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
+        print(url)
         let _ = oauthswift?.client.get(
-            url, //parameters: parameters,
+            url,
             success: { response in
                 let jsonDict = try? response.jsonObject()
                 print("jsonDict: \(jsonDict as Any)")
         },
             failure: { error in
-                print(error)
+                print(error.localizedDescription)
         }
         )
     }
@@ -126,7 +122,7 @@ extension String {
         let strLen = self.lengthOfBytes(using: String.Encoding.utf8)
         
         let digestLen = Int(CC_SHA1_DIGEST_LENGTH)
-        let result = UnsafeMutablePointer.alloc(digestLen)
+        let result = UnsafeMutablePointer<Any>.allocate(capacity: digestLen)
         
         let keyStr = key.cString(using: String.Encoding.utf8)
         let keyLen = key.lengthOfBytes(using: String.Encoding.utf8)
@@ -137,7 +133,7 @@ extension String {
         
         let data = NSData(bytesNoCopy: result, length: digestLen)
         
-        let hash = data.base64EncodedStringWithOptions(.allZeros)
+        let hash = data.base64EncodedString()
         
         return hash
     }
