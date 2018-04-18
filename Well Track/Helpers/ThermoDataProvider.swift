@@ -88,28 +88,31 @@ class ThermoDataProvider {
         return 98.0
     }
     func makeRequest(userID: String) {
+        var uuid: CFUUID = CFUUIDCreate(nil)
+        var nonce: CFString = CFUUIDCreateString(nil, uuid)
+        
         let allowedCharacterSet = (CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[] ").inverted)
         print("Making request for user \(userID)")
         let time = Int(Date().timeIntervalSince1970)
-        let domain :String = "https://api.health.nokia.com/measure?action=getmeas"
-        let path = "userid=\(userID)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
+        let domain :String = "https://api.health.nokia.com/measure"
+        let path = "action=getmeas&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken!)&oauth_version=1.0&userid=\(userID)"
         let normDomain = domain.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
         let normPath = path.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet);
         let key = "\(conSec)&\(tokenSec!)"
         let normalized = "GET&\(normDomain!)&\(normPath!)"
         signature = normalized.digestHMac1(key: key)
-        let url :String = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature=\(signature ?? "no")&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
+        let url :String = "https://api.health.nokia.com/measure?action=getmeas&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature=\(signature!)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken!)&oauth_version=1.0&userid=\(userID)"
         print(url)
-        let _ = oauthswift?.client.get(
-            url,
-            success: { response in
-                let jsonDict = try? response.jsonObject()
-                print("jsonDict: \(jsonDict as Any)")
-        },
-            failure: { error in
+        let session = URLSession.shared
+        let task = session.dataTask(with: URL(string: url)!) { (data, response, error) in
+            if let error = error {
                 print(error.localizedDescription)
+            } else if let data = data {
+                //TODO get the data and parse it.
+                print(String(data: data, encoding: .utf8)!)
+            }
         }
-        )
+        task.resume()
     }
 }
 
@@ -133,7 +136,7 @@ extension String {
         
         let data = NSData(bytesNoCopy: result, length: digestLen)
         
-        let hash = data.base64EncodedString()
+        let hash = data.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         
         return hash
     }
