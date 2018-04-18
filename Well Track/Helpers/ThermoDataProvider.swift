@@ -88,10 +88,11 @@ class ThermoDataProvider {
     }
     func makeRequest(userID: String) {
         print("Making request for user \(userID)")
+        let toBase :String = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&lastupdate=\(Date().timeIntervalSince1970 - 2592000)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(Date().timeIntervalSince1970)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
+        let normalized = url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        print("Normalized url: \(normalized!)")
         let key = "\(conSec)&\(tokenSec)"
-        // TO DO
-        let base = ""
-        signature = base.digestHMac1(key: key)
+        signature = normalized.digestHMac1(key: key)
         let url :String = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&lastupdate=\(Date().timeIntervalSince1970 - 2592000)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature=\(signature ?? "no")&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(Date().timeIntervalSince1970)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
         /*let parameters :Dictionary = [
             "userid"                : userID,
