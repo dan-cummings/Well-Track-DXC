@@ -63,7 +63,6 @@ class ThermoDataProvider {
             authorizeUrl:    "https://developer.health.nokia.com/account/authorize",
             accessTokenUrl:  "https://developer.health.nokia.com/account/access_token"
         )
-        print("did the thing, about to authorize")
         print("Date: \(Date().timeIntervalSince1970)")
         // authorize
         let _ = oauthswift?.authorize(
@@ -77,7 +76,7 @@ class ThermoDataProvider {
                 //TO DO remove oops
                 print(parameters["userid"] ?? "Oops")
                 // Do your request
-                self.makeRequest(userID: parameters["userid"] as! String)
+                self.mostRecentTemp = self.makeRequest(userID: parameters["userid"] as! String)
             },
             failure: { error in
                 print(error.localizedDescription)
@@ -85,9 +84,9 @@ class ThermoDataProvider {
         })
         
         //return mostRecentTemp!
-        return 98.0
+        return mostRecentTemp!
     }
-    func makeRequest(userID: String) {
+    func makeRequest(userID: String) -> Double {
         var uuid: CFUUID = CFUUIDCreate(nil)
         var nonce: CFString = CFUUIDCreateString(nil, uuid)
         
@@ -95,24 +94,51 @@ class ThermoDataProvider {
         print("Making request for user \(userID)")
         let time = Int(Date().timeIntervalSince1970)
         let domain :String = "https://api.health.nokia.com/measure"
-        let path = "action=getmeas&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken!)&oauth_version=1.0&userid=\(userID)"
+        let path = "action=getmeas&meastype=71&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken!)&oauth_version=1.0&userid=\(userID)"
         let normDomain = domain.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
         let normPath = path.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet);
         let key = "\(conSec)&\(tokenSec!)"
         let normalized = "GET&\(normDomain!)&\(normPath!)"
         signature = normalized.digestHMac1(key: key)
-        let url :String = "https://api.health.nokia.com/measure?action=getmeas&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature=\(signature!)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken!)&oauth_version=1.0&userid=\(userID)"
+        let url :String = "https://api.health.nokia.com/measure?action=getmeas&meastype=71&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature=\(signature!)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken!)&oauth_version=1.0&userid=\(userID)"
         print(url)
         let session = URLSession.shared
         let task = session.dataTask(with: URL(string: url)!) { (data, response, error) in
             if let error = error {
                 print(error.localizedDescription)
-            } else if let data = data {
+                return
+            } else if let data = data, let json = try? JSON(data: data, options: .mutableContainers) {
                 //TODO get the data and parse it.
-                print(String(data: data, encoding: .utf8)!)
+                let dataString = String(data: data, encoding: .utf8)
+                print(dataString!)
+                print("Trying to get bits")
+                
+                print(json)
+                let body = json["body"]
+                let results = body["measuregrps"][0]//.arrayObject as? [[String: Any]]
+                
+                print(results)
+                
+                print("Unit: \(results["measures"][0]["unit"])")
+                // TODO: get the unit as an int
+                let unit = results["measures"][0]["unit"] as? Int
+                
+                //print("Value: \(measures["value"] ?? "NA")")
+                //print(result["measures"])
+                /*
+                let measures :[String: Any] = result["measures"] as! [String : Any]
+                print("Unit: \(measures["unit"] ?? "NA")")
+                print("Value: \(measures["value"] ?? "NA")")
+                
+                results?.forEach {item in
+                    print("Item: \(item)")
+                    print("Date: \(item["date"] ?? "NA")")
+                }*/
             }
         }
         task.resume()
+        
+        return 99.0
     }
 }
 
