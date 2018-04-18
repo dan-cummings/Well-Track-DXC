@@ -130,6 +130,7 @@
 		FA9D259F2038D988000123A7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FAA5A4D62049DE5800A92C7A /* ClearDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDataViewController.swift; sourceTree = "<group>"; };
 		FAA5A4D8204CEB0B00A92C7A /* DefaultSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSettingsViewController.swift; sourceTree = "<group>"; };
+		FAFB2A2920843ABE00EF06D8 /* Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crypto.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +199,7 @@
 		650BEE85201D49DF001AFB19 /* Well Track */ = {
 			isa = PBXGroup;
 			children = (
+				FAFB2A2920843ABE00EF06D8 /* Crypto.h */,
 				FA5ADA24205AFBBA001F2CA0 /* Well Track.entitlements */,
 				650BEE86201D49DF001AFB19 /* AppDelegate.swift */,
 				650BEE88201D49DF001AFB19 /* ViewController.swift */,
@@ -834,6 +836,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8e3706c8-470f-4b97-ac0c-1c8d7f0df04d";
 				PROVISIONING_PROFILE_SPECIFIER = "USPS GVSU Well Track";
+				SWIFT_OBJC_BRIDGING_HEADER = Crypto.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -853,6 +856,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8e3706c8-470f-4b97-ac0c-1c8d7f0df04d";
 				PROVISIONING_PROFILE_SPECIFIER = "USPS GVSU Well Track";
+				SWIFT_OBJC_BRIDGING_HEADER = Crypto.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

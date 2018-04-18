@@ -43,7 +43,9 @@ class ThermoDataProvider {
     private var dispatchgroup = DispatchGroup()
     private var oauthswift: OAuth1Swift?
     private var authToken: String?
+    private var tokenSec: String?
     private let conKey = "f1e408931983fde42f0fe43b6ecd7138891e7edf302d772cb5b0ed23b"
+    private let conSec = "2970fbd3d1b29ef55146b4717987196973fc315576d5920499092cffdb1b6f8"
     private var signature: String?
     private var session: URLSession {
         return URLSession.shared
@@ -56,7 +58,7 @@ class ThermoDataProvider {
         //if authToken == nil {
         oauthswift = OAuth1Swift(
             consumerKey:    conKey,
-            consumerSecret: "2970fbd3d1b29ef55146b4717987196973fc315576d5920499092cffdb1b6f8",
+            consumerSecret: conSec,
             requestTokenUrl: "https://developer.health.nokia.com/account/request_token",
             authorizeUrl:    "https://developer.health.nokia.com/account/authorize",
             accessTokenUrl:  "https://developer.health.nokia.com/account/access_token"
@@ -70,6 +72,7 @@ class ThermoDataProvider {
                 print("Token: \(credential.oauthToken)")
                 self.authToken = credential.oauthToken
                 print(credential.oauthTokenSecret)
+                
                 //TO DO remove oops
                 print(parameters["userid"] ?? "Oops")
                 // Do your request
@@ -80,57 +83,15 @@ class ThermoDataProvider {
                 print("Oh nooooo")
         })
         
-        
-        /*
-        var temp: Double
-        let unEpoch = Date().timeIntervalSince1970
-        let method = "HMAC-SHA1"
-        let key = "f1e408931983fde42f0fe43b6ecd7138891e7edf302d772cb5b0ed23b"
-        dispatchgroup.enter()
-        // need to format dates correctly and add oauth stuff
-        var urlString = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&startdate=\(startDate)&enddate=\(endDate)&meastype=12&oauth_signature_method=\(method)&oauth_timestamp=\(unEpoch)&oauth_version=1.0"
-        urlString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? urlString
-            
-        guard let url = URL(string: urlString) else {
-            completion([])
-            return
-        }
-            
-        DispatchQueue.main.async {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        }
-            
-        session.dataTask(with: url) { data, response, error in
-                
-            if let e = error {
-                print(e.localizedDescription)
-            }
-                
-            defer {
-                DispatchQueue.main.async {
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                }
-            }
-            guard let data = data,
-                let json = try? JSON(data: data, options: .mutableContainers),
-                let results = json["results"].arrayObject as? [[String: Any]] else {
-                    return
-            }
-            /*results.forEach {
-                //let place = GooglePlace(dictionary: $0, acceptedTypes: types)
-                //placesArray.append(place)
-            }*/
-            self.dispatchgroup.leave()
-            }.resume()
-        dispatchgroup.wait()
-        DispatchQueue.main.async {
-            //completion(placesArray)
-        }*/
         //return mostRecentTemp!
         return 98.0
     }
     func makeRequest(userID: String) {
         print("Making request for user \(userID)")
+        let key = "\(conSec)&\(tokenSec)"
+        // TO DO
+        let base = ""
+        signature = base.digestHMac1(key: key)
         let url :String = "https://api.health.nokia.com/measure?action=getmeas&userid=\(userID)&lastupdate=\(Date().timeIntervalSince1970 - 2592000)&meastype=12&oauth_consumer_key=\(conKey)&oauth_nonce=AVBH6152&oauth_signature=\(signature ?? "no")&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(Date().timeIntervalSince1970)&oauth_token=\(authToken ?? "no")&oauth_version=1.0"
         /*let parameters :Dictionary = [
             "userid"                : userID,
@@ -152,6 +113,32 @@ class ThermoDataProvider {
                 print(error)
         }
         )
+    }
+}
+
+// from Trux's blog
+extension String {
+    
+    func digestHMac1(key: String) -> String! {
+        
+        let str = self.cString(using: String.Encoding.utf8)
+        let strLen = self.lengthOfBytes(using: String.Encoding.utf8)
+        
+        let digestLen = Int(CC_SHA1_DIGEST_LENGTH)
+        let result = UnsafeMutablePointer.alloc(digestLen)
+        
+        let keyStr = key.cString(using: String.Encoding.utf8)
+        let keyLen = key.lengthOfBytes(using: String.Encoding.utf8)
+        
+        let algorithm = CCHmacAlgorithm(kCCHmacAlgSHA1)
+        
+        CCHmac(algorithm, keyStr!, keyLen, str!, strLen, result)
+        
+        let data = NSData(bytesNoCopy: result, length: digestLen)
+        
+        let hash = data.base64EncodedStringWithOptions(.allZeros)
+        
+        return hash
     }
 }
 
