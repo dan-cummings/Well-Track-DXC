@@ -108,13 +108,28 @@ class ThermoDataProvider {
                 print(error.localizedDescription)
                 return
             } else if let data = data, let json = try? JSON(data: data, options: .mutableContainers) {
-                
+                print(String(data: data, encoding: .utf8)!)
                 let body = json["body"]
-                let results = body["measuregrps"][0]//.arrayObject as? [[String: Any]]
-                if let units = results["measures"][0]["unit"].string {
-                    let unit = Int(results["measures"][0]["unit"].string!)
-                    print(unit!)
+                print(body)
+                let results = body["measuregrps"][0]
+                print(results)
+                
+                print(results["measures"][0]["unit"].string ?? "Not as a string")
+                print(results["measures"][0]["unit"])
+                print(results["measures"][0]["unit"].double ?? "Not as a double")
+                print(results["measures"][0]["unit"].int ?? "Not as an int")
+                
+                //print(results["measures"][0]["unit"].string ?? "Not working")
+                if let unit = results["measures"][0]["unit"].double,
+                    let value = results["measures"][0]["value"].double {
+                    print(unit)
+                    print(value)
+                    let temp = value * pow(10.0, unit)
+                    self.mostRecentTemp = temp * (9/5) + 32.0
                 }
+                
+                print("Most recent temperature: \(self.mostRecentTemp ?? -2.0) degrees")
+                
                 
                 //print("Value: \(measures["value"] ?? "NA")")
                 //print(result["measures"])
@@ -131,7 +146,7 @@ class ThermoDataProvider {
         }
         task.resume()
         
-        return 99.0
+        return mostRecentTemp!
     }
 }
 
