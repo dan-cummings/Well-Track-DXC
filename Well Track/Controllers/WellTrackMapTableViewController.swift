@@ -82,6 +82,7 @@ class WellTrackMapTableViewController: UITableViewController {
         for (date, sectLogs) in tempSorted {
             temp.append((sectionHeader: date, locations: sectLogs))
         }
+        temp = temp.sorted(by: {$0.locations[0].endDate! > $1.locations[0].endDate!})
         tableViewData = temp
     }
     

@@ -168,6 +168,7 @@ class LogHistoryTableViewController: UITableViewController {
         for (date, sectLogs) in tempSorted {
             temp.append((sectionHeader: date, logs: sectLogs))
         }
+        temp = temp.sorted(by: {$0.logs[0].date! > $1.logs[0].date!})
         tableViewData = temp
     }
     
