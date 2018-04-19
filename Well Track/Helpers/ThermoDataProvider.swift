@@ -52,10 +52,7 @@ class ThermoDataProvider {
     }
     
     
-    func fetchTempInRange(_ hours: Int) -> Double {
-        mostRecentTemp = -1.0
-        // added
-        //if authToken == nil {
+    func authenticate(handler: @escaping (String, String, String) -> Void) {
         oauthswift = OAuth1Swift(
             consumerKey:    conKey,
             consumerSecret: conSec,
@@ -63,45 +60,36 @@ class ThermoDataProvider {
             authorizeUrl:    "https://developer.health.nokia.com/account/authorize",
             accessTokenUrl:  "https://developer.health.nokia.com/account/access_token"
         )
-        print("Date: \(Date().timeIntervalSince1970)")
         // authorize
         let _ = oauthswift?.authorize(
             withCallbackURL: URL(string: "well-track://")!,
             success: { credential, response, parameters in
-                print("Token: \(credential.oauthToken)")
-                self.authToken = credential.oauthToken
-                print(credential.oauthTokenSecret)
-                self.tokenSec = credential.oauthTokenSecret
-                
-                //TO DO remove oops
-                print(parameters["userid"] ?? "Oops")
-                // Do your request
-                self.mostRecentTemp = self.makeRequest(userID: parameters["userid"] as! String)
+                handler(parameters["userid"] as! String, credential.oauthToken, credential.oauthTokenSecret)
             },
             failure: { error in
                 print(error.localizedDescription)
                 print("Oh nooooo")
         })
-        
-        //return mostRecentTemp!
-        return mostRecentTemp!
     }
-    func makeRequest(userID: String) -> Double {
+    func makeRequest(userID: String, authToken: String, authSec: String) -> Double {
         let uuid: CFUUID = CFUUIDCreate(nil)
         let nonce: CFString = CFUUIDCreateString(nil, uuid)
         
         let allowedCharacterSet = (CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[] ").inverted)
-        print("Making request for user \(userID)")
+        
         let time = Int(Date().timeIntervalSince1970)
         let domain :String = "https://api.health.nokia.com/measure"
-        let path = "action=getmeas&meastype=71&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken!)&oauth_version=1.0&userid=\(userID)"
+        
+        let path = "action=getmeas&meastype=71&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken)&oauth_version=1.0&userid=\(userID)"
         let normDomain = domain.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
         let normPath = path.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet);
-        let key = "\(conSec)&\(tokenSec!)"
+        let key = "\(conSec)&\(authSec)"
         let normalized = "GET&\(normDomain!)&\(normPath!)"
+        
         signature = normalized.digestHMac1(key: key)
-        let url :String = "https://api.health.nokia.com/measure?action=getmeas&meastype=71&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature=\(signature!)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken!)&oauth_version=1.0&userid=\(userID)"
-        print(url)
+        
+        let url :String = "https://api.health.nokia.com/measure?action=getmeas&meastype=71&oauth_consumer_key=\(conKey)&oauth_nonce=\(nonce)&oauth_signature=\(signature!)&oauth_signature_method=HMAC-SHA1&oauth_timestamp=\(time)&oauth_token=\(authToken)&oauth_version=1.0&userid=\(userID)"
+        
         let session = URLSession.shared
         let task = session.dataTask(with: URL(string: url)!) { (data, response, error) in
             if let error = error {

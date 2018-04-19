@@ -19,13 +19,17 @@ class DefaultSettingsViewController: UIViewController {
     @IBOutlet weak var MinutesField: UITextField!
     @IBOutlet weak var AlertSwitch: UISwitch!
     @IBOutlet weak var GPSSwitch: UISwitch!
+    @IBOutlet weak var linkButton: UIButton!
     
     var userId: String?
     var settingsRecord: Settings!
+    var authentication: ThermoDataProvider!
     fileprivate var databaseRef: DatabaseReference?
+    var authenticated: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        authentication = ThermoDataProvider()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 self.userId = user.uid
@@ -34,7 +38,7 @@ class DefaultSettingsViewController: UIViewController {
         }
         settingsRecord
             = Settings(minTemp: "97.9", maxTemp: "99.0", minHeart: "60",
-                       maxHeart: "100", hours: "0", minutes: "30", gps: 1, alert: 1)
+                       maxHeart: "100", hours: "0", minutes: "30", gps: 1, alert: 1, nokiaAccount: 0, authToken: "", authSec: "", userID: "")
         
     }
 
@@ -63,7 +67,11 @@ class DefaultSettingsViewController: UIViewController {
             "hours" : settingsRecord.hours! as NSString,
             "minutes" : settingsRecord.minutes! as NSString,
             "gps" : gpsInt as NSInteger,
-            "alert" : alertInt as NSInteger
+            "alert" : alertInt as NSInteger,
+            "nokiaAccount": settingsRecord.nokiaAccount as NSInteger,
+            "authToken": settingsRecord.authToken! as NSString,
+            "authSec": settingsRecord.authSec! as NSString,
+            "userID": settingsRecord.authSec! as NSString
         ]
     }
     
@@ -102,6 +110,28 @@ class DefaultSettingsViewController: UIViewController {
         
         HoursField.textColor = color
         MinutesField.textColor = color
+    }
+    
+    @IBAction func authenticateNokiaAccount(_ sender: Any) {
+        if self.authenticated {
+            self.authenticated = false
+            self.settingsRecord.nokiaAccount = 0
+            self.settingsRecord.authSec = ""
+            self.settingsRecord.userID = ""
+            self.settingsRecord.authToken = ""
+            self.linkButton.titleLabel?.text = "Link Nokia Health Account"
+        } else {
+            authentication.authenticate { (id, token, secret) in
+                self.settingsRecord.nokiaAccount = 1
+                self.settingsRecord.authSec = secret
+                self.settingsRecord.userID = id
+                self.settingsRecord.authToken = token
+                self.authenticated = true
+                DispatchQueue.main.async {
+                    self.linkButton.titleLabel?.text = "Unlink Nokia Health Account"
+                }
+            }
+        }
     }
     
     @IBAction func textChanged(_ sender: UITextField) {
