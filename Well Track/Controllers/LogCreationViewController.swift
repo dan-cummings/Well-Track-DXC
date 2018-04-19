@@ -38,6 +38,8 @@ class LogCreationViewController: UIViewController {
     var photoSegmentController: PhotoSegmentViewController?
     var videoSegmentController: VideoSegmentViewController?
     var textSegmentController: TextSegmentViewController?
+    private let thermData = ThermoDataProvider()
+    private var thermoTemp: Double?
     
     var heartPicker = true
     var selectedAfterDecimal: Int = 0
@@ -57,6 +59,7 @@ class LogCreationViewController: UIViewController {
     var locationManager: CLLocationManager?
     var hasPresetLog = false
     var log: HealthLog!
+    var settings: Settings?
     var uid: String!
     var currentLocation: CLLocation?
     
@@ -113,6 +116,9 @@ class LogCreationViewController: UIViewController {
         
         videoSegmentController?.startFirebase(uid: uid, log: log)
         photoSegmentController?.startFirebase(uid: uid, log: log)
+        if let settings = settings, settings.nokiaAccount == 1 {
+            self.checkIntervalTemp()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -453,6 +459,15 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
                 return ""
             }
         }
+    }
+    
+    // added for Thermo, unsure if correct way to add to log view
+    func checkIntervalTemp() {
+        self.thermData.makeRequest(userID: (settings?.userID)!, authToken: (settings?.authToken)!, authSec: (settings?.authSec)!, handler: { (temp) in
+            DispatchQueue.main.async {
+                self.temperatureLabel.text = "\(temp) °F"
+            }
+        })
     }
 }
 

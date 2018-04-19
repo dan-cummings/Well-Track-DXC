@@ -74,7 +74,7 @@ class LogHistoryTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if let count = self.tableViewData?.count {
+        if let count = self.tableViewData?.count, count != 0 {
             tableView.backgroundView = nil
             tableView.separatorStyle = .singleLine
             return count
@@ -169,6 +169,7 @@ class LogHistoryTableViewController: UITableViewController {
         for (date, sectLogs) in tempSorted {
             temp.append((sectionHeader: date, logs: sectLogs))
         }
+        temp = temp.sorted(by: {$0.logs[0].date! > $1.logs[0].date!})
         tableViewData = temp
     }
     
@@ -176,6 +177,7 @@ class LogHistoryTableViewController: UITableViewController {
         if segue.identifier == "newLogSegue" {
             if let dest = segue.destination as? LogCreationViewController {
                 dest.delegate = self
+                dest.settings = self.settingsRecord
             }
         }
     }
@@ -210,6 +212,11 @@ class LogHistoryTableViewController: UITableViewController {
                 }
                 self.sortLogsIntoSections(tmpItems)
             }})
+        Database.database().reference(withPath: uid).observeSingleEvent(of: .value, with: { snapshot in
+            if !snapshot.hasChild("Logs") {
+                self.tableViewData = nil
+            }
+        })
         
         self.settingsRef?.observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
@@ -222,6 +229,10 @@ class LogHistoryTableViewController: UITableViewController {
                     tmpItem.maxTemp = entry["maxTemp"] as? String
                     tmpItem.minTemp = entry["minTemp"] as? String
                     tmpItem.alert = entry["alert"] as! Int
+                    tmpItem.nokiaAccount = entry["nokiaAccount"] as! Int
+                    tmpItem.authToken = entry["authToken"] as? String
+                    tmpItem.authSec = entry["authSec"] as? String
+                    tmpItem.userID = entry["userID"] as? String
                 }
                 self.settingsRecord = tmpItem
             }
@@ -255,7 +266,6 @@ class LogHistoryTableViewController: UITableViewController {
             "hasLocation": log.hasLocation as NSNumber,
             "latitude": log.latitude! as NSNumber,
             "longitude": log.longitude! as NSNumber
-
         ]
     }
     

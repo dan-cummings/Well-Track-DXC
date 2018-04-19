@@ -18,7 +18,6 @@ class ClearDataViewController: UIViewController {
     
     var userId: String?
     fileprivate var databaseRef: DatabaseReference!
-    fileprivate var storageRef: Storage!
     var mostRecent: Settings?
     
     override func viewDidLoad() {
@@ -38,9 +37,53 @@ class ClearDataViewController: UIViewController {
         } else {
             userId = Auth.auth().currentUser?.uid
             databaseRef = Database.database().reference(withPath: "\(userId!)")
-            storageRef = Storage.storage()
         }
         mostRecent = Settings()
+    }
+    
+    
+    func removeFromFirebase(key: String?, ref: DatabaseReference, vals: HealthLog) {
+        if vals.hasVideo == 1 {
+            ref.child("Logs/\(key!)/Videos").observeSingleEvent(of: .value, with: { (snapshot) in
+                if let values = snapshot.value as? [String : AnyObject] {
+                    for (_,val) in values.enumerated() {
+                        let entry = val.1 as! Dictionary<String,AnyObject>
+                        let videoURL = entry["videoURL"] as! String
+                        let imageURL = entry["imageURL"] as! String
+                        Storage.storage().reference(forURL: videoURL).delete(completion: { (error) in
+                            if let _ = error {
+                                print("Error occurred deleting video")
+                                return
+                            }
+                            print("Video Deleted")
+                        })
+                        Storage.storage().reference(forURL: imageURL).delete(completion: { (error) in
+                            if let _ = error {
+                                print("Error occurred deleting thumbnail")
+                                return
+                            }
+                            print("Thumbnail Deleted")
+                        })
+                    }
+                }})
+        }
+        if vals.hasPicture == 1 {
+            ref.child("Logs/\(key!)/Pictures").observeSingleEvent(of: .value, with: { (snapshot) in
+                if let values = snapshot.value as? [String : AnyObject] {
+                    for (_,val) in values.enumerated() {
+                        let entry = val.1 as! Dictionary<String,AnyObject>
+                        let imageURL = entry["imageURL"] as! String
+                        Storage.storage().reference(forURL: imageURL).delete(completion: { (error) in
+                            if let e = error {
+                                print(e.localizedDescription)
+                                return
+                            }
+                            print("Picture Deleted")
+                        })
+                    }
+                }})
+        }
+        ref.child("Logs/\(key!)").removeValue()
     }
     
     // Remove logs from within the specified date range
@@ -69,53 +112,20 @@ class ClearDataViewController: UIViewController {
         
     }
     
-    func removeFromFirebase(key: String?, ref: DatabaseReference, vals: HealthLog) {
-        if vals.hasVideo == 1 {
-            ref.child("Logs/\(key!)/Videos").observeSingleEvent(of: .value, with: { (snapshot) in
-                if let values = snapshot.value as? [String : AnyObject] {
-                    for (_,val) in values.enumerated() {
-                        let entry = val.1 as! Dictionary<String,AnyObject>
-                        let videoURL = entry["videoURL"] as! String
-                        let imageURL = entry["imageURL"] as! String
-                        Storage.storage().reference(forURL: videoURL).delete(completion: { (error) in
-                            if let _ = error {
-                                print("Error occurred deleting video")
-                                return
-                            }
-                            print("Video Deleted")
-                        })
-                        self.storageRef.reference(forURL: imageURL).delete(completion: { (error) in
-                            if let _ = error {
-                                print("Error occurred deleting thumbnail")
-                                return
-                            }
-                            print("Thumbnail Deleted")
-                        })
-                    }
-                }})
-        }
-        if vals.hasPicture == 1 {
-            ref.child("Logs/\(key!)/Pictures").observeSingleEvent(of: .value, with: { (snapshot) in
-                if let values = snapshot.value as? [String : AnyObject] {
-                    for (_,val) in values.enumerated() {
-                        let entry = val.1 as! Dictionary<String,AnyObject>
-                        let imageURL = entry["imageURL"] as! String
-                        self.storageRef.reference(forURL: imageURL).delete(completion: { (error) in
-                            if let e = error {
-                                print(e.localizedDescription)
-                                return
-                            }
-                            print("Picture Deleted")
-                        })
-                    }
-                }})
-        }
-        ref.child(key!).removeValue()
-    }
-    
     // Clears all logs from Firebase
     @IBAction func clearAllData(_ sender: UIButton) {
-        let logDatabaseRef = Database.database().reference(withPath: "\(userId!)/Logs")
-        logDatabaseRef.removeValue()
+        self.databaseRef!.child("Logs").observeSingleEvent(of: .value) { (snapshot) in
+            if let values = snapshot.value as? [String: AnyObject] {
+                for (_, val) in values.enumerated() {
+                    var tempItem = HealthLog()
+                    let entry = val.1 as! Dictionary<String, AnyObject>
+                    tempItem.key = val.0
+                    tempItem.hasPicture = entry["hasPicture"] as! Int
+                    tempItem.hasVideo = entry["hasVideo"] as! Int
+                    
+                    self.removeFromFirebase(key: tempItem.key, ref: self.databaseRef, vals: tempItem)
+                }
+            }
+        }
     }
 }

@@ -19,8 +19,12 @@ struct Settings {
     var minutes: String?
     var gps: Int
     var alert: Int
+    var nokiaAccount: Int
+    var authToken: String?
+    var authSec: String?
+    var userID: String?
 
-    init(key: String?, minTemp: String?, maxTemp: String?, minHeart: String?, maxHeart: String?, hours: String?, minutes: String?, gps: Int, alert: Int) {
+    init(key: String?, minTemp: String?, maxTemp: String?, minHeart: String?, maxHeart: String?, hours: String?, minutes: String?, gps: Int, alert: Int, nokiaAccount: Int, authToken: String?, authSec: String?, userID: String?) {
         self.key = key
         self.minTemp = minTemp
         self.maxTemp = maxTemp
@@ -30,9 +34,13 @@ struct Settings {
         self.minutes = minutes
         self.gps = gps
         self.alert = alert
+        self.nokiaAccount = nokiaAccount
+        self.authSec = authSec
+        self.authToken = authToken
+        self.userID = userID
     }
     
-    init(minTemp: String?, maxTemp: String?, minHeart: String?, maxHeart: String?, hours: String?, minutes: String?, gps: Int, alert: Int) {
+    init(minTemp: String?, maxTemp: String?, minHeart: String?, maxHeart: String?, hours: String?, minutes: String?, gps: Int, alert: Int, nokiaAccount: Int, authToken: String?, authSec: String?, userID: String?) {
         self.minTemp = minTemp
         self.maxTemp = maxTemp
         self.minHeart = minHeart
@@ -41,6 +49,10 @@ struct Settings {
         self.minutes = minutes
         self.gps = gps
         self.alert = alert
+        self.nokiaAccount = nokiaAccount
+        self.authSec = authSec
+        self.authToken = authToken
+        self.userID = userID
     }
     
     init() {
@@ -55,5 +67,9 @@ struct Settings {
         // default to on or off?
         self.gps = 1
         self.alert = 1
+        self.nokiaAccount = 0
+        self.authToken = ""
+        self.authSec = ""
+        self.userID = ""
     }
 }

@@ -21,6 +21,8 @@ class HomePageViewController: UIViewController {
     @IBOutlet weak var heartrateLabel: UILabel!
     @IBOutlet weak var moodLabel: UILabel!
     @IBOutlet weak var healthRatingImage: UIImageView!
+    @IBOutlet weak var thermoImage: UIImageView!
+    @IBOutlet weak var heartImage: UIImageView!
     
     var userId: String?
     var mostRecent: HealthLog?
@@ -34,8 +36,8 @@ class HomePageViewController: UIViewController {
         moodLabel.isHidden = true
         healthRatingImage.isHidden = true
         noLogsLabel.isHidden = true
-        indicator.isHidden = false
-        indicator.startAnimating()
+        thermoImage.isHidden = true
+        heartImage.isHidden = true
         
         healthRatingImage.tintColor = .black
         Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -63,13 +65,14 @@ class HomePageViewController: UIViewController {
     
     /// Function to set up the view controller to receive updates from firebase.
     fileprivate func registerForFireBaseUpdates() {
+        self.indicator.isHidden = false
+        self.indicator.startAnimating()
         self.databaseRef!.observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = HealthLog()
                 for (_,val) in values.enumerated() {
                     let entry = val.1 as! Dictionary<String,AnyObject>
                     tmpItem.key = val.0
-                    //TODO Temp fix needs refactoring.
                     if !snapshot.hasChild("\(tmpItem.key!)/temperature") {
                         continue
                     }
@@ -101,6 +104,21 @@ class HomePageViewController: UIViewController {
                 self.indicator.stopAnimating()
                 self.indicator.isHidden = true
             }})
+        
+        Database.database().reference(withPath: userId!).observeSingleEvent(of: .value, with: { snapshot in
+            if !snapshot.hasChild("Logs") {
+                self.dateLabel.isHidden = true
+                self.temperatureLabel.isHidden = true
+                self.heartrateLabel.isHidden = true
+                self.moodLabel.isHidden = true
+                self.healthRatingImage.isHidden = true
+                self.thermoImage.isHidden = true
+                self.heartImage.isHidden = true
+                self.noLogsLabel.isHidden = false
+                self.indicator.isHidden = true
+                self.indicator.stopAnimating()
+            }
+        })
     }
 
     

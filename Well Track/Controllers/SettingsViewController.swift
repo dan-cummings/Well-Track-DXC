@@ -21,13 +21,15 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var AlertSwitch: UISwitch!
     @IBOutlet weak var GPSSwitch: UISwitch!
     
+    @IBOutlet weak var linkButton: UIButton!
     var userId: String?
     fileprivate var databaseRef: DatabaseReference?
     var mostRecent: Settings!
+    var authentication: ThermoDataProvider!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.authentication = ThermoDataProvider()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 self.userId = user.uid
@@ -104,7 +106,11 @@ class SettingsViewController: UIViewController {
             "hours" : mostRecent.hours! as NSString,
             "minutes" : mostRecent.minutes! as NSString,
             "gps" : gpsInt as NSInteger,
-            "alert" : alertInt as NSInteger
+            "alert" : alertInt as NSInteger,
+            "nokiaAccount": mostRecent.nokiaAccount as NSInteger,
+            "authToken": mostRecent.authToken! as NSString,
+            "authSec": mostRecent.authSec! as NSString,
+            "userID": mostRecent.userID! as NSString
         ]
     }
     
@@ -124,6 +130,10 @@ class SettingsViewController: UIViewController {
                     tmpItem.minutes = entry["minutes"] as? String
                     tmpItem.gps = entry["gps"] as! Int
                     tmpItem.alert = entry["alert"] as! Int
+                    tmpItem.nokiaAccount = entry["nokiaAccount"] as! Int
+                    tmpItem.authToken = entry["authToken"] as? String
+                    tmpItem.authSec = entry["authSec"] as? String
+                    tmpItem.userID = entry["userID"] as? String
                 }
                 self.mostRecent = tmpItem
                 if let _ = self.mostRecent {
@@ -131,7 +141,27 @@ class SettingsViewController: UIViewController {
                 }
             }})
     }
-
+    
+    @IBAction func authenticateNokiaAccount(_ sender: UIButton) {
+        if self.mostRecent.nokiaAccount == 1 {
+            self.mostRecent.nokiaAccount = 0
+            self.mostRecent.authToken = ""
+            self.mostRecent.authSec = ""
+            self.mostRecent.userID = ""
+            self.linkButton.titleLabel?.text = "Link Nokia Health Account"
+        } else {
+            authentication.authenticate { (id, token, secret) in
+                self.mostRecent.nokiaAccount = 1
+                self.mostRecent.userID = id
+                self.mostRecent.authToken = token
+                self.mostRecent.authSec = secret
+                DispatchQueue.main.async {
+                    self.linkButton.titleLabel?.text = "Unlink Nokia Health Account"
+                }
+            }
+        }
+    }
+    
     // Updates text fields with values stored in mostRecent, if that is not already the case
     func updateFields() {
         MinHeartField.text = mostRecent?.minHeart
@@ -154,6 +184,9 @@ class SettingsViewController: UIViewController {
         }
         else {
             GPSSwitch.setOn(false, animated: true)
+        }
+        if mostRecent.nokiaAccount == 1 {
+            self.linkButton.titleLabel?.text = "Unlink Nokia Health Account"
         }
         self.changeGPSStatus()
     }
