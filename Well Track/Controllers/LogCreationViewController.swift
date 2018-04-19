@@ -57,6 +57,7 @@ class LogCreationViewController: UIViewController {
     var locationManager: CLLocationManager?
     var hasPresetLog = false
     var log: HealthLog!
+    var settings: Settings?
     var uid: String!
     var currentLocation: CLLocation?
     
@@ -95,8 +96,6 @@ class LogCreationViewController: UIViewController {
             log = HealthLog()
             log.date = Date()
             log.key = key
-            // added for Thermo
-            self.checkIntervalTemp()
         }
         
         locationManager = CLLocationManager()
@@ -106,6 +105,9 @@ class LogCreationViewController: UIViewController {
         
         videoSegmentController?.startFirebase(uid: uid, log: log)
         photoSegmentController?.startFirebase(uid: uid, log: log)
+        if let settings = settings, settings.nokiaAccount == 1 {
+            self.checkIntervalTemp()
+        }
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
@@ -469,14 +471,6 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
     
     // added for Thermo, unsure if correct way to add to log view
     func checkIntervalTemp() {
-        let temp = thermData.fetchTempInRange(1)
-        print("After thermData done")
-        if temp != -1 {
-            print("Temp is not -1, it is \(temp)")
-            self.temperatureLabel.text = "\(temp)"
-        }
-        else {
-            print("Temp is -1 (\(temp)")
-        }
+        self.thermData.makeRequest(userID: (settings?.userID)!, authToken: (settings?.authToken)!, authSec: (settings?.authSec)!)
     }
 }

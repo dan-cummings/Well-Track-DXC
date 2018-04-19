@@ -176,6 +176,7 @@ class LogHistoryTableViewController: UITableViewController {
         if segue.identifier == "newLogSegue" {
             if let dest = segue.destination as? LogCreationViewController {
                 dest.delegate = self
+                dest.settings = self.settingsRecord
             }
         }
     }
@@ -227,6 +228,10 @@ class LogHistoryTableViewController: UITableViewController {
                     tmpItem.maxTemp = entry["maxTemp"] as? String
                     tmpItem.minTemp = entry["minTemp"] as? String
                     tmpItem.alert = entry["alert"] as! Int
+                    tmpItem.nokiaAccount = entry["nokiaAccount"] as! Int
+                    tmpItem.authToken = entry["authToken"] as? String
+                    tmpItem.authSec = entry["authSec"] as? String
+                    tmpItem.userID = entry["userID"] as? String
                 }
                 self.settingsRecord = tmpItem
             }
@@ -260,7 +265,6 @@ class LogHistoryTableViewController: UITableViewController {
             "hasLocation": log.hasLocation as NSNumber,
             "latitude": log.latitude! as NSNumber,
             "longitude": log.longitude! as NSNumber
-
         ]
     }
     
