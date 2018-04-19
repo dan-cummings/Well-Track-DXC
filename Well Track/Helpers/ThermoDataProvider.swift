@@ -87,8 +87,8 @@ class ThermoDataProvider {
         return mostRecentTemp!
     }
     func makeRequest(userID: String) -> Double {
-        var uuid: CFUUID = CFUUIDCreate(nil)
-        var nonce: CFString = CFUUIDCreateString(nil, uuid)
+        let uuid: CFUUID = CFUUIDCreate(nil)
+        let nonce: CFString = CFUUIDCreateString(nil, uuid)
         
         let allowedCharacterSet = (CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[] ").inverted)
         print("Making request for user \(userID)")
@@ -108,20 +108,13 @@ class ThermoDataProvider {
                 print(error.localizedDescription)
                 return
             } else if let data = data, let json = try? JSON(data: data, options: .mutableContainers) {
-                //TODO get the data and parse it.
-                let dataString = String(data: data, encoding: .utf8)
-                print(dataString!)
-                print("Trying to get bits")
                 
-                print(json)
                 let body = json["body"]
                 let results = body["measuregrps"][0]//.arrayObject as? [[String: Any]]
-                
-                print(results)
-                
-                print("Unit: \(results["measures"][0]["unit"])")
-                // TODO: get the unit as an int
-                let unit = results["measures"][0]["unit"] as? Int
+                if let units = results["measures"][0]["unit"].string {
+                    let unit = Int(results["measures"][0]["unit"].string!)
+                    print(unit!)
+                }
                 
                 //print("Value: \(measures["value"] ?? "NA")")
                 //print(result["measures"])
