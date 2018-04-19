@@ -194,7 +194,7 @@
 		FA9D259F2038D988000123A7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FAA5A4D62049DE5800A92C7A /* ClearDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDataViewController.swift; sourceTree = "<group>"; };
 		FAA5A4D8204CEB0B00A92C7A /* DefaultSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSettingsViewController.swift; sourceTree = "<group>"; };
-		FAFB2A2920843ABE00EF06D8 /* Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crypto.h; sourceTree = "<group>"; };
+		FAFB2A2920843ABE00EF06D8 /* Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Crypto.h; path = "Well Track/Crypto.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +257,7 @@
 		650BEE7A201D49DF001AFB19 = {
 			isa = PBXGroup;
 			children = (
+				FAFB2A2920843ABE00EF06D8 /* Crypto.h */,
 				650BEE85201D49DF001AFB19 /* Well Track */,
 				650BEE9A201D49DF001AFB19 /* Well TrackTests */,
 				650BEEA5201D49DF001AFB19 /* Well TrackUITests */,
@@ -283,7 +284,6 @@
 		650BEE85201D49DF001AFB19 /* Well Track */ = {
 			isa = PBXGroup;
 			children = (
-				FAFB2A2920843ABE00EF06D8 /* Crypto.h */,
 				FA5ADA24205AFBBA001F2CA0 /* Well Track.entitlements */,
 				650BEE86201D49DF001AFB19 /* AppDelegate.swift */,
 				650BEE88201D49DF001AFB19 /* ViewController.swift */,
