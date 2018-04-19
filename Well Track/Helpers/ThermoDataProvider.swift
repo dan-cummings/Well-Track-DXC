@@ -114,11 +114,6 @@ class ThermoDataProvider {
                 let results = body["measuregrps"][0]
                 print(results)
                 
-                print(results["measures"][0]["unit"].string ?? "Not as a string")
-                print(results["measures"][0]["unit"])
-                print(results["measures"][0]["unit"].double ?? "Not as a double")
-                print(results["measures"][0]["unit"].int ?? "Not as an int")
-                
                 //print(results["measures"][0]["unit"].string ?? "Not working")
                 if let unit = results["measures"][0]["unit"].double,
                     let value = results["measures"][0]["value"].double {
