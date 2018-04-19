@@ -110,7 +110,7 @@ class SettingsViewController: UIViewController {
             "nokiaAccount": mostRecent.nokiaAccount as NSInteger,
             "authToken": mostRecent.authToken! as NSString,
             "authSec": mostRecent.authSec! as NSString,
-            "userID": mostRecent.authSec! as NSString
+            "userID": mostRecent.userID! as NSString
         ]
     }
     

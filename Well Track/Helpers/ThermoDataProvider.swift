@@ -71,7 +71,7 @@ class ThermoDataProvider {
                 print("Oh nooooo")
         })
     }
-    func makeRequest(userID: String, authToken: String, authSec: String) -> Double {
+    func makeRequest(userID: String, authToken: String, authSec: String, handler: @escaping (Double)->Void) {
         let uuid: CFUUID = CFUUIDCreate(nil)
         let nonce: CFString = CFUUIDCreateString(nil, uuid)
         
@@ -98,38 +98,19 @@ class ThermoDataProvider {
             } else if let data = data, let json = try? JSON(data: data, options: .mutableContainers) {
                 print(String(data: data, encoding: .utf8)!)
                 let body = json["body"]
-                print(body)
                 let results = body["measuregrps"][0]
-                print(results)
                 
-                //print(results["measures"][0]["unit"].string ?? "Not working")
                 if let unit = results["measures"][0]["unit"].double,
                     let value = results["measures"][0]["value"].double {
                     print(unit)
                     print(value)
                     let temp = value * pow(10.0, unit)
                     self.mostRecentTemp = temp * (9/5) + 32.0
+                    handler(self.mostRecentTemp!)
                 }
-                
-                print("Most recent temperature: \(self.mostRecentTemp ?? -2.0) degrees")
-                
-                
-                //print("Value: \(measures["value"] ?? "NA")")
-                //print(result["measures"])
-                /*
-                let measures :[String: Any] = result["measures"] as! [String : Any]
-                print("Unit: \(measures["unit"] ?? "NA")")
-                print("Value: \(measures["value"] ?? "NA")")
-                
-                results?.forEach {item in
-                    print("Item: \(item)")
-                    print("Date: \(item["date"] ?? "NA")")
-                }*/
             }
         }
         task.resume()
-        
-        return mostRecentTemp!
     }
 }
 

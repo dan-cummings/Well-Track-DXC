@@ -71,7 +71,7 @@ class DefaultSettingsViewController: UIViewController {
             "nokiaAccount": settingsRecord.nokiaAccount as NSInteger,
             "authToken": settingsRecord.authToken! as NSString,
             "authSec": settingsRecord.authSec! as NSString,
-            "userID": settingsRecord.authSec! as NSString
+            "userID": settingsRecord.userID! as NSString
         ]
     }
     

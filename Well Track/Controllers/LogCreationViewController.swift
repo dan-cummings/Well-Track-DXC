@@ -471,6 +471,10 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
     
     // added for Thermo, unsure if correct way to add to log view
     func checkIntervalTemp() {
-        self.thermData.makeRequest(userID: (settings?.userID)!, authToken: (settings?.authToken)!, authSec: (settings?.authSec)!)
+        self.thermData.makeRequest(userID: (settings?.userID)!, authToken: (settings?.authToken)!, authSec: (settings?.authSec)!, handler: { (temp) in
+            DispatchQueue.main.async {
+                self.temperatureLabel.text = "\(temp) °F"
+            }
+        })
     }
 }
