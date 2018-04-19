@@ -50,6 +50,7 @@ class HomePageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.tintAdjustmentMode = .normal
         if let _ = databaseRef {
             self.registerForFireBaseUpdates()
         }

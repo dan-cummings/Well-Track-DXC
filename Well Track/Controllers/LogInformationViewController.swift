@@ -27,9 +27,16 @@ class LogInformationViewController: UIViewController {
     var videoSegment: VideoSegmentViewController?
     var delegate: LogCreationViewDelegate?
     
+    var uid: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setFields()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.tintAdjustmentMode = .normal
     }
     
     func setFields() {
@@ -61,12 +68,9 @@ class LogInformationViewController: UIViewController {
             dateLabel.text = log.date?.short            
 
         }
-        textView.isHidden = false
-        photoView.isHidden = true
-        videoView.isHidden = true
-        let uid = Auth.auth().currentUser?.uid
-        videoSegment?.startFirebase(uid: uid!, log: log!)
-        photoSegment?.startFirebase(uid: uid!, log: log!)
+        self.uid = Auth.auth().currentUser?.uid
+        videoSegment?.startFirebase(uid: uid, log: log!)
+        photoSegment?.startFirebase(uid: uid, log: log!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,6 +88,7 @@ class LogInformationViewController: UIViewController {
         editView.hasPresetLog = true
         editView.saved = true
         editView.log = log
+        editView.title = "Edit Log"
         self.navigationController?.pushViewController(editView, animated: true)
     }
     
@@ -125,13 +130,14 @@ class LogInformationViewController: UIViewController {
             videoSegment?.infoView = true
         }
     }
-
 }
 
 extension LogInformationViewController: LogCreationViewDelegate {
-    func saveLog(log: HealthLog, latitude: Float?, longitude: Float?) {
+    func saveLog(log: HealthLog, images: [MediaItems]?, videos: [MediaItems]?) {
         self.log = log
-        delegate?.saveLog(log: log, latitude: latitude, longitude: longitude)
+        delegate?.saveLog(log: log, images: images, videos: videos)
+        videoSegment?.startFirebase(uid: uid, log: log)
+        photoSegment?.startFirebase(uid: uid, log: log)
         self.setFields()
     }
 }

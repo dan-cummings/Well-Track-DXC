@@ -26,6 +26,16 @@
 		655DBDB92023AEAB000E9B03 /* LogCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */; };
 		655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */; };
 		655DBDBD2023AEAB000E9B03 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */; };
+		657CF01820790F2200A54F53 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657CF01620790F2200A54F53 /* Interface.storyboard */; };
+		657CF01A20790F2500A54F53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657CF01920790F2500A54F53 /* Assets.xcassets */; };
+		657CF02120790F2500A54F53 /* Well Track Watch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 657CF02020790F2500A54F53 /* Well Track Watch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		657CF02620790F2500A54F53 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657CF02520790F2500A54F53 /* InterfaceController.swift */; };
+		657CF02820790F2500A54F53 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657CF02720790F2500A54F53 /* ExtensionDelegate.swift */; };
+		657CF02A20790F2500A54F53 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657CF02920790F2500A54F53 /* NotificationController.swift */; };
+		657CF02C20790F2600A54F53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657CF02B20790F2600A54F53 /* Assets.xcassets */; };
+		657CF03120790F2600A54F53 /* Well Track Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 657CF01420790F2200A54F53 /* Well Track Watch.app */; };
+		657CF03B2079166D00A54F53 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657CF03A2079166D00A54F53 /* HealthKit.framework */; };
+		657CF03F2079405800A54F53 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657CF03E2079405800A54F53 /* HealthKit.framework */; };
 		658A62F62051EF5A0010C686 /* LocationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658A62F52051EF5A0010C686 /* LocationObject.swift */; };
 		658A62F82051F9E40010C686 /* WellTrackMapTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658A62F72051F9E40010C686 /* WellTrackMapTableViewController.swift */; };
 		658A62FA2051FA390010C686 /* WellTrackMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658A62F92051FA390010C686 /* WellTrackMapViewController.swift */; };
@@ -68,7 +78,46 @@
 			remoteGlobalIDString = 650BEE82201D49DF001AFB19;
 			remoteInfo = "Well Track";
 		};
+		657CF02220790F2500A54F53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 650BEE7B201D49DF001AFB19 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 657CF01F20790F2500A54F53;
+			remoteInfo = "Well Track Watch Extension";
+		};
+		657CF0402079AE1C00A54F53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 650BEE7B201D49DF001AFB19 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 657CF01320790F2200A54F53;
+			remoteInfo = "Well Track Watch";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		657CF03720790F2600A54F53 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				657CF02120790F2500A54F53 /* Well Track Watch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		657CF03920790F2600A54F53 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				657CF03120790F2600A54F53 /* Well Track Watch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0DA79CBF41BA8D07A68A1F3A /* Pods-Well TrackTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Well TrackTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Well TrackTests/Pods-Well TrackTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -101,6 +150,21 @@
 		655DBDB32023AEAB000E9B03 /* LogCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogCreationViewController.swift; sourceTree = "<group>"; };
 		655DBDB52023AEAB000E9B03 /* LogHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHistoryTableViewController.swift; sourceTree = "<group>"; };
 		655DBDB72023AEAB000E9B03 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
+		657CF01420790F2200A54F53 /* Well Track Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Well Track Watch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		657CF01720790F2200A54F53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		657CF01920790F2500A54F53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		657CF01B20790F2500A54F53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		657CF02020790F2500A54F53 /* Well Track Watch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Well Track Watch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		657CF02520790F2500A54F53 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		657CF02720790F2500A54F53 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		657CF02920790F2500A54F53 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		657CF02B20790F2600A54F53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		657CF02D20790F2600A54F53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		657CF02E20790F2600A54F53 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		657CF03A2079166D00A54F53 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		657CF03C2079404300A54F53 /* Well Track Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Well Track Watch.entitlements"; sourceTree = "<group>"; };
+		657CF03D2079405800A54F53 /* Well Track Watch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Well Track Watch Extension.entitlements"; sourceTree = "<group>"; };
+		657CF03E2079405800A54F53 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		658A62F52051EF5A0010C686 /* LocationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationObject.swift; sourceTree = "<group>"; };
 		658A62F72051F9E40010C686 /* WellTrackMapTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackMapTableViewController.swift; sourceTree = "<group>"; };
 		658A62F92051FA390010C686 /* WellTrackMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackMapViewController.swift; sourceTree = "<group>"; };
@@ -134,11 +198,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5CC4991BAB3AC92D6B4A7643 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		650BEE80201D49DF001AFB19 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E920D632BBC54814AAF0D76A /* Pods_Well_Track.framework in Frameworks */,
+				657CF03B2079166D00A54F53 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +227,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD6A87AF51D49B8F3044F206 /* Pods_Well_TrackUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		657CF01D20790F2500A54F53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				657CF03F2079405800A54F53 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +260,8 @@
 				650BEE85201D49DF001AFB19 /* Well Track */,
 				650BEE9A201D49DF001AFB19 /* Well TrackTests */,
 				650BEEA5201D49DF001AFB19 /* Well TrackUITests */,
+				657CF01520790F2200A54F53 /* Well Track Watch */,
+				657CF02420790F2500A54F53 /* Well Track Watch Extension */,
 				650BEE84201D49DF001AFB19 /* Products */,
 				384E7A46DDB34669F0003426 /* Pods */,
 				D50640AABFE2E5774DF6978E /* Frameworks */,
@@ -192,6 +274,8 @@
 				650BEE83201D49DF001AFB19 /* Well Track.app */,
 				650BEE97201D49DF001AFB19 /* Well TrackTests.xctest */,
 				650BEEA2201D49DF001AFB19 /* Well TrackUITests.xctest */,
+				657CF01420790F2200A54F53 /* Well Track Watch.app */,
+				657CF02020790F2500A54F53 /* Well Track Watch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -274,6 +358,31 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		657CF01520790F2200A54F53 /* Well Track Watch */ = {
+			isa = PBXGroup;
+			children = (
+				657CF03C2079404300A54F53 /* Well Track Watch.entitlements */,
+				657CF01620790F2200A54F53 /* Interface.storyboard */,
+				657CF01920790F2500A54F53 /* Assets.xcassets */,
+				657CF01B20790F2500A54F53 /* Info.plist */,
+			);
+			path = "Well Track Watch";
+			sourceTree = "<group>";
+		};
+		657CF02420790F2500A54F53 /* Well Track Watch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				657CF03D2079405800A54F53 /* Well Track Watch Extension.entitlements */,
+				657CF02520790F2500A54F53 /* InterfaceController.swift */,
+				657CF02720790F2500A54F53 /* ExtensionDelegate.swift */,
+				657CF02920790F2500A54F53 /* NotificationController.swift */,
+				657CF02B20790F2600A54F53 /* Assets.xcassets */,
+				657CF02D20790F2600A54F53 /* Info.plist */,
+				657CF02E20790F2600A54F53 /* PushNotificationPayload.apns */,
+			);
+			path = "Well Track Watch Extension";
+			sourceTree = "<group>";
+		};
 		658A63012054A8080010C686 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +401,8 @@
 		D50640AABFE2E5774DF6978E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				657CF03E2079405800A54F53 /* HealthKit.framework */,
+				657CF03A2079166D00A54F53 /* HealthKit.framework */,
 				2E73E925338FC6B4D0C46D5D /* Pods_Well_Track.framework */,
 				65F41522E447455E5A10E484 /* Pods_Well_TrackTests.framework */,
 				4A76633BB32FB1D99CCA9EB4 /* Pods_Well_TrackUITests.framework */,
@@ -312,10 +423,12 @@
 				650BEE81201D49DF001AFB19 /* Resources */,
 				0AF6E0E73D59F1D8E57209FD /* [CP] Embed Pods Frameworks */,
 				0968C0077C6BDCF30F95AB4E /* [CP] Copy Pods Resources */,
+				657CF03920790F2600A54F53 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				657CF0412079AE1C00A54F53 /* PBXTargetDependency */,
 			);
 			name = "Well Track";
 			productName = "Well Track";
@@ -364,21 +477,59 @@
 			productReference = 650BEEA2201D49DF001AFB19 /* Well TrackUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		657CF01320790F2200A54F53 /* Well Track Watch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 657CF03820790F2600A54F53 /* Build configuration list for PBXNativeTarget "Well Track Watch" */;
+			buildPhases = (
+				657CF01220790F2200A54F53 /* Resources */,
+				657CF03720790F2600A54F53 /* Embed App Extensions */,
+				5CC4991BAB3AC92D6B4A7643 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				657CF02320790F2500A54F53 /* PBXTargetDependency */,
+			);
+			name = "Well Track Watch";
+			productName = "Well Track Watch";
+			productReference = 657CF01420790F2200A54F53 /* Well Track Watch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		657CF01F20790F2500A54F53 /* Well Track Watch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 657CF03620790F2600A54F53 /* Build configuration list for PBXNativeTarget "Well Track Watch Extension" */;
+			buildPhases = (
+				657CF01C20790F2500A54F53 /* Sources */,
+				657CF01D20790F2500A54F53 /* Frameworks */,
+				657CF01E20790F2500A54F53 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Well Track Watch Extension";
+			productName = "Well Track Watch Extension";
+			productReference = 657CF02020790F2500A54F53 /* Well Track Watch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		650BEE7B201D49DF001AFB19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Team DXC";
 				TargetAttributes = {
 					650BEE82201D49DF001AFB19 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.HealthKit = {
 								enabled = 1;
 							};
 							com.apple.Push = {
@@ -395,6 +546,24 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 650BEE82201D49DF001AFB19;
+					};
+					657CF01320790F2200A54F53 = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+						};
+					};
+					657CF01F20790F2500A54F53 = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.HealthKit.watchos = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -414,6 +583,8 @@
 				650BEE82201D49DF001AFB19 /* Well Track */,
 				650BEE96201D49DF001AFB19 /* Well TrackTests */,
 				650BEEA1201D49DF001AFB19 /* Well TrackUITests */,
+				657CF01320790F2200A54F53 /* Well Track Watch */,
+				657CF01F20790F2500A54F53 /* Well Track Watch Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -441,6 +612,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		657CF01220790F2200A54F53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				657CF01A20790F2500A54F53 /* Assets.xcassets in Resources */,
+				657CF01820790F2200A54F53 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		657CF01E20790F2500A54F53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				657CF02C20790F2600A54F53 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,6 +864,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		657CF01C20790F2500A54F53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				657CF02A20790F2500A54F53 /* NotificationController.swift in Sources */,
+				657CF02820790F2500A54F53 /* ExtensionDelegate.swift in Sources */,
+				657CF02620790F2500A54F53 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -688,6 +886,16 @@
 			isa = PBXTargetDependency;
 			target = 650BEE82201D49DF001AFB19 /* Well Track */;
 			targetProxy = 650BEEA3201D49DF001AFB19 /* PBXContainerItemProxy */;
+		};
+		657CF02320790F2500A54F53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 657CF01F20790F2500A54F53 /* Well Track Watch Extension */;
+			targetProxy = 657CF02220790F2500A54F53 /* PBXContainerItemProxy */;
+		};
+		657CF0412079AE1C00A54F53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 657CF01320790F2200A54F53 /* Well Track Watch */;
+			targetProxy = 657CF0402079AE1C00A54F53 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -706,6 +914,14 @@
 				650BEE90201D49DF001AFB19 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		657CF01620790F2200A54F53 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				657CF01720790F2200A54F53 /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -828,7 +1044,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Well Track/Well Track.entitlements";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
 				INFOPLIST_FILE = "Well Track/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -848,7 +1065,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Well Track/Well Track.entitlements";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
 				INFOPLIST_FILE = "Well Track/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -928,6 +1146,94 @@
 			};
 			name = Release;
 		};
+		657CF03220790F2600A54F53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
+				IBSC_MODULE = Well_Track_Watch_Extension;
+				INFOPLIST_FILE = "Well Track Watch/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.well-track.ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		657CF03320790F2600A54F53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
+				IBSC_MODULE = Well_Track_Watch_Extension;
+				INFOPLIST_FILE = "Well Track Watch/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.well-track.ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
+		657CF03420790F2600A54F53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "Well Track Watch Extension/Well Track Watch Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
+				INFOPLIST_FILE = "Well Track Watch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.well-track.ios.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		657CF03520790F2600A54F53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "Well Track Watch Extension/Well Track Watch Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
+				INFOPLIST_FILE = "Well Track Watch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.well-track.ios.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -963,6 +1269,24 @@
 			buildConfigurations = (
 				650BEEB2201D49DF001AFB19 /* Debug */,
 				650BEEB3201D49DF001AFB19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		657CF03620790F2600A54F53 /* Build configuration list for PBXNativeTarget "Well Track Watch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				657CF03420790F2600A54F53 /* Debug */,
+				657CF03520790F2600A54F53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		657CF03820790F2600A54F53 /* Build configuration list for PBXNativeTarget "Well Track Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				657CF03220790F2600A54F53 /* Debug */,
+				657CF03320790F2600A54F53 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

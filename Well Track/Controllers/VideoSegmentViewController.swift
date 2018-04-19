@@ -78,19 +78,21 @@ class VideoSegmentViewController: UIViewController {
     }
 
     fileprivate func registerForFirebase() {
-        ref.observe(.value, with: { snapshot in
-            if let values = snapshot.value as? [String : AnyObject] {
-                var tmpItems = [MediaItems]()
-                for (_,val) in values.enumerated() {
-                    let entry = val.1 as! Dictionary<String,AnyObject>
-                    let key = val.0
-                    let videoURL = entry["videoURL"] as! String
-                    let duration = Double(truncating: entry["duration"] as! NSNumber)
-                    let imageURL = entry["imageURL"] as! String
-                    tmpItems.append(MediaItems(key: key, videoURL: videoURL, duration: duration, imageURL: imageURL))
-                }
-                self.data = tmpItems
-            }})
+        if self.data == nil || self.infoView {
+            ref.observeSingleEvent(of: .value, with: { snapshot in
+                if let values = snapshot.value as? [String : AnyObject] {
+                    var tmpItems = [MediaItems]()
+                    for (_,val) in values.enumerated() {
+                        let entry = val.1 as! Dictionary<String,AnyObject>
+                        let key = val.0
+                        let videoURL = entry["videoURL"] as! String
+                        let duration = Double(truncating: entry["duration"] as! NSNumber)
+                        let imageURL = entry["imageURL"] as! String
+                        tmpItems.append(MediaItems(key: key, videoURL: videoURL, duration: duration, imageURL: imageURL))
+                    }
+                    self.data = tmpItems
+                }})
+        }
         
         ref.observe(.childRemoved, with: { (snapshot) in
             var tempItems = [MediaItems]()
@@ -101,54 +103,6 @@ class VideoSegmentViewController: UIViewController {
             }
             self.data = tempItems
         })
-    }
-    
-    func saveMediaFileToFirebase(type: Int, media: URL?, saveRefClosure: @escaping (String) -> ()) {
-        let mediaType : String = type == 1 ? "Photos" : "Videos"
-        let ext : String = type == 1 ? "jpg" : "mp4"
-        let mime : String = type == 1 ? "image/jpeg" : "video/mp4"
-        
-        do {
-            let media = try Data(contentsOf: media!)
-            let mediaPath = "\(self.uid!)/\(mediaType)/\(Int(Date.timeIntervalSinceReferenceDate * 1000)).\(ext)"
-            let metadata = StorageMetadata()
-            metadata.contentType = mime
-            if let storageRef = self.storeRef {
-                storageRef.child(mediaPath).putData(media, metadata: metadata) {(metadata, error) in
-                    if let error = error {
-                        print("Error uploading: \(error.localizedDescription)")
-                        return
-                    }
-                    saveRefClosure(metadata!.downloadURL()!.absoluteString)
-                }
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func addVideoToFirebase(_ item: URL) {
-        var mediaItem = MediaItems()
-        
-        mediaItem.key = ref.childByAutoId().key
-        
-        if let info = getThumbnail(forURL: item) {
-            let tempURL = self.tempURL()
-            mediaItem.duration = info.0
-            do {
-                try UIImageJPEGRepresentation(info.1!, 0.8)?.write(to: tempURL!)
-                self.saveMediaFileToFirebase(type: 1, media: tempURL, saveRefClosure: { (photoURL) in
-                    mediaItem.imageURL = photoURL
-                    self.saveMediaFileToFirebase(type: 0, media: item, saveRefClosure: { (videoURL) in
-                        mediaItem.videoURL = videoURL
-                        let vals = self.toDictionary(mediaItem)
-                        self.ref.child(mediaItem.key!).setValue(vals)
-                    })
-                })
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
     }
     
     func getThumbnail(forURL url: URL) -> (Float64?, UIImage?)? {
@@ -163,12 +117,28 @@ class VideoSegmentViewController: UIViewController {
         return nil
     }
     
-    func toDictionary(_ item: MediaItems) -> NSMutableDictionary {
-        return [
-            "imageURL": item.imageURL! as NSString,
-            "videoURL": item.videoURL! as NSString,
-            "duration": item.duration! as NSNumber
-        ]
+    func addVideo(_ video: URL?) {
+        var newVideoItem = MediaItems()
+        let thumbnail = self.getThumbnail(forURL: video!)
+        newVideoItem.videoURL = video?.absoluteString
+        videoCache.setObject(video as AnyObject, forKey: video?.absoluteString as AnyObject)
+        newVideoItem.imageURL = self.tempURL()?.absoluteString
+        imageCache.setObject(thumbnail!.1!, forKey: newVideoItem.imageURL as AnyObject)
+        
+        newVideoItem.duration = thumbnail?.0
+        
+        var tempData = [MediaItems]()
+        
+        if let loadedData = self.data {
+            for item in loadedData {
+                tempData.append(item)
+            }
+            tempData.append(newVideoItem)
+            
+        } else {
+            tempData.append(newVideoItem)
+        }
+        self.data = tempData
     }
 
     @IBAction func addVideoPressed(_ sender: Any) {
@@ -186,6 +156,20 @@ class VideoSegmentViewController: UIViewController {
     }
     
     func removeSelectedVideo(item: MediaItems) {
+        
+        //Remove selected video that is not in firebase
+        guard let _ = item.key else {
+            var tempData = [MediaItems]()
+            for video in self.data! {
+                if video.imageURL != item.imageURL {
+                    tempData.append(video)
+                }
+            }
+            self.data = tempData
+            return
+        }
+        
+        //Remove firebase video.
         Storage.storage().reference(forURL: item.imageURL!).delete { (error) in
             guard let _ = error else {
                 print("Error removing thumbnail from storage")
@@ -211,7 +195,7 @@ class VideoSegmentViewController: UIViewController {
         let directory = NSTemporaryDirectory() as NSString
         
         if directory != "" {
-            let path = directory.appendingPathComponent(NSUUID().uuidString + ".mp4")
+            let path = directory.appendingPathComponent(NSUUID().uuidString + ".png")
             return URL(fileURLWithPath: path)
         }
         return nil
