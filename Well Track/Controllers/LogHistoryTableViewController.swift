@@ -74,7 +74,7 @@ class LogHistoryTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if let count = self.tableViewData?.count {
+        if let count = self.tableViewData?.count, count != 0 {
             tableView.backgroundView = nil
             tableView.separatorStyle = .singleLine
             return count
@@ -210,6 +210,11 @@ class LogHistoryTableViewController: UITableViewController {
                 }
                 self.sortLogsIntoSections(tmpItems)
             }})
+        Database.database().reference(withPath: uid).observeSingleEvent(of: .value, with: { snapshot in
+            if !snapshot.hasChild("Logs") {
+                self.tableViewData = nil
+            }
+        })
         
         self.settingsRef?.observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
