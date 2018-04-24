@@ -305,9 +305,11 @@ class SettingsViewController: UIViewController {
         var color: UIColor
         if GPSSwitch.isOn {
             color = TEXT_DEFAULT_COLOR!
+            PlacesSearch.shared.startLocationServices(uid: self.userId!)
         }
         else {
             color = UIColor.gray
+            PlacesSearch.shared.turnOffLocationService()
         }
         
         HoursField.textColor = color

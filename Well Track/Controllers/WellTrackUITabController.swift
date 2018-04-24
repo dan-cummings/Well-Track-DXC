@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
 /// The root controller for the TabViewController.
 class WellTrackUITabController: UITabBarController {
@@ -20,7 +21,7 @@ class WellTrackUITabController: UITabBarController {
         self.tabBar.backgroundColor = TEXT_DEFAULT_COLOR
         self.tabBar.barTintColor = TEXT_DEFAULT_COLOR
         self.tabBar.tintColor = TEXT_HIGHLIGHT_COLOR
-        placeSweeper = PlacesSearch()
+        placeSweeper = PlacesSearch.shared
         placeSweeper.setupLocationManager()
     }
     
@@ -33,7 +34,7 @@ class WellTrackUITabController: UITabBarController {
                         c.uid = user.uid
                     }
                 }
-                self.placeSweeper.startLocationServices(uid: user.uid)
+                self.checkFirebase(uid: user.uid)
             } else {
                 self.placeSweeper.turnOffLocationService()
                 self.performSegue(withIdentifier: "loginSegue", sender: self)
@@ -47,6 +48,20 @@ class WellTrackUITabController: UITabBarController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+    }
+    
+    fileprivate func checkFirebase(uid: String) {
+        Database.database().reference(withPath: "\(uid)/Settings").observeSingleEvent(of: .value) { (snapshot) in
+            if let values = snapshot.value as? [String : AnyObject] {
+                for (_,val) in values.enumerated() {
+                    let entry = val.1 as! Dictionary<String,AnyObject>
+                    let gps = entry["gps"] as! Int
+                    if gps == 1 {
+                        self.placeSweeper.startLocationServices(uid: uid)
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func unwindFromRegistration(segue: UIStoryboardSegue) {
