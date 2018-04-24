@@ -16,6 +16,9 @@ protocol RegistrationDelegate {
 /// View controller for the registration view.
 class RegistrationViewController: UIViewController{
     
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var confirmPassField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
@@ -23,6 +26,20 @@ class RegistrationViewController: UIViewController{
     
     var delegate: RegistrationDelegate?
     
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = BACKGROUND_COLOR
+        cancelButton.titleLabel?.textColor = BACKGROUND_COLOR
+        cancelButton.backgroundColor = TEXT_DEFAULT_COLOR
+        emailField.textColor = TEXT_DEFAULT_COLOR
+        nameField.textColor = TEXT_DEFAULT_COLOR
+        passwordField.textColor = TEXT_DEFAULT_COLOR
+        confirmPassField.textColor = TEXT_DEFAULT_COLOR
+        registerButton.titleLabel?.textColor = BACKGROUND_COLOR
+        registerButton.backgroundColor = TEXT_DEFAULT_COLOR
+        titleLabel.textColor = TEXT_DEFAULT_COLOR
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -44,10 +61,6 @@ class RegistrationViewController: UIViewController{
         } else {
             self.reportError(msg: errors[0])
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

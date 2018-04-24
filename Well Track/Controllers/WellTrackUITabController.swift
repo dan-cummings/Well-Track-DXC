@@ -17,6 +17,9 @@ class WellTrackUITabController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBar.backgroundColor = TEXT_DEFAULT_COLOR
+        self.tabBar.barTintColor = TEXT_DEFAULT_COLOR
+        self.tabBar.tintColor = TEXT_HIGHLIGHT_COLOR
         placeSweeper = PlacesSearch()
         placeSweeper.setupLocationManager()
     }

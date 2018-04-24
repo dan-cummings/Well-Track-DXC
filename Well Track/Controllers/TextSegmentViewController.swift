@@ -19,7 +19,8 @@ class TextSegmentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.delegate = self
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = BACKGROUND_COLOR_DARK
+        textField.textColor = TEXT_DEFAULT_COLOR
     }
     
     override func viewWillAppear(_ animated: Bool) {

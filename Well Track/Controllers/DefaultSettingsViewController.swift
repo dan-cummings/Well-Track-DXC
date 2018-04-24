@@ -11,6 +11,18 @@ import Firebase
 
 class DefaultSettingsViewController: UIViewController {
 
+    @IBOutlet weak var alertsTitle: UILabel!
+    @IBOutlet weak var gpsTitle: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var hoursLabel: UILabel!
+    @IBOutlet weak var minutesLabel: UILabel!
+    @IBOutlet weak var setAfterLabel: UILabel!
+    @IBOutlet weak var gpsLabel: UILabel!
+    @IBOutlet weak var tempMaxLabel: UILabel!
+    @IBOutlet weak var tempMinLabel: UILabel!
+    @IBOutlet weak var heartMaxLabel: UILabel!
+    @IBOutlet weak var heartMinLabel: UILabel!
+    @IBOutlet weak var sendAlertsLabel: UILabel!
     @IBOutlet weak var MinHeartField: UITextField!
     @IBOutlet weak var MaxHeartField: UITextField!
     @IBOutlet weak var MinTempField: UITextField!
@@ -20,6 +32,8 @@ class DefaultSettingsViewController: UIViewController {
     @IBOutlet weak var AlertSwitch: UISwitch!
     @IBOutlet weak var GPSSwitch: UISwitch!
     @IBOutlet weak var linkButton: UIButton!
+    @IBOutlet weak var thermoImage: UIImageView!
+    @IBOutlet weak var heartImage: UIImageView!
     
     var userId: String?
     var settingsRecord: Settings!
@@ -29,6 +43,40 @@ class DefaultSettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = BACKGROUND_COLOR
+        
+        thermoImage.tintColor = TEXT_DEFAULT_COLOR
+        heartImage.tintColor = TEXT_DEFAULT_COLOR
+        
+        alertsTitle.textColor = TEXT_HIGHLIGHT_COLOR
+        gpsTitle.textColor = TEXT_HIGHLIGHT_COLOR
+        
+        saveButton.titleLabel?.textColor = BACKGROUND_COLOR
+        saveButton.backgroundColor = TEXT_DEFAULT_COLOR
+        linkButton.titleLabel?.textColor = BACKGROUND_COLOR
+        linkButton.backgroundColor = TEXT_DEFAULT_COLOR
+        
+        hoursLabel.textColor = TEXT_DEFAULT_COLOR
+        minutesLabel.textColor = TEXT_DEFAULT_COLOR
+        setAfterLabel.textColor = TEXT_DEFAULT_COLOR
+        gpsLabel.textColor = TEXT_DEFAULT_COLOR
+        tempMaxLabel.textColor = TEXT_DEFAULT_COLOR
+        tempMinLabel.textColor = TEXT_DEFAULT_COLOR
+        heartMaxLabel.textColor = TEXT_DEFAULT_COLOR
+        heartMinLabel.textColor = TEXT_DEFAULT_COLOR
+        sendAlertsLabel.textColor = TEXT_DEFAULT_COLOR
+        
+        HoursField.textColor = TEXT_DEFAULT_COLOR
+        MinutesField.textColor = TEXT_DEFAULT_COLOR
+        
+        AlertSwitch.onTintColor = TEXT_HIGHLIGHT_COLOR
+        AlertSwitch.thumbTintColor = BACKGROUND_COLOR
+        AlertSwitch.tintColor = TEXT_DEFAULT_COLOR
+        
+        GPSSwitch.onTintColor = TEXT_HIGHLIGHT_COLOR
+        GPSSwitch.thumbTintColor = BACKGROUND_COLOR
+        GPSSwitch.tintColor = TEXT_DEFAULT_COLOR
+        
         authentication = ThermoDataProvider()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {

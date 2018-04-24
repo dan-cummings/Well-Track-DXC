@@ -35,6 +35,8 @@ class WellTrackMapTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = BACKGROUND_COLOR
+        self.tableView.backgroundColor = BACKGROUND_COLOR
         Auth.auth().addStateDidChangeListener { (auth, user) in
             guard let user = user else {
                 return
@@ -102,7 +104,7 @@ class WellTrackMapTableViewController: UITableViewController {
         } else {
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             label.text = "No data found"
-            label.textColor = .black
+            label.textColor = TEXT_DEFAULT_COLOR
             label.textAlignment = .center
             tableView.backgroundView = label
             tableView.separatorStyle = .none
@@ -110,15 +112,20 @@ class WellTrackMapTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40.0
+    }
+    
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        header.contentView.backgroundColor = .gray
-        header.textLabel?.textColor = .white
+        header.contentView.backgroundColor = HEADER_BACKGROUND_COLOR
+        header.textLabel?.textColor = TEXT_HIGHLIGHT_COLOR
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         if let viewWithTag = self.view.viewWithTag(kHeaderSectionTag + section) {
             viewWithTag.removeFromSuperview()
         }
         let headerFrame = self.view.frame.size
-        let imageView = UIImageView(frame: CGRect(x: headerFrame.width - 32, y: 13, width: 18, height: 18))
+        let imageView = UIImageView(frame: CGRect(x: headerFrame.width - 32, y: 10, width: 25, height: 25))
         imageView.image = UIImage(named: "down")
         imageView.tag = kHeaderSectionTag + section
         header.addSubview(imageView)
@@ -176,6 +183,7 @@ class WellTrackMapTableViewController: UITableViewController {
             cell.icon.image = UIImage(named: "locdef")
             cell.locType.text = "Unknown"
         }
+        cell.timeLabel.text = "\((location.startDate?.time)!) - \((location.endDate?.time)!)"
         cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: .red)]
         cell.rightSwipeSettings.transition = .drag
         return cell

@@ -15,5 +15,7 @@ class WellTrackMediaCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        image.backgroundColor = TEXT_DEFAULT_COLOR
+        self.layer.cornerRadius = 7;
     }
 }

@@ -116,6 +116,21 @@ extension PlacesSearch: CLLocationManagerDelegate {
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .restricted:
+            print("Location restricted.")
+        case .denied:
+            print("Location access denied.")
+        case .notDetermined:
+            print("Location permissions not determined.")
+        case .authorizedAlways:
+            fallthrough
+        case .authorizedWhenInUse:
+            print("Location service OK.")
+        }
+    }
+    
     func startLocationServices(uid :String) {
         self.uid = uid
         locationManager.startMonitoringSignificantLocationChanges()

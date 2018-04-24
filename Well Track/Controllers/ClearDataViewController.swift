@@ -13,6 +13,10 @@ import FirebaseStorage
 
 class ClearDataViewController: UIViewController {
 
+    @IBOutlet weak var clearAllButton: UIButton!
+    @IBOutlet weak var clearFromToButton: UIButton!
+    @IBOutlet weak var toLabel: UILabel!
+    @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var fromDate: UIDatePicker!
     @IBOutlet weak var toDate: UIDatePicker!
     
@@ -22,6 +26,18 @@ class ClearDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = BACKGROUND_COLOR
+        fromDate.backgroundColor = BACKGROUND_COLOR
+        toDate.backgroundColor = BACKGROUND_COLOR
+        fromDate.tintColor = TEXT_DEFAULT_COLOR
+        fromDate.setValue(TEXT_DEFAULT_COLOR, forKey: "textColor")
+        toDate.setValue(TEXT_DEFAULT_COLOR, forKey: "textColor")
+        toLabel.textColor = TEXT_DEFAULT_COLOR
+        fromLabel.textColor = TEXT_DEFAULT_COLOR
+        clearAllButton.backgroundColor = TEXT_DEFAULT_COLOR
+        clearAllButton.titleLabel?.textColor = BACKGROUND_COLOR
+        clearFromToButton.backgroundColor = TEXT_DEFAULT_COLOR
+        clearFromToButton.titleLabel?.textColor = BACKGROUND_COLOR
         self.userId = Auth.auth().currentUser?.uid
         self.startFireBase()
     }

@@ -7,7 +7,7 @@ target 'Well Track' do
 
   # Pods for Well Track
   pod 'MGSwipeTableCell'
-  pod 'IQKeyboardManagerSwift'
+  pod 'IQKeyboardManagerSwift', "~> 5.0.6"
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'SwiftyJSON'

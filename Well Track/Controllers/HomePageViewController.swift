@@ -14,6 +14,7 @@ import UserNotifications
 /// The home page to display the most recent log that was added and act as the hub for the user settings.
 class HomePageViewController: UIViewController {
 
+    @IBOutlet weak var mostRecentLabel: UILabel!
     @IBOutlet weak var noLogsLabel: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var dateLabel: UILabel!
@@ -30,6 +31,20 @@ class HomePageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = BACKGROUND_COLOR
+        self.navigationItem.titleView?.tintColor = BACKGROUND_COLOR
+        
+        noLogsLabel.textColor = TEXT_DEFAULT_COLOR
+        healthRatingImage.tintColor = TEXT_DEFAULT_COLOR
+        thermoImage.tintColor = TEXT_DEFAULT_COLOR
+        heartImage.tintColor = TEXT_DEFAULT_COLOR
+        moodLabel.textColor = TEXT_DEFAULT_COLOR
+        temperatureLabel.textColor = TEXT_DEFAULT_COLOR
+        heartrateLabel.textColor = TEXT_DEFAULT_COLOR
+        mostRecentLabel.textColor = TEXT_DEFAULT_COLOR
+        dateLabel.textColor = TEXT_DEFAULT_COLOR
+        
         dateLabel.isHidden = true
         temperatureLabel.isHidden = true
         heartrateLabel.isHidden = true
@@ -38,8 +53,8 @@ class HomePageViewController: UIViewController {
         noLogsLabel.isHidden = true
         thermoImage.isHidden = true
         heartImage.isHidden = true
-        
-        healthRatingImage.tintColor = .black
+        self.indicator.isHidden = false
+        self.indicator.startAnimating()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 self.userId = user.uid
@@ -65,8 +80,6 @@ class HomePageViewController: UIViewController {
     
     /// Function to set up the view controller to receive updates from firebase.
     fileprivate func registerForFireBaseUpdates() {
-        self.indicator.isHidden = false
-        self.indicator.startAnimating()
         self.databaseRef!.observeSingleEvent(of: .value, with: { snapshot in
             if let values = snapshot.value as? [String : AnyObject] {
                 var tmpItem = HealthLog()
@@ -101,7 +114,9 @@ class HomePageViewController: UIViewController {
                 } else {
                     self.noLogsLabel.isHidden = false
                 }
-                self.indicator.stopAnimating()
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
+                }
                 self.indicator.isHidden = true
             }})
         
@@ -116,7 +131,9 @@ class HomePageViewController: UIViewController {
                 self.heartImage.isHidden = true
                 self.noLogsLabel.isHidden = false
                 self.indicator.isHidden = true
-                self.indicator.stopAnimating()
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
+                }
             }
         })
     }
@@ -126,34 +143,37 @@ class HomePageViewController: UIViewController {
     func updateFields() {
         switch mostRecent!.moodrating {
         case "Fine":
-            healthRatingImage.image = UIImage(named: "Fair")
+            self.healthRatingImage.image = UIImage(named: "Fair")
             break
         case "Good":
-            healthRatingImage.image = UIImage(named: "Good")
+            self.healthRatingImage.image = UIImage(named: "Good")
             break
         case "Great":
-            healthRatingImage.image = UIImage(named: "Great")
+            self.healthRatingImage.image = UIImage(named: "Great")
             break
         case "Bad":
-            healthRatingImage.image = UIImage(named: "Bad")
+            self.healthRatingImage.image = UIImage(named: "Bad")
             break
         case "Terrible":
-            healthRatingImage.image = UIImage(named: "Terrible")
+            self.healthRatingImage.image = UIImage(named: "Terrible")
             break
         default:
             break
         }
         
-        dateLabel.text = mostRecent!.date?.short
-        temperatureLabel.text = mostRecent?.temperature
-        heartrateLabel.text = mostRecent?.heartrate
-        moodLabel.text = mostRecent?.moodrating
+        self.dateLabel.text = mostRecent!.date?.short
+        self.temperatureLabel.text = mostRecent?.temperature
+        self.heartrateLabel.text = mostRecent?.heartrate
+        self.moodLabel.text = mostRecent?.moodrating
         
-        dateLabel.isHidden = false
-        temperatureLabel.isHidden = false
-        heartrateLabel.isHidden = false
-        moodLabel.isHidden = false
-        healthRatingImage.isHidden = false
+        self.dateLabel.isHidden = false
+        self.temperatureLabel.isHidden = false
+        self.heartrateLabel.isHidden = false
+        self.heartImage.isHidden = false
+        self.thermoImage.isHidden = false
+        self.moodLabel.isHidden = false
+        self.healthRatingImage.isHidden = false
+        self.indicator.stopAnimating()
     }
     
     /// Helper function to prepare the reference to the firebase database.

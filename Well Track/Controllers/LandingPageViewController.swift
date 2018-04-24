@@ -14,10 +14,24 @@ class LandingPageViewController: UIViewController {
 
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
-
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var signinButton: UIButton!
+    
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var memberLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.view.backgroundColor = BACKGROUND_COLOR
+        passwordField.textColor = TEXT_DEFAULT_COLOR
+        emailField.textColor = TEXT_DEFAULT_COLOR
+        signinButton.titleLabel?.textColor = BACKGROUND_COLOR
+        signinButton.backgroundColor = TEXT_DEFAULT_COLOR
+        registerButton.titleLabel?.textColor = BACKGROUND_COLOR
+        registerButton.backgroundColor = TEXT_DEFAULT_COLOR
+        memberLabel.textColor = TEXT_DEFAULT_COLOR
+        titleLabel.textColor = TEXT_DEFAULT_COLOR
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

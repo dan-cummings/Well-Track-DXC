@@ -19,7 +19,9 @@ class LogInformationViewController: UIViewController {
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var textView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
-    
+    @IBOutlet weak var segController: UISegmentedControl!
+    @IBOutlet weak var thermoImage: UIImageView!
+    @IBOutlet weak var heartImage: UIImageView!
     
     var log: HealthLog?
     var textSegment: TextSegmentViewController?
@@ -31,6 +33,14 @@ class LogInformationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = BACKGROUND_COLOR
+        dateLabel.textColor = TEXT_DEFAULT_COLOR
+        temperatureLabel.textColor = TEXT_HIGHLIGHT_COLOR
+        heartRateLabel.textColor = TEXT_HIGHLIGHT_COLOR
+        moodLabel.textColor = TEXT_HIGHLIGHT_COLOR
+        heartImage.tintColor = TEXT_DEFAULT_COLOR
+        thermoImage.tintColor = TEXT_DEFAULT_COLOR
+        segController.tintColor = TEXT_DEFAULT_COLOR
         setFields()
     }
     
@@ -64,9 +74,8 @@ class LogInformationViewController: UIViewController {
             default:
                 break
             }
-            moodImageView.tintColor = .black
-            dateLabel.text = log.date?.short            
-
+            moodImageView.tintColor = TEXT_DEFAULT_COLOR
+            dateLabel.text = log.date?.short
         }
         self.uid = Auth.auth().currentUser?.uid
         videoSegment?.startFirebase(uid: uid, log: log!)

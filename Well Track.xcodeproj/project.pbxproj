@@ -10,7 +10,6 @@
 		65033CC3206EB9C7006D4EAC /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65033CC2206EB9C7006D4EAC /* Timer.swift */; };
 		6506C2C82027D0F900E4D9DC /* WellTrackUITabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */; };
 		650BEE87201D49DF001AFB19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEE86201D49DF001AFB19 /* AppDelegate.swift */; };
-		650BEE89201D49DF001AFB19 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650BEE88201D49DF001AFB19 /* ViewController.swift */; };
 		650BEE8C201D49DF001AFB19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 650BEE8A201D49DF001AFB19 /* Main.storyboard */; };
 		650BEE8E201D49DF001AFB19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 650BEE8D201D49DF001AFB19 /* Assets.xcassets */; };
 		650BEE91201D49DF001AFB19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 650BEE8F201D49DF001AFB19 /* LaunchScreen.storyboard */; };
@@ -36,6 +35,7 @@
 		657CF03120790F2600A54F53 /* Well Track Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 657CF01420790F2200A54F53 /* Well Track Watch.app */; };
 		657CF03B2079166D00A54F53 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657CF03A2079166D00A54F53 /* HealthKit.framework */; };
 		657CF03F2079405800A54F53 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657CF03E2079405800A54F53 /* HealthKit.framework */; };
+		658975B0208D74FC00FCF6A3 /* WellTrackHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658975AF208D74FC00FCF6A3 /* WellTrackHeaderCell.swift */; };
 		658A62F62051EF5A0010C686 /* LocationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658A62F52051EF5A0010C686 /* LocationObject.swift */; };
 		658A62F82051F9E40010C686 /* WellTrackMapTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658A62F72051F9E40010C686 /* WellTrackMapTableViewController.swift */; };
 		658A62FA2051FA390010C686 /* WellTrackMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658A62F92051FA390010C686 /* WellTrackMapViewController.swift */; };
@@ -129,7 +129,6 @@
 		6506C2C72027D0F900E4D9DC /* WellTrackUITabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackUITabController.swift; sourceTree = "<group>"; };
 		650BEE83201D49DF001AFB19 /* Well Track.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Well Track.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		650BEE86201D49DF001AFB19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		650BEE88201D49DF001AFB19 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		650BEE8B201D49DF001AFB19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		650BEE8D201D49DF001AFB19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		650BEE90201D49DF001AFB19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -165,6 +164,7 @@
 		657CF03C2079404300A54F53 /* Well Track Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Well Track Watch.entitlements"; sourceTree = "<group>"; };
 		657CF03D2079405800A54F53 /* Well Track Watch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Well Track Watch Extension.entitlements"; sourceTree = "<group>"; };
 		657CF03E2079405800A54F53 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		658975AF208D74FC00FCF6A3 /* WellTrackHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackHeaderCell.swift; sourceTree = "<group>"; };
 		658A62F52051EF5A0010C686 /* LocationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationObject.swift; sourceTree = "<group>"; };
 		658A62F72051F9E40010C686 /* WellTrackMapTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackMapTableViewController.swift; sourceTree = "<group>"; };
 		658A62F92051FA390010C686 /* WellTrackMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellTrackMapViewController.swift; sourceTree = "<group>"; };
@@ -286,13 +286,13 @@
 			children = (
 				FA5ADA24205AFBBA001F2CA0 /* Well Track.entitlements */,
 				650BEE86201D49DF001AFB19 /* AppDelegate.swift */,
-				650BEE88201D49DF001AFB19 /* ViewController.swift */,
 				650BEE8A201D49DF001AFB19 /* Main.storyboard */,
 				650BEE8D201D49DF001AFB19 /* Assets.xcassets */,
 				650BEE8F201D49DF001AFB19 /* LaunchScreen.storyboard */,
 				650BEE92201D49DF001AFB19 /* Info.plist */,
 				652E21EE202648C300E455B7 /* GoogleService-Info.plist */,
 				658A63012054A8080010C686 /* Helpers */,
+				658975B1208D751400FCF6A3 /* Cells */,
 				650BEEB7201D4A8F001AFB19 /* Controllers */,
 				650BEEB4201D4A1C001AFB19 /* Models */,
 			);
@@ -343,7 +343,6 @@
 				6558FF6B2030A1BE005093A4 /* PreviewViewController.swift */,
 				65A90CC820387FD400C61A96 /* VideoSegmentViewController.swift */,
 				65A90CCA2039D25100C61A96 /* TextSegmentViewController.swift */,
-				65A90CCE203A2CA000C61A96 /* WellTrackTableViewCell.swift */,
 				65A90CD0203A6D0D00C61A96 /* LogInformationViewController.swift */,
 				FA9D259F2038D988000123A7 /* SettingsViewController.swift */,
 				FAA5A4D62049DE5800A92C7A /* ClearDataViewController.swift */,
@@ -351,9 +350,7 @@
 				65ADF9E3204CCE9400B04705 /* GoogleMapViewController.swift */,
 				658A62F72051F9E40010C686 /* WellTrackMapTableViewController.swift */,
 				658A62F92051FA390010C686 /* WellTrackMapViewController.swift */,
-				658A62FB2052026E0010C686 /* MapTableViewCell.swift */,
 				658A62FD20546DE30010C686 /* WellTrackMediaCollectionViewController.swift */,
-				658A62FF2054747E0010C686 /* WellTrackMediaCollectionViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -381,6 +378,17 @@
 				657CF02E20790F2600A54F53 /* PushNotificationPayload.apns */,
 			);
 			path = "Well Track Watch Extension";
+			sourceTree = "<group>";
+		};
+		658975B1208D751400FCF6A3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				658975AF208D74FC00FCF6A3 /* WellTrackHeaderCell.swift */,
+				658A62FF2054747E0010C686 /* WellTrackMediaCollectionViewCell.swift */,
+				658A62FB2052026E0010C686 /* MapTableViewCell.swift */,
+				65A90CCE203A2CA000C61A96 /* WellTrackTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		658A63012054A8080010C686 /* Helpers */ = {
@@ -524,7 +532,7 @@
 				TargetAttributes = {
 					650BEE82201D49DF001AFB19 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -812,6 +820,7 @@
 			files = (
 				FAA5A4D72049DE5800A92C7A /* ClearDataViewController.swift in Sources */,
 				658A62FA2051FA390010C686 /* WellTrackMapViewController.swift in Sources */,
+				658975B0208D74FC00FCF6A3 /* WellTrackHeaderCell.swift in Sources */,
 				658A63002054747E0010C686 /* WellTrackMediaCollectionViewCell.swift in Sources */,
 				658A62FE20546DE30010C686 /* WellTrackMediaCollectionViewController.swift in Sources */,
 				655DBDB92023AEAB000E9B03 /* LogCreationViewController.swift in Sources */,
@@ -822,7 +831,6 @@
 				658A62F82051F9E40010C686 /* WellTrackMapTableViewController.swift in Sources */,
 				65A90CCF203A2CA000C61A96 /* WellTrackTableViewCell.swift in Sources */,
 				65A90CCB2039D25100C61A96 /* TextSegmentViewController.swift in Sources */,
-				650BEE89201D49DF001AFB19 /* ViewController.swift in Sources */,
 				6506C2C82027D0F900E4D9DC /* WellTrackUITabController.swift in Sources */,
 				653757C7202A52EE00DFF314 /* WellTrackNavController.swift in Sources */,
 				655DBDBB2023AEAB000E9B03 /* LogHistoryTableViewController.swift in Sources */,
@@ -1045,7 +1053,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Well Track/Well Track.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
 				INFOPLIST_FILE = "Well Track/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1066,7 +1074,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Well Track/Well Track.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5QBPYGXDBQ;
 				INFOPLIST_FILE = "Well Track/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

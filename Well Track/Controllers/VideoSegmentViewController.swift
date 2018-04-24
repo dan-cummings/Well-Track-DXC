@@ -40,6 +40,16 @@ class VideoSegmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = BACKGROUND_COLOR_DARK
+        collection.backgroundColor = BACKGROUND_COLOR
+        addBtn.titleLabel?.textColor = BACKGROUND_COLOR
+        addBtn.backgroundColor = TEXT_DEFAULT_COLOR
+        addBtn.imageView?.tintColor = BACKGROUND_COLOR
+        removeBtn.titleLabel?.textColor = BACKGROUND_COLOR
+        removeBtn.backgroundColor = TEXT_DEFAULT_COLOR
+        addBtn.layer.cornerRadius = 7
+        removeBtn.layer.cornerRadius = 7
+        collection.layer.cornerRadius = 7
         self.addBtn.imageView?.contentMode = .scaleAspectFit
         if infoView {
             addBtn.isHidden = true
@@ -240,7 +250,7 @@ extension VideoSegmentViewController: UICollectionViewDelegate, UICollectionView
         } else {
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: collection.bounds.size.width, height: collection.bounds.size.height))
             label.text = "No videos have been added to this log"
-            label.textColor = .black
+            label.textColor = TEXT_DEFAULT_COLOR
             label.textAlignment = .center
             collection.backgroundView = label
             if !infoView {

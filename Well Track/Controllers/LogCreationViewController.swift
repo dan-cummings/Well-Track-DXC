@@ -35,6 +35,11 @@ class LogCreationViewController: UIViewController {
     @IBOutlet weak var videoCont: UIView!
     @IBOutlet weak var heartrateLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var howLabel: UILabel!
+    @IBOutlet weak var heartImage: UIImageView!
+    @IBOutlet weak var thermoImage: UIImageView!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    
     var photoSegmentController: PhotoSegmentViewController?
     var videoSegmentController: VideoSegmentViewController?
     var textSegmentController: TextSegmentViewController?
@@ -85,14 +90,26 @@ class LogCreationViewController: UIViewController {
         
         temperatureLabel.text = "--.- °\(selectedScale)"
         heartrateLabel.text = "--- BPM"
-        temperatureLabel.textColor = .gray
-        heartrateLabel.textColor = .gray
         
         // Sets all of the tint colors for images in mood stack.
         for stack in imageStack.arrangedSubviews {
             let rating = stack as? UIStackView
-            rating?.arrangedSubviews[0].tintColor = .black
+            rating?.arrangedSubviews[0].tintColor = TEXT_DEFAULT_COLOR
+            let label = rating?.arrangedSubviews[1] as! UILabel
+            label.textColor = TEXT_DEFAULT_COLOR
         }
+        
+        self.view.backgroundColor = BACKGROUND_COLOR
+        
+        howLabel.textColor = TEXT_DEFAULT_COLOR
+        thermoImage.tintColor = TEXT_DEFAULT_COLOR
+        heartImage.tintColor = TEXT_DEFAULT_COLOR
+        temperatureLabel.textColor = TEXT_DEFAULT_COLOR
+        heartrateLabel.textColor = TEXT_DEFAULT_COLOR
+        segBtns.tintColor = TEXT_DEFAULT_COLOR
+        doneButton.tintColor = TEXT_DEFAULT_COLOR
+        pickerview.backgroundColor = BACKGROUND_COLOR
+        pickerview.tintColor = TEXT_HIGHLIGHT_COLOR
        
         uid = Auth.auth().currentUser?.uid
         if hasPresetLog {
@@ -157,11 +174,13 @@ class LogCreationViewController: UIViewController {
             let temp = imageStack.arrangedSubviews[loc] as? UIStackView
             selectedRatingLabel = temp?.arrangedSubviews[1] as? UILabel
             selectedRatingImage = temp?.arrangedSubviews[0] as? UIImageView
-            selectedRatingImage?.tintColor = self.view.tintColor
-            selectedRatingLabel?.textColor = self.view.tintColor
+            selectedRatingImage?.tintColor = TEXT_HIGHLIGHT_COLOR
+            selectedRatingLabel?.textColor = TEXT_HIGHLIGHT_COLOR
             
             self.temperatureLabel.text = presetLog.temperature
             self.heartrateLabel.text = presetLog.heartrate
+            self.temperatureLabel.textColor = TEXT_HIGHLIGHT_COLOR
+            self.heartrateLabel.textColor = TEXT_HIGHLIGHT_COLOR
         }
     }
     
@@ -187,19 +206,26 @@ class LogCreationViewController: UIViewController {
     /// - Parameter sender: Tap gesture recognizer which was activated.
     @IBAction func ratingSelected(_ sender: UITapGestureRecognizer) {
         if selectedRatingLabel != nil {
-            selectedRatingLabel?.textColor = .black
-            selectedRatingImage?.tintColor = .black
+            UIView.animate(withDuration: 0.2) {
+                self.selectedRatingImage?.tintColor = TEXT_DEFAULT_COLOR
+            }
+            UIView.transition(with: self.selectedRatingLabel!, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                self.selectedRatingLabel?.textColor = TEXT_DEFAULT_COLOR
+            }, completion: nil)
         }
         if let selected = sender.view as? UIStackView {
-            if let image = selected.arrangedSubviews[0] as? UIImageView {
-                selected.arrangedSubviews[0].tintColor = self.view.tintColor
-                selectedRatingImage = image
+            let image = selected.arrangedSubviews[0] as! UIImageView
+            selectedRatingImage = image
+            
+            let text = selected.arrangedSubviews[1] as! UILabel
+            UIView.animate(withDuration: 0.3) {
+                image.tintColor = TEXT_HIGHLIGHT_COLOR
             }
-            if let text = selected.arrangedSubviews[1] as? UILabel {
-                text.textColor = self.view.tintColor
-                selectedRatingLabel = text
-                log.moodrating = text.text!
-            }
+            UIView.transition(with: text, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                text.textColor = TEXT_HIGHLIGHT_COLOR
+            }, completion: nil)
+            selectedRatingLabel = text
+            log.moodrating = text.text!
         }
     }
     
@@ -214,7 +240,13 @@ class LogCreationViewController: UIViewController {
             pickerStack.isHidden = false
             UIView.animate(withDuration: 0.2, animations: {
                 self.pickerStack.alpha = 1.0
+                self.thermoImage.tintColor = TEXT_HIGHLIGHT_COLOR
             })
+        } else if !heartPicker {
+            UIView.animate(withDuration: 0.2) {
+                self.thermoImage.tintColor = TEXT_HIGHLIGHT_COLOR
+                self.heartImage.tintColor = TEXT_DEFAULT_COLOR
+            }
         }
         
     }
@@ -230,7 +262,13 @@ class LogCreationViewController: UIViewController {
             pickerStack.alpha = 0.0
             UIView.animate(withDuration: 0.2, animations: {
                 self.pickerStack.alpha = 1.0
+                self.heartImage.tintColor = TEXT_HIGHLIGHT_COLOR
             })
+        } else if heartPicker {
+            UIView.animate(withDuration: 0.2) {
+                self.thermoImage.tintColor = TEXT_DEFAULT_COLOR
+                self.heartImage.tintColor = TEXT_HIGHLIGHT_COLOR
+            }
         }
     }
     
@@ -241,6 +279,11 @@ class LogCreationViewController: UIViewController {
     @IBAction func dismissPickerview(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
             self.pickerStack.alpha = 0.0
+            if self.heartPicker {
+                self.heartImage.tintColor = TEXT_DEFAULT_COLOR
+            } else {
+                self.thermoImage.tintColor = TEXT_DEFAULT_COLOR
+            }
             })
         pickerStack.isHidden = true
     }
@@ -415,7 +458,7 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
             selectedBPM = bpm[row]
             log.heartrate = "\(selectedBPM) BPM"
             heartrateLabel.text = log.heartrate
-            heartrateLabel.textColor = .black
+            heartrateLabel.textColor = TEXT_HIGHLIGHT_COLOR
         } else {
             switch component {
             case 0:
@@ -438,7 +481,7 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
             }
             log.temperature = "\(selectedBeforeDecimal).\(selectedAfterDecimal) °\(selectedScale)"
             self.temperatureLabel.text = log.temperature
-            temperatureLabel.textColor = .black
+            temperatureLabel.textColor = TEXT_HIGHLIGHT_COLOR
         }
     }
     
@@ -465,7 +508,10 @@ extension LogCreationViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func checkIntervalTemp() {
         self.thermData.makeRequest(userID: (settings?.userID)!, authToken: (settings?.authToken)!, authSec: (settings?.authSec)!, handler: { (temp) in
             DispatchQueue.main.async {
+                self.selectedBeforeDecimal = 10
                 self.temperatureLabel.text = "\(temp) °F"
+                self.log.temperature = self.temperatureLabel.text!
+                self.temperatureLabel.textColor = TEXT_HIGHLIGHT_COLOR
             }
         })
     }
@@ -479,7 +525,7 @@ extension LogCreationViewController {
         self.selectedBPM = Int((message["heartrate"] as? Double)!)
         self.log.heartrate = "\(self.selectedBPM) BPM"
         DispatchQueue.main.async {
-            self.heartrateLabel.textColor = UIColor.init(red: 255/255,green: 118/255,blue: 117/255, alpha: 1.0)
+            self.heartrateLabel.textColor = TEXT_HIGHLIGHT_COLOR
             self.heartrateLabel.text = "\(self.selectedBPM) BPM"
         }
     }

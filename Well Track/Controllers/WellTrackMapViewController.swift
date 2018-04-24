@@ -15,7 +15,7 @@ class WellTrackMapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = BACKGROUND_COLOR
     }
 
     override func didReceiveMemoryWarning() {
