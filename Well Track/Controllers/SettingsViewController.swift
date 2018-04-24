@@ -199,18 +199,14 @@ class SettingsViewController: UIViewController {
             self.mostRecent.authToken = ""
             self.mostRecent.authSec = ""
             self.mostRecent.userID = ""
-            self.linkButton.titleLabel?.text = "Link Nokia Health Account"
-            self.linkButton.sizeToFit()
+            self.linkButton.setTitle("Link Nokia Health Account", for: .normal)
         } else {
             authentication.authenticate { (id, token, secret) in
                 self.mostRecent.nokiaAccount = 1
                 self.mostRecent.userID = id
                 self.mostRecent.authToken = token
                 self.mostRecent.authSec = secret
-                DispatchQueue.main.async {
-                    self.linkButton.titleLabel?.text = "Unlink Nokia Health Account"
-                    self.linkButton.sizeToFit()
-                }
+                self.linkButton.setTitle("Unlink Nokia Health Account", for: .normal)
             }
         }
     }
@@ -239,7 +235,7 @@ class SettingsViewController: UIViewController {
             GPSSwitch.setOn(false, animated: true)
         }
         if mostRecent.nokiaAccount == 1 {
-            self.linkButton.titleLabel?.text = "Unlink Nokia Health Account"
+            self.linkButton.setTitle("Unlink Nokia Health Account", for: .normal)
         }
         self.changeGPSStatus()
     }
