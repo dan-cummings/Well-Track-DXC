@@ -23,7 +23,8 @@ extension Date {
         } ()
         static let time: DateFormatter = {
             let formatter = DateFormatter()
-            formatter.dateFormat = "HH:mm"
+            formatter.timeStyle = .short
+            formatter.dateFormat = "h:mm aaa"
             return formatter
         } ()
     }

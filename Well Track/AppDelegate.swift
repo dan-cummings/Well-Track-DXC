@@ -18,6 +18,12 @@ import WatchConnectivity
 
 let googleApiKey =  "AIzaSyCmyVu2yUf1svtM2_K330G2_AQrw_aa0sE"
 
+let BACKGROUND_COLOR = UIColor(named: "BACKGROUND_COLOR")
+let TEXT_HIGHLIGHT_COLOR = UIColor(named: "TEXT_HIGHLIGHT_COLOR")
+let TEXT_DEFAULT_COLOR = UIColor(named: "TEXT_DEFAULT_COLOR")
+let HEADER_BACKGROUND_COLOR = UIColor(named: "HEADER_BACKGROUND")
+let BACKGROUND_COLOR_DARK = UIColor(named: "BACKGROUND_COLOR_DARK")
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
@@ -25,6 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var healthStore: HKHealthStore?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        UINavigationBar.appearance().tintColor = TEXT_HIGHLIGHT_COLOR
+        UINavigationBar.appearance().barTintColor = TEXT_DEFAULT_COLOR
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: TEXT_HIGHLIGHT_COLOR as Any]
         // Override point for customization after application launch.
         FirebaseApp.configure()
         IQKeyboardManager.sharedManager().enable = true

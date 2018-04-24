@@ -17,10 +17,16 @@ class PlacesSearch: NSObject {
     private var enteredRegion: (object :LocationObject, region: CLCircularRegion)!
     private var regions: [(object :LocationObject, region:CLCircularRegion)]!
     private let dataprovider = GoogleDataProvider()
+    private var interval: TimeInterval?
     private let searchRadius: Double = 1000
     private let regionRadius = CLLocationDistance(100)
     var types: [String] = ["airport", "train_station", "subway_station"]
     private var locationManager: CLLocationManager!
+    
+    
+    static let shared: PlacesSearch = PlacesSearch()
+    
+    private override init() { }
     
     func toDictionary(place: LocationObject) -> NSMutableDictionary {
         return [
@@ -89,7 +95,9 @@ extension PlacesSearch: CLLocationManagerDelegate {
         var locationObj = enteredRegion.object
         let ref = Database.database().reference(withPath: "\(uid!)/Locations/").childByAutoId()
         locationObj.endDate = Date()
-        ref.setValue(self.toDictionary(place: locationObj))
+        if ((locationObj.endDate?.timeIntervalSince(locationObj.startDate!))! > self.interval!) {
+            ref.setValue(self.toDictionary(place: locationObj))
+        }
         self.regions.forEach { (object, region) in
             self.locationManager.startMonitoring(for: region)
         }
@@ -116,8 +124,37 @@ extension PlacesSearch: CLLocationManagerDelegate {
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .restricted:
+            print("Location restricted.")
+        case .denied:
+            print("Location access denied.")
+        case .notDetermined:
+            print("Location permissions not determined.")
+        case .authorizedAlways:
+            fallthrough
+        case .authorizedWhenInUse:
+            print("Location service OK.")
+        }
+    }
+    
     func startLocationServices(uid :String) {
         self.uid = uid
+        self.getSettings()
         locationManager.startMonitoringSignificantLocationChanges()
+    }
+    
+    private func getSettings() {
+        Database.database().reference(withPath: "\(self.uid!)/Settings").observeSingleEvent(of: .value, with: { snapshot in
+            if let values = snapshot.value as? [String : AnyObject] {
+                for (_,val) in values.enumerated() {
+                    let entry = val.1 as! Dictionary<String,AnyObject>
+                    let hours = Int(entry["hours"] as! String) ?? 0
+                    let minutes = Int(entry["minutes"] as! String) ?? 0
+                    self.interval = TimeInterval.init(exactly: (hours * 3600) + (minutes * 60))
+                }
+            }
+        })
     }
 }

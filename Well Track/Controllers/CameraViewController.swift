@@ -19,7 +19,7 @@ class CameraViewController: UIViewController {
 
     var captureSession: AVCaptureSession?
     
-    var cameraPosition: CameraPosition = .back
+    var cameraPosition: CameraPosition = .front
     
     var micInput: AVCaptureDeviceInput?
     var mic: AVCaptureDevice?

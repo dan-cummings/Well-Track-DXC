@@ -40,6 +40,16 @@ class PhotoSegmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = BACKGROUND_COLOR_DARK
+        collection.backgroundColor = BACKGROUND_COLOR
+        photoBtn.titleLabel?.textColor = BACKGROUND_COLOR
+        photoBtn.backgroundColor = TEXT_DEFAULT_COLOR
+        photoBtn.imageView?.tintColor = BACKGROUND_COLOR
+        removeButton.titleLabel?.textColor = BACKGROUND_COLOR
+        removeButton.backgroundColor = TEXT_DEFAULT_COLOR
+        photoBtn.layer.cornerRadius = 7
+        removeButton.layer.cornerRadius = 7
+        collection.layer.cornerRadius = 7
         self.photoBtn.imageView?.contentMode = .scaleAspectFit
         if infoView {
             self.photoBtn.isHidden = true
@@ -214,7 +224,7 @@ extension PhotoSegmentViewController: UICollectionViewDelegate, UICollectionView
         } else {
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: collection.bounds.size.width, height: collection.bounds.size.height))
             label.text = "No pictures have been added to this log"
-            label.textColor = .black
+            label.textColor = TEXT_DEFAULT_COLOR
             label.textAlignment = .center
             self.collection.backgroundView = label
             return 0

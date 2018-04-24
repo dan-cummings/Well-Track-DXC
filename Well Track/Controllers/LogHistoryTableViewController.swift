@@ -34,22 +34,19 @@ class LogHistoryTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let parent = self.parent as? WellTrackNavController {
-            if parent.uid != nil {
-                uid = parent.uid
-            } else {
-                uid = Auth.auth().currentUser?.uid
-            }
-        }
-        guard let id = uid else {
-            return
-        }
+        self.view.backgroundColor = BACKGROUND_COLOR
+        self.tableView.separatorColor = HEADER_BACKGROUND_COLOR
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        databaseRef = Database.database().reference(withPath: "\(id)/Logs")
-        settingsRef = Database.database().reference(withPath: "\(id)/Settings")
-        self.registerForFireBaseUpdates()
-        storageRef = Storage.storage().reference()
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                self.uid = user.uid
+                self.databaseRef = Database.database().reference(withPath: "\(self.uid!)/Logs")
+                self.settingsRef = Database.database().reference(withPath: "\(self.uid!)/Settings")
+                self.registerForFireBaseUpdates()
+                self.storageRef = Storage.storage().reference()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +78,7 @@ class LogHistoryTableViewController: UITableViewController {
         } else {
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             label.text = "No data found"
-            label.textColor = .black
+            label.textColor = TEXT_DEFAULT_COLOR
             label.textAlignment = .center
             tableView.backgroundView = label
             tableView.separatorStyle = .none
@@ -91,6 +88,10 @@ class LogHistoryTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tableViewData?[section].logs.count ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40.0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -124,12 +125,9 @@ class LogHistoryTableViewController: UITableViewController {
         default:
             break
         }
-        
-        cell.moodImage.tintColor = .black
-
-        
+ 
         //MG cell setup
-        cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: .red)]
+        cell.rightButtons = [MGSwipeButton(title: "Delete", backgroundColor: TEXT_HIGHLIGHT_COLOR)]
         cell.rightSwipeSettings.transition = .drag
         cell.delegate = self
         return cell
@@ -146,8 +144,10 @@ class LogHistoryTableViewController: UITableViewController {
         self.navigationController?.pushViewController(infoView, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.tableViewData?[section].sectionHeader
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableCell(withIdentifier: "Header") as! WellTrackHeaderCell
+        header.section.text = self.tableViewData?[section].sectionHeader
+        return header
     }
 
     /// Helper function to sort the logs from firebase into sections based on their shortened dates.

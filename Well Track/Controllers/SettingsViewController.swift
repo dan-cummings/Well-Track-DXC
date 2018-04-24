@@ -21,7 +21,21 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var AlertSwitch: UISwitch!
     @IBOutlet weak var GPSSwitch: UISwitch!
     
+    @IBOutlet weak var cleardataButton: UIButton!
+    @IBOutlet weak var saveBtn: UIButton!
+    @IBOutlet weak var minLabel: UILabel!
+    @IBOutlet weak var hourLabel: UILabel!
+    @IBOutlet weak var recordLabel: UILabel!
+    @IBOutlet weak var gpsLabel: UILabel!
+    @IBOutlet weak var tempMin: UILabel!
+    @IBOutlet weak var tempMax: UILabel!
+    @IBOutlet weak var heartMin: UILabel!
+    @IBOutlet weak var heartMax: UILabel!
+    @IBOutlet weak var heartrateLabel: UILabel!
+    @IBOutlet weak var alertThresholdLabel: UILabel!
+    @IBOutlet weak var alertsLabel: UILabel!
     @IBOutlet weak var linkButton: UIButton!
+    
     var userId: String?
     fileprivate var databaseRef: DatabaseReference?
     var mostRecent: Settings!
@@ -29,6 +43,43 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = BACKGROUND_COLOR
+        MinHeartField.textColor = TEXT_DEFAULT_COLOR
+        MaxHeartField.textColor = TEXT_DEFAULT_COLOR
+        heartrateLabel.textColor = TEXT_DEFAULT_COLOR
+        alertsLabel.textColor = TEXT_DEFAULT_COLOR
+        alertThresholdLabel.textColor = TEXT_HIGHLIGHT_COLOR
+        heartMax.textColor = TEXT_DEFAULT_COLOR
+        heartMin.textColor = TEXT_DEFAULT_COLOR
+        tempMax.textColor = TEXT_DEFAULT_COLOR
+        tempMin.textColor = TEXT_DEFAULT_COLOR
+        gpsLabel.textColor = TEXT_DEFAULT_COLOR
+        recordLabel.textColor = TEXT_DEFAULT_COLOR
+        hourLabel.textColor = TEXT_DEFAULT_COLOR
+        minLabel.textColor = TEXT_DEFAULT_COLOR
+        HoursField.textColor = TEXT_DEFAULT_COLOR
+        MinutesField.textColor = TEXT_DEFAULT_COLOR
+        
+        saveBtn.backgroundColor = TEXT_DEFAULT_COLOR
+        saveBtn.titleLabel?.textColor = BACKGROUND_COLOR
+        saveBtn.layer.cornerRadius = 7.0
+        
+        linkButton.backgroundColor = TEXT_DEFAULT_COLOR
+        linkButton.titleLabel?.textColor = BACKGROUND_COLOR
+        linkButton.layer.cornerRadius = 7.0
+        
+        cleardataButton.backgroundColor = TEXT_DEFAULT_COLOR
+        cleardataButton.titleLabel?.textColor = BACKGROUND_COLOR
+        cleardataButton.layer.cornerRadius = 7.0
+        
+        AlertSwitch.thumbTintColor = BACKGROUND_COLOR
+        AlertSwitch.tintColor = TEXT_DEFAULT_COLOR
+        AlertSwitch.onTintColor = TEXT_HIGHLIGHT_COLOR
+        
+        GPSSwitch.thumbTintColor = BACKGROUND_COLOR
+        GPSSwitch.tintColor = TEXT_DEFAULT_COLOR
+        GPSSwitch.onTintColor = TEXT_HIGHLIGHT_COLOR
+        
         self.authentication = ThermoDataProvider()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
@@ -148,16 +199,14 @@ class SettingsViewController: UIViewController {
             self.mostRecent.authToken = ""
             self.mostRecent.authSec = ""
             self.mostRecent.userID = ""
-            self.linkButton.titleLabel?.text = "Link Nokia Health Account"
+            self.linkButton.setTitle("Link Nokia Health Account", for: .normal)
         } else {
             authentication.authenticate { (id, token, secret) in
                 self.mostRecent.nokiaAccount = 1
                 self.mostRecent.userID = id
                 self.mostRecent.authToken = token
                 self.mostRecent.authSec = secret
-                DispatchQueue.main.async {
-                    self.linkButton.titleLabel?.text = "Unlink Nokia Health Account"
-                }
+                self.linkButton.setTitle("Unlink Nokia Health Account", for: .normal)
             }
         }
     }
@@ -186,7 +235,7 @@ class SettingsViewController: UIViewController {
             GPSSwitch.setOn(false, animated: true)
         }
         if mostRecent.nokiaAccount == 1 {
-            self.linkButton.titleLabel?.text = "Unlink Nokia Health Account"
+            self.linkButton.setTitle("Unlink Nokia Health Account", for: .normal)
         }
         self.changeGPSStatus()
     }
@@ -251,10 +300,12 @@ class SettingsViewController: UIViewController {
         
         var color: UIColor
         if GPSSwitch.isOn {
-            color = UIColor.black
+            color = TEXT_DEFAULT_COLOR!
+            PlacesSearch.shared.startLocationServices(uid: self.userId!)
         }
         else {
             color = UIColor.gray
+            PlacesSearch.shared.turnOffLocationService()
         }
         
         HoursField.textColor = color
