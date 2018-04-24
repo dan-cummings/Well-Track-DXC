@@ -1518,17 +1518,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="117.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Sfa-hN-oyE">
-                                            <rect key="frame" x="14" y="-19.5" width="354" height="156.5"/>
+                                        <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Sfa-hN-oyE">
+                                            <rect key="frame" x="16" y="16" width="284" height="85.5"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="123" placeholderIntrinsicHeight="156.5" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nF5-kF-Qff">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="156.5"/>
+                                                <stackView opaque="NO" contentMode="scaleAspectFit" placeholderIntrinsicWidth="123" placeholderIntrinsicHeight="156.5" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nF5-kF-Qff">
+                                                    <rect key="frame" x="0.0" y="0.0" width="89.5" height="85.5"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Thermo" translatesAutoresizingMaskIntoConstraints="NO" id="x0X-2E-Xtw">
-                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Thermo" translatesAutoresizingMaskIntoConstraints="NO" id="x0X-2E-Xtw">
+                                                            <rect key="frame" x="0.0" y="0.0" width="89.5" height="61.5"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvo-AS-c4D">
-                                                            <rect key="frame" x="43" y="136" width="42" height="20.5"/>
+                                                            <rect key="frame" x="23.5" y="69.5" width="42" height="16"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="16" id="d9m-uC-vW6"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1536,27 +1539,33 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0xQ-z7-kOB">
-                                                    <rect key="frame" x="138" y="0.0" width="128" height="156.5"/>
+                                                    <rect key="frame" x="97.5" y="0.0" width="89" height="85.5"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart" translatesAutoresizingMaskIntoConstraints="NO" id="eIx-4q-t2x">
-                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart" translatesAutoresizingMaskIntoConstraints="NO" id="eIx-4q-t2x">
+                                                            <rect key="frame" x="0.0" y="0.0" width="89" height="61.5"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CbV-KN-RHo">
-                                                            <rect key="frame" x="43" y="136" width="42" height="20.5"/>
+                                                            <rect key="frame" x="23.5" y="69.5" width="42" height="16"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="16" id="69q-pH-KOV"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uQT-Fx-Lrd">
-                                                    <rect key="frame" x="276" y="0.0" width="78" height="156.5"/>
+                                                <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uQT-Fx-Lrd">
+                                                    <rect key="frame" x="194.5" y="0.0" width="89.5" height="85.5"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g3o-P9-vLn">
-                                                            <rect key="frame" x="0.0" y="0.0" width="78" height="108.5"/>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="g3o-P9-vLn">
+                                                            <rect key="frame" x="0.0" y="0.0" width="89.5" height="61.5"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KD9-Qo-q7F">
-                                                            <rect key="frame" x="18" y="116.5" width="42" height="40"/>
+                                                            <rect key="frame" x="24" y="69.5" width="42" height="16"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="16" id="5o7-q5-f0K"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1576,7 +1585,10 @@
                                     <constraints>
                                         <constraint firstItem="Sfa-hN-oyE" firstAttribute="centerY" secondItem="W08-Ur-sIC" secondAttribute="centerY" id="0Uk-Nl-bGU"/>
                                         <constraint firstItem="Sfa-hN-oyE" firstAttribute="leading" secondItem="W08-Ur-sIC" secondAttribute="leading" constant="16" id="Idb-nN-URc"/>
+                                        <constraint firstItem="aHM-ln-oNC" firstAttribute="leading" secondItem="Sfa-hN-oyE" secondAttribute="trailing" constant="8" id="JEh-Mb-pbk"/>
+                                        <constraint firstItem="Sfa-hN-oyE" firstAttribute="top" secondItem="W08-Ur-sIC" secondAttribute="top" constant="16" id="SOl-m3-0Tl"/>
                                         <constraint firstItem="aHM-ln-oNC" firstAttribute="centerY" secondItem="W08-Ur-sIC" secondAttribute="centerY" id="e4i-qz-tA2"/>
+                                        <constraint firstAttribute="bottom" secondItem="Sfa-hN-oyE" secondAttribute="bottom" constant="16" id="uFQ-OR-hjN"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="aHM-ln-oNC" secondAttribute="trailing" constant="16" id="zms-NU-FVh"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -1612,11 +1624,11 @@
             <objects>
                 <viewController id="8yH-YB-iVu" customClass="TextSegmentViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0rl-k7-ZkY">
-                        <rect key="frame" x="0.0" y="0.0" width="359" height="222.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="201"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Add Additional Details" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cx3-DY-Bsu">
-                                <rect key="frame" x="24" y="8" width="311" height="206.5"/>
+                                <rect key="frame" x="24" y="8" width="311" height="185"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1649,11 +1661,11 @@
             <objects>
                 <viewController id="RZl-oG-AYd" customClass="PhotoSegmentViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tXC-6x-m1I">
-                        <rect key="frame" x="0.0" y="0.0" width="359" height="222.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="201"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="F28-aM-ZjE">
-                                <rect key="frame" x="8" y="42" width="343" height="172.5"/>
+                                <rect key="frame" x="8" y="42" width="343" height="151"/>
                                 <color key="backgroundColor" red="0.89034775658758381" green="0.90133970419977616" blue="0.90133970419977616" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zaK-Vx-4HL">
                                     <size key="itemSize" width="150" height="150"/>
@@ -1663,7 +1675,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MediaCell" id="eX4-in-PQN" customClass="WellTrackMediaCollectionViewCell" customModule="Well_Track" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="11.5" width="150" height="150"/>
+                                        <rect key="frame" x="0.0" y="0.5" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
@@ -1742,11 +1754,11 @@
             <objects>
                 <viewController id="113-G2-7A0" customClass="VideoSegmentViewController" customModule="Well_Track" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6hW-wH-tYy">
-                        <rect key="frame" x="0.0" y="0.0" width="359" height="222.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="201"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Os6-oz-5Pe">
-                                <rect key="frame" x="8" y="42" width="343" height="172.5"/>
+                                <rect key="frame" x="8" y="42" width="343" height="151"/>
                                 <color key="backgroundColor" red="0.89034775658758381" green="0.90133970419977616" blue="0.90133970419977616" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vYk-R1-a0l">
                                     <size key="itemSize" width="150" height="150"/>
@@ -1756,7 +1768,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MediaCell" id="EGV-YF-aVf" customClass="WellTrackMediaCollectionViewCell" customModule="Well_Track" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="11.5" width="150" height="150"/>
+                                        <rect key="frame" x="0.0" y="0.5" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
@@ -2031,11 +2043,12 @@
         <image name="RightArrow" width="75" height="75"/>
         <image name="Terrible" width="128" height="128"/>
         <image name="Thermo" width="128" height="128"/>
+        <image name="placeholder" width="150" height="150"/>
         <image name="recent" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="z34-kX-IVv"/>
-        <segue reference="BKF-pS-JnE"/>
-        <segue reference="PIM-CX-Tml"/>
+        <segue reference="ft4-Kn-F99"/>
+        <segue reference="ziR-oS-Udi"/>
+        <segue reference="Rjt-My-uIq"/>
     </inferredMetricsTieBreakers>
 </document>
