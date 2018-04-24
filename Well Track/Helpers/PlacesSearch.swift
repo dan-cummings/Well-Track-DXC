@@ -150,9 +150,9 @@ extension PlacesSearch: CLLocationManagerDelegate {
             if let values = snapshot.value as? [String : AnyObject] {
                 for (_,val) in values.enumerated() {
                     let entry = val.1 as! Dictionary<String,AnyObject>
-                    let hours = Int(entry["hours"] as! String)
-                    let minutes = Int(entry["minutes"] as! String)
-                    self.interval = TimeInterval.init(exactly: (hours! * 3600) + (minutes! * 60))
+                    let hours = Int(entry["hours"] as! String) ?? 0
+                    let minutes = Int(entry["minutes"] as! String) ?? 0
+                    self.interval = TimeInterval.init(exactly: (hours * 3600) + (minutes * 60))
                 }
             }
         })
